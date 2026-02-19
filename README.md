@@ -14,34 +14,38 @@ A Monte Carlo simulator for a factor-based long-short equity strategy with an op
 
 ```text
 ├── backend/
-│ ├── models.py      # Pydantic data models
-│ ├── simulator.py   # Core simulation engine
-│ ├── strategy.py    # Portfolio construction and optimization
-│ ├── options.py     # Options overlay logic
-│ ├── alpha.py       # Factor score generation
-│ ├── risk.py        # Risk calculations
-│ ├── optimizer.py   # Portfolio optimizer
-│ ├── monte_carlo.py # Monte Carlo engine
-│ └── api.py         # FastAPI endpoints
+│   ├── models.py          # Pydantic data models
+│   ├── simulator.py       # Core simulation engine
+│   ├── strategy.py        # Portfolio construction and optimization
+│   ├── options.py         # Options overlay logic
+│   ├── alpha.py           # Factor score generation
+│   ├── risk.py            # Risk calculations
+│   ├── optimizer.py       # Portfolio optimizer
+│   ├── monte_carlo.py     # Monte Carlo engine
+│   └── api.py             # FastAPI endpoints
 ├── frontend/
-│ └── src/
-│   ├── App.tsx            # Main React app
-│   ├── App.css            # Styles
-│   └── api/client.ts      # API client
-├── notebook-charts.ipynb  # Charting notebook
-└── notebook-logging.ipynb # Logging notebook
+│   └── src/
+│       ├── App.tsx         # Main React app
+│       ├── App.css         # Styles
+│       └── api/client.ts   # API client
+├── notebook-charts.ipynb   # Charting notebook
+├── notebook-logging.ipynb  # Logging notebook
+└── run.py                  # Backend server launcher
 ```
 
 ## Setup
 
+### Prerequisites
+
+- Python 3.10+
+- Node.js 18+
+
 ### Backend
 
 ```bash
-cd backend
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-uvicorn api:app --reload
 ```
 
 ### Frontend
@@ -49,7 +53,21 @@ uvicorn api:app --reload
 ```bash
 cd frontend
 npm install
+```
+
+## Running
+
+### Start the backend:
+
+```bash
+python run.py
+```
+
+### Start the frontend in a separate terminal:
+
+```bash
+cd frontend
 npm run dev
 ```
 
-The frontend runs on http://localhost:3000 and expects the backend at http://localhost:8000.
+The frontend runs on `http://localhost:3000` and expects the backend at `http://localhost:8000`.
