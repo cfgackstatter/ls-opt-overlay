@@ -6,7 +6,7 @@ class UniverseParams(BaseModel):
     n_assets: int = 50
     mean_return: float = 6.0
     volatility: float = 20.0
-    ic: float = 0.05
+    ic: float = 0.1
     factor_autocorr: float = 0.8
 
 class FinancingParams(BaseModel):
@@ -19,9 +19,9 @@ class StrategyParams(BaseModel):
     """Parameters for the long-short strategy"""
     strategy_length: int = 60
     risk_aversion: float = 4.0
-    long_weight: float = 130.0
-    short_weight: float = 30.0
-    turnover_limit: float = 25.0
+    long_weight: float = 100.0
+    short_weight: float = 100.0
+    turnover_limit: float = 15.0
     max_weight: float = 10.0
     lookback: int = 36
     transaction_cost_bps: float = 5.0
@@ -31,8 +31,8 @@ class OptionsParams(BaseModel):
     enabled: bool = False
     call_otm_pct: float = 0.0  # % above spot for call strike
     put_otm_pct: float = 0.0   # % below spot for put strike
-    call_alpha_barrier: float = 0  # Sell calls if alpha < barrier
-    put_alpha_barrier: float = 0   # Sell puts if alpha > barrier (for shorts)
+    call_alpha_barrier: float = -0.1  # Sell calls if alpha < barrier
+    put_alpha_barrier: float = 0.1   # Sell puts if alpha > barrier (for shorts)
     contract_fee: float = 0.65  # Fixed fee per contract
     spread_bps: float = 100.0    # Bid-ask spread cost in basis points
 

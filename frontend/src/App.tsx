@@ -21,7 +21,7 @@ const defaultParams: SimulationParams = {
     n_assets: 50,
     mean_return: 6.0,
     volatility: 20.0,
-    ic: 0.05,
+    ic: 0.1,
     factor_autocorr: 0.8,
   },
   financing: {
@@ -32,9 +32,9 @@ const defaultParams: SimulationParams = {
   strategy: {
     strategy_length: 60,
     risk_aversion: 4.0,
-    long_weight: 130.0,
-    short_weight: 30.0,
-    turnover_limit: 25.0,
+    long_weight: 100.0,
+    short_weight: 100.0,
+    turnover_limit: 15.0,
     max_weight: 10.0,
     lookback: 36,
     transaction_cost_bps: 5.0,
@@ -43,8 +43,8 @@ const defaultParams: SimulationParams = {
     enabled: true, // backend always runs base + overlay; this just passes the overlay params
     call_otm_pct: 0.0,
     put_otm_pct: 0.0,
-    call_alpha_barrier: 0,
-    put_alpha_barrier: 0,
+    call_alpha_barrier: -0.1,
+    put_alpha_barrier: 0.1,
     contract_fee: 0.65,
     spread_bps: 100.0,
   },
