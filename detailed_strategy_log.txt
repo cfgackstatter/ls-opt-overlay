@@ -1,0 +1,3598 @@
+================================================================================
+STRATEGY EXECUTION LOG
+================================================================================
+
+Initial Capital: $1,000,000.00
+Strategy Parameters: {'lookback': 36, 'strategy_length': 60, 'risk_aversion': 4.0, 'long_weight': 130.0, 'short_weight': 30.0, 'turnover_limit': 25.0, 'max_weight': 10.0, 'transaction_cost_bps': 5.0}
+Financing Parameters: {'cash_rate': 3.0, 'margin_rate': 5.0, 'borrow_fee': 1.0}
+Options Parameters: {'enabled': True, 'call_otm_pct': 0.0, 'put_otm_pct': 0.0, 'call_alpha_barrier': 0.0, 'put_alpha_barrier': 0.0, 'contract_fee': 0.65, 'spread_bps': 100.0}
+================================================================================
+
+
+================================================================================
+PERIOD 1: [36 → 37]
+================================================================================
+
+--- START OF PERIOD (t=36) ---
+Portfolio Value: $1,000,000.00
+Cash: $1,000,000.00
+Stock Positions: $0.00
+Long Positions: $0.00
+Short Positions: $0.00
+Current Weights (top 5 abs): [(0, np.float64(0.0)), (1, np.float64(0.0)), (2, np.float64(0.0)), (3, np.float64(0.0)), (4, np.float64(0.0))]
+
+Alphas (top 5): [(1, np.float64(0.03582887514048775)), (33, np.float64(0.03475432194858203)), (9, np.float64(0.02327373135898126)), (7, np.float64(0.022966175138024885)), (48, np.float64(0.013230596601735879))]
+Alphas (bottom 5): [(34, np.float64(-0.038899854859417944)), (12, np.float64(-0.03351641669977252)), (35, np.float64(-0.025922552896938404)), (45, np.float64(-0.016071198742212026)), (3, np.float64(-0.015486461515276353))]
+
+Optimization: SIMPLE (first period, no turnover constraint)
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 1.6000
+Target Weights (top 5 abs): [(1, np.float64(0.1)), (7, np.float64(0.1)), (8, np.float64(0.1)), (9, np.float64(0.1)), (12, np.float64(-0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $1,600,000.00
+Shares Before: [0. 0. 0. 0. 0.]
+Shares After: [  0.         823.15371941   0.           0.           0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $800.00
+Cash After Transaction Costs: $-800.00
+
+--- OPTIONS SOLD ---
+Contracts Sold: 0
+Premium Collected: $0.00
+Cash After Options: $-800.00
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[36] to prices[37]
+
+--- END OF PERIOD (t=37) ---
+Stock Values After Market Move: $994,851.87
+
+--- FINANCING ---
+Long Positions: $1,287,613.95
+Short Positions: $292,762.08
+Financing Cost/Income: $-247.30
+Cash After Financing: $-1,047.30
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $993,804.57
+Period Return: -0.6195%
+Verification (Stock + Cash): $993,804.57
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 2: [37 → 38]
+================================================================================
+
+--- START OF PERIOD (t=37) ---
+Portfolio Value: $993,804.57
+Cash: $-1,047.30
+Stock Positions: $994,851.87
+Long Positions: $1,287,613.95
+Short Positions: $-292,762.08
+Current Weights (top 5 abs): [(9, np.float64(0.10987278057335667)), (7, np.float64(0.10827876775139948)), (27, np.float64(0.10801186985103463)), (49, np.float64(0.10749880784126893)), (12, np.float64(-0.10141014944546851))]
+
+Alphas (top 5): [(1, np.float64(0.03763471568365836)), (33, np.float64(0.03095549081098373)), (7, np.float64(0.025919415743786544)), (48, np.float64(0.02219603148063377)), (11, np.float64(0.018192970129634358))]
+Alphas (bottom 5): [(34, np.float64(-0.04334980240641025)), (2, np.float64(-0.028056687712483576)), (35, np.float64(-0.02700047596677274)), (20, np.float64(-0.017964946566937798)), (12, np.float64(-0.016264878700687716))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(0.1)), (7, np.float64(0.1)), (9, np.float64(0.1)), (12, np.float64(-0.1)), (19, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $248,451.14
+Shares Before: [  0.         823.15371941   0.           0.           0.        ]
+Shares After: [  0.         893.9940366  -46.23087024   0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $124.23
+Cash After Transaction Costs: $-124.23
+
+--- OPTIONS SOLD ---
+Contracts Sold: 33
+Premium Collected: $3,782.74
+Cash After Options: $3,658.52
+  Asset 19: call @ strike 234.54
+  Asset 49: call @ strike 34.08
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[37] to prices[38]
+
+--- END OF PERIOD (t=38) ---
+Stock Values After Market Move: $1,009,764.93
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-6,288.96
+Net Options Income: $-2,506.22
+Cash After Settlement: $-2,630.44
+
+--- FINANCING ---
+Long Positions: $1,291,457.39
+Short Positions: $281,692.46
+Financing Cost/Income: $-245.70
+Cash After Financing: $-2,876.15
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,006,888.78
+Period Return: 1.3166%
+Verification (Stock + Cash): $1,006,888.78
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 3: [38 → 39]
+================================================================================
+
+--- START OF PERIOD (t=38) ---
+Portfolio Value: $1,006,888.78
+Cash: $-2,876.15
+Stock Positions: $1,009,764.93
+Long Positions: $1,291,457.39
+Short Positions: $-281,692.46
+Current Weights (top 5 abs): [(7, np.float64(0.10511192210317598)), (49, np.float64(0.10489992288409057)), (12, np.float64(-0.104604212436336)), (33, np.float64(0.10440010310743601)), (30, np.float64(0.10055510015910543))]
+
+Alphas (top 5): [(11, np.float64(0.04864144838386293)), (33, np.float64(0.03779431476620375)), (7, np.float64(0.03215676656149128)), (48, np.float64(0.02594997931638434)), (44, np.float64(0.01774602205734166))]
+Alphas (bottom 5): [(20, np.float64(-0.03668463779559046)), (35, np.float64(-0.0329222389257179)), (43, np.float64(-0.01836377417867958)), (2, np.float64(-0.01624493660497519)), (30, np.float64(-0.01451565242554099))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(0.1)), (7, np.float64(0.1)), (11, np.float64(0.1)), (12, np.float64(-0.1)), (33, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $251,722.20
+Shares Before: [  0.         893.9940366  -46.23087024   0.           0.        ]
+Shares After: [  0.         891.45444487 -46.23087024   0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $125.86
+Cash After Transaction Costs: $-125.86
+
+--- OPTIONS SOLD ---
+Contracts Sold: 88
+Premium Collected: $11,303.45
+Cash After Options: $11,177.59
+  Asset 8: call @ strike 16.32
+  Asset 9: call @ strike 60.75
+  Asset 17: call @ strike 149.02
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[38] to prices[39]
+
+--- END OF PERIOD (t=39) ---
+Stock Values After Market Move: $1,056,852.83
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-17,647.01
+Net Options Income: $-6,343.56
+Cash After Settlement: $-6,469.42
+
+--- FINANCING ---
+Long Positions: $1,330,872.83
+Short Positions: $274,020.00
+Financing Cost/Income: $-255.31
+Cash After Financing: $-6,724.72
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,050,128.10
+Period Return: 4.2943%
+Verification (Stock + Cash): $1,050,128.10
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 4: [39 → 40]
+================================================================================
+
+--- START OF PERIOD (t=39) ---
+Portfolio Value: $1,050,128.10
+Cash: $-6,724.72
+Stock Positions: $1,056,852.83
+Long Positions: $1,330,872.83
+Short Positions: $-274,020.00
+Current Weights (top 5 abs): [(30, np.float64(0.10104049409796816)), (1, np.float64(0.09856957984570587)), (49, np.float64(0.09764701754007099)), (7, np.float64(0.09710887858435077)), (33, np.float64(0.09586146893028488))]
+
+Alphas (top 5): [(33, np.float64(0.04238036076537299)), (11, np.float64(0.035259527495763644)), (7, np.float64(0.03248981517354628)), (44, np.float64(0.024794998157017807)), (48, np.float64(0.019521406873918568))]
+Alphas (bottom 5): [(20, np.float64(-0.02480865184600486)), (35, np.float64(-0.02427957867112114)), (30, np.float64(-0.02090758120989243)), (2, np.float64(-0.020047826880061074)), (16, np.float64(-0.019475370422192998))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2672
+Target Short Weight: 0.2672
+Weight Turnover: 0.2501
+Target Weights (top 5 abs): [(7, np.float64(0.09999695411011654)), (11, np.float64(0.09999601689363892)), (33, np.float64(0.09999335815428628)), (1, np.float64(0.09856664196263192)), (49, np.float64(0.09764473689624531))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $262,566.03
+Shares Before: [  0.         891.45444487 -46.23087024   0.           0.        ]
+Shares After: [  0.         891.42787492 -46.25853899   0.           0.        ]
+Cash After Trades: $-0.01
+Transaction Cost: $131.28
+Cash After Transaction Costs: $-131.29
+
+--- OPTIONS SOLD ---
+Contracts Sold: 50
+Premium Collected: $9,097.92
+Cash After Options: $8,966.62
+  Asset 12: put @ strike 167.73
+  Asset 17: call @ strike 163.00
+  Asset 19: call @ strike 228.02
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[39] to prices[40]
+
+--- END OF PERIOD (t=40) ---
+Stock Values After Market Move: $1,034,457.13
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-6,437.69
+Net Options Income: $2,660.23
+Cash After Settlement: $2,528.94
+
+--- FINANCING ---
+Long Positions: $1,313,652.67
+Short Positions: $279,195.54
+Financing Cost/Income: $-226.34
+Cash After Financing: $2,302.59
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,036,759.73
+Period Return: -1.2730%
+Verification (Stock + Cash): $1,036,759.73
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 5: [40 → 41]
+================================================================================
+
+--- START OF PERIOD (t=40) ---
+Portfolio Value: $1,036,759.73
+Cash: $2,302.59
+Stock Positions: $1,034,457.13
+Long Positions: $1,313,652.67
+Short Positions: $-279,195.54
+Current Weights (top 5 abs): [(33, np.float64(0.11045275821088536)), (7, np.float64(0.10909721545519017)), (1, np.float64(0.1015341834015088)), (49, np.float64(0.10152152528828785)), (11, np.float64(0.0978532434507999))]
+
+Alphas (top 5): [(34, np.float64(0.03513520844409407)), (33, np.float64(0.03226875358042288)), (7, np.float64(0.028138113610999)), (27, np.float64(0.021344981439642422)), (48, np.float64(0.019981325328830388))]
+Alphas (bottom 5): [(17, np.float64(-0.02536682928539245)), (30, np.float64(-0.021851459993639372)), (16, np.float64(-0.019581756735731006)), (39, np.float64(-0.017895680098009476)), (2, np.float64(-0.015902354230696754))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2895
+Target Short Weight: 0.2895
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(34, np.float64(0.09999839559079225)), (1, np.float64(0.09999640721711099)), (49, np.float64(0.09999614011823528)), (33, np.float64(0.09999360131385515)), (7, np.float64(0.09999305398217015))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $259,155.92
+Shares Before: [  0.         891.42787492 -46.25853899   0.           0.        ]
+Shares After: [  0.         877.92683999 -46.2814246    0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $129.58
+Cash After Transaction Costs: $-129.58
+
+--- OPTIONS SOLD ---
+Contracts Sold: 109
+Premium Collected: $14,813.19
+Cash After Options: $14,683.60
+  Asset 11: call @ strike 21.83
+  Asset 12: put @ strike 171.51
+  Asset 19: call @ strike 230.92
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[40] to prices[41]
+
+--- END OF PERIOD (t=41) ---
+Stock Values After Market Move: $1,053,002.59
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-18,676.89
+Net Options Income: $-3,863.70
+Cash After Settlement: $-3,993.28
+
+--- FINANCING ---
+Long Positions: $1,352,336.38
+Short Positions: $299,333.79
+Financing Cost/Income: $-266.08
+Cash After Financing: $-4,259.36
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,048,743.22
+Period Return: 1.1559%
+Verification (Stock + Cash): $1,048,743.22
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 6: [41 → 42]
+================================================================================
+
+--- START OF PERIOD (t=41) ---
+Portfolio Value: $1,048,743.22
+Cash: $-4,259.36
+Stock Positions: $1,053,002.59
+Long Positions: $1,352,336.38
+Short Positions: $-299,333.79
+Current Weights (top 5 abs): [(33, np.float64(0.10344158720036525)), (11, np.float64(0.1031314103508212)), (7, np.float64(0.10285002019816514)), (34, np.float64(0.10053949734151722)), (49, np.float64(0.09620317063363155))]
+
+Alphas (top 5): [(7, np.float64(0.032879593591071433)), (34, np.float64(0.031051589889395083)), (9, np.float64(0.022425509048139173)), (8, np.float64(0.022009383223793356)), (45, np.float64(0.017118047896337255))]
+Alphas (bottom 5): [(43, np.float64(-0.028233920458574806)), (16, np.float64(-0.019722823361183656)), (47, np.float64(-0.018366864153999688)), (13, np.float64(-0.017056870073577597)), (11, np.float64(-0.016649694108201354))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2457
+Target Short Weight: 0.2457
+Weight Turnover: 0.2498
+Target Weights (top 5 abs): [(9, np.float64(0.10001311855333603)), (8, np.float64(0.10001219785824003)), (33, np.float64(0.10000078292762486)), (7, np.float64(0.0999955586931578)), (34, np.float64(0.09998293836765891))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $261,995.12
+Shares Before: [  0.         877.92683999 -46.2814246    0.           0.        ]
+Shares After: [  0.         877.93120778 -46.28734172   0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $131.00
+Cash After Transaction Costs: $-131.00
+
+--- OPTIONS SOLD ---
+Contracts Sold: 147
+Premium Collected: $14,248.28
+Cash After Options: $14,117.28
+  Asset 11: call @ strike 23.28
+  Asset 20: put @ strike 193.16
+  Asset 32: call @ strike 118.19
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[41] to prices[42]
+
+--- END OF PERIOD (t=42) ---
+Stock Values After Market Move: $1,028,440.39
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-6,239.16
+Net Options Income: $8,009.12
+Cash After Settlement: $7,878.12
+
+--- FINANCING ---
+Long Positions: $1,297,170.13
+Short Positions: $268,729.74
+Financing Cost/Income: $-204.25
+Cash After Financing: $7,673.88
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,036,114.27
+Period Return: -1.2042%
+Verification (Stock + Cash): $1,036,114.27
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 7: [42 → 43]
+================================================================================
+
+--- START OF PERIOD (t=42) ---
+Portfolio Value: $1,036,114.27
+Cash: $7,673.88
+Stock Positions: $1,028,440.39
+Long Positions: $1,297,170.13
+Short Positions: $-268,729.74
+Current Weights (top 5 abs): [(34, np.float64(0.10414850277384587)), (49, np.float64(0.1008865063478868)), (8, np.float64(0.10044281338110335)), (19, np.float64(0.09940017598558981)), (7, np.float64(0.09718674452298053))]
+
+Alphas (top 5): [(34, np.float64(0.03927662878584202)), (7, np.float64(0.02737506129957691)), (12, np.float64(0.024509865770015914)), (45, np.float64(0.01999302170432746)), (44, np.float64(0.019085857533627598))]
+Alphas (bottom 5): [(17, np.float64(-0.023937920595283723)), (38, np.float64(-0.02329249948998839)), (16, np.float64(-0.01665263053683433)), (13, np.float64(-0.01620631711617757)), (43, np.float64(-0.0144895899258068))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2861
+Target Short Weight: 0.2861
+Weight Turnover: 0.2502
+Target Weights (top 5 abs): [(49, np.float64(0.1000024985418906)), (34, np.float64(0.10000157244258964)), (8, np.float64(0.10000144204124972)), (12, np.float64(0.09999104594732904)), (7, np.float64(0.0999903778249545))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $259,286.03
+Shares Before: [  0.         877.93120778 -46.28734172   0.           0.        ]
+Shares After: [  0.         877.90961358 -46.31843394   0.           0.        ]
+Cash After Trades: $-0.01
+Transaction Cost: $129.64
+Cash After Transaction Costs: $-129.65
+
+--- OPTIONS SOLD ---
+Contracts Sold: 60
+Premium Collected: $9,405.71
+Cash After Options: $9,276.06
+  Asset 1: call @ strike 109.77
+  Asset 11: call @ strike 27.39
+  Asset 20: put @ strike 197.83
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[42] to prices[43]
+
+--- END OF PERIOD (t=43) ---
+Stock Values After Market Move: $1,042,942.90
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-2,217.54
+Net Options Income: $7,188.17
+Cash After Settlement: $7,058.52
+
+--- FINANCING ---
+Long Positions: $1,353,901.92
+Short Positions: $310,959.02
+Financing Cost/Income: $-241.49
+Cash After Financing: $6,817.03
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,049,759.93
+Period Return: 1.3170%
+Verification (Stock + Cash): $1,049,759.93
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 8: [43 → 44]
+================================================================================
+
+--- START OF PERIOD (t=43) ---
+Portfolio Value: $1,049,759.93
+Cash: $6,817.03
+Stock Positions: $1,042,942.90
+Long Positions: $1,353,901.92
+Short Positions: $-310,959.02
+Current Weights (top 5 abs): [(12, np.float64(0.10413931908231089)), (9, np.float64(0.10321065566349752)), (49, np.float64(0.09967919069596289)), (20, np.float64(-0.09943486066919267)), (19, np.float64(0.09844413416776807))]
+
+Alphas (top 5): [(33, np.float64(0.02689354654921831)), (44, np.float64(0.025362974552986674)), (20, np.float64(0.02138413052655116)), (8, np.float64(0.019141254746642567)), (12, np.float64(0.01852500798737495))]
+Alphas (bottom 5): [(38, np.float64(-0.023339322542705043)), (16, np.float64(-0.016922146534836653)), (17, np.float64(-0.014921024432857578)), (24, np.float64(-0.014919544440417693)), (47, np.float64(-0.01235109312519967))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(9, np.float64(0.1)), (12, np.float64(0.1)), (38, np.float64(-0.1)), (49, np.float64(0.09967919069596289)), (19, np.float64(0.09844413416776807))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $262,439.98
+Shares Before: [  0.         877.90961358 -46.31843394   0.           0.        ]
+Shares After: [  0.         877.90961358 -46.31843394   0.           0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $131.22
+Cash After Transaction Costs: $-131.22
+
+--- OPTIONS SOLD ---
+Contracts Sold: 60
+Premium Collected: $6,288.53
+Cash After Options: $6,157.31
+  Asset 11: call @ strike 28.15
+  Asset 32: call @ strike 113.99
+  Asset 35: put @ strike 44.96
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[43] to prices[44]
+
+--- END OF PERIOD (t=44) ---
+Stock Values After Market Move: $1,073,374.66
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-11,226.86
+Net Options Income: $-4,938.33
+Cash After Settlement: $-5,069.55
+
+--- FINANCING ---
+Long Positions: $1,384,697.12
+Short Positions: $311,322.46
+Financing Cost/Income: $-280.56
+Cash After Financing: $-5,350.11
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,068,024.55
+Period Return: 1.7399%
+Verification (Stock + Cash): $1,068,024.55
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 9: [44 → 45]
+================================================================================
+
+--- START OF PERIOD (t=44) ---
+Portfolio Value: $1,068,024.55
+Cash: $-5,350.11
+Stock Positions: $1,073,374.66
+Long Positions: $1,384,697.12
+Short Positions: $-311,322.46
+Current Weights (top 5 abs): [(9, np.float64(0.10591176900830798)), (34, np.float64(0.10508351703175857)), (12, np.float64(0.10474136616869677)), (38, np.float64(-0.10399986027801317)), (44, np.float64(0.10075332440883952))]
+
+Alphas (top 5): [(44, np.float64(0.02378403997419686)), (12, np.float64(0.023414146526299445)), (9, np.float64(0.02311278702142554)), (33, np.float64(0.022916690183381754)), (7, np.float64(0.020994777244506983))]
+Alphas (bottom 5): [(38, np.float64(-0.02170724154122665)), (47, np.float64(-0.015643779167040704)), (24, np.float64(-0.01520782383235052)), (2, np.float64(-0.014987162875364675)), (16, np.float64(-0.013858402769627734))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(7, np.float64(0.1)), (9, np.float64(0.1)), (12, np.float64(0.1)), (19, np.float64(0.1)), (33, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $267,006.14
+Shares Before: [  0.         877.90961358 -46.31843394   0.           0.        ]
+Shares After: [  0.         877.90961358 -46.31843394   0.           0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $133.50
+Cash After Transaction Costs: $-133.50
+
+--- OPTIONS SOLD ---
+Contracts Sold: 38
+Premium Collected: $3,163.64
+Cash After Options: $3,030.14
+  Asset 11: call @ strike 27.57
+  Asset 49: call @ strike 36.58
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[44] to prices[45]
+
+--- END OF PERIOD (t=45) ---
+Stock Values After Market Move: $1,127,009.74
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-2,498.70
+Net Options Income: $664.94
+Cash After Settlement: $531.44
+
+--- FINANCING ---
+Long Positions: $1,452,326.37
+Short Positions: $325,316.62
+Financing Cost/Income: $-269.77
+Cash After Financing: $261.67
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,127,271.42
+Period Return: 5.5473%
+Verification (Stock + Cash): $1,127,271.42
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 10: [45 → 46]
+================================================================================
+
+--- START OF PERIOD (t=45) ---
+Portfolio Value: $1,127,271.42
+Cash: $261.67
+Stock Positions: $1,127,009.74
+Long Positions: $1,452,326.37
+Short Positions: $-325,316.62
+Current Weights (top 5 abs): [(34, np.float64(0.1103607086429406)), (44, np.float64(0.10264137179783155)), (19, np.float64(0.1017483919770332)), (12, np.float64(0.10017502169170213)), (38, np.float64(-0.09823702678699453))]
+
+Alphas (top 5): [(9, np.float64(0.03044256177849391)), (12, np.float64(0.02501286835554059)), (20, np.float64(0.02207176223667674)), (11, np.float64(0.01917937811494597)), (44, np.float64(0.017414931514598282))]
+Alphas (bottom 5): [(38, np.float64(-0.023896436512987174)), (28, np.float64(-0.021532963068016775)), (2, np.float64(-0.018272795364296653)), (47, np.float64(-0.015693404462025048)), (24, np.float64(-0.014655320305061479))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(9, np.float64(0.09999999999999998)), (12, np.float64(0.09999999999999998)), (19, np.float64(0.09999999999999998)), (20, np.float64(0.09999999999999998)), (44, np.float64(0.09999999999999998))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $281,817.85
+Shares Before: [  0.         877.90961358 -46.31843394   0.           0.        ]
+Shares After: [  5.70464826 877.90961358 -46.31843394   0.           0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $140.91
+Cash After Transaction Costs: $-140.91
+
+--- OPTIONS SOLD ---
+Contracts Sold: 38
+Premium Collected: $3,836.87
+Cash After Options: $3,695.96
+  Asset 17: put @ strike 127.37
+  Asset 35: put @ strike 39.98
+  Asset 49: call @ strike 37.49
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[45] to prices[46]
+
+--- END OF PERIOD (t=46) ---
+Stock Values After Market Move: $1,095,188.41
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-183.14
+Net Options Income: $3,653.73
+Cash After Settlement: $3,512.82
+
+--- FINANCING ---
+Long Positions: $1,439,244.40
+Short Positions: $344,055.99
+Financing Cost/Income: $-277.93
+Cash After Financing: $3,234.89
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,098,423.30
+Period Return: -2.5591%
+Verification (Stock + Cash): $1,098,423.30
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 11: [46 → 47]
+================================================================================
+
+--- START OF PERIOD (t=46) ---
+Portfolio Value: $1,098,423.30
+Cash: $3,234.89
+Stock Positions: $1,095,188.41
+Long Positions: $1,439,244.40
+Short Positions: $-344,055.99
+Current Weights (top 5 abs): [(12, np.float64(0.10698608295769879)), (38, np.float64(-0.10657578030411373)), (44, np.float64(0.10344089061907566)), (19, np.float64(0.10329751411285434)), (20, np.float64(0.09640026961788646))]
+
+Alphas (top 5): [(11, np.float64(0.03527817989557583)), (9, np.float64(0.02697966654506859)), (36, np.float64(0.01859722039071218)), (0, np.float64(0.016046280404970144)), (12, np.float64(0.01578587580407169))]
+Alphas (bottom 5): [(38, np.float64(-0.024034172407192626)), (28, np.float64(-0.019927116771914312)), (2, np.float64(-0.0168705598817303)), (47, np.float64(-0.014083835928287696)), (49, np.float64(-0.013602395339291265))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(9, np.float64(0.1)), (11, np.float64(0.1)), (12, np.float64(0.1)), (19, np.float64(0.1)), (38, np.float64(-0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $274,605.82
+Shares Before: [  5.70464826 877.90961358 -46.31843394   0.           0.        ]
+Shares After: [136.84028382 877.90961358 -46.31843394   0.           0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $137.30
+Cash After Transaction Costs: $-137.30
+
+--- OPTIONS SOLD ---
+Contracts Sold: 6
+Premium Collected: $2,052.66
+Cash After Options: $1,915.35
+  Asset 19: call @ strike 273.78
+  Asset 49: call @ strike 37.55
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[46] to prices[47]
+
+--- END OF PERIOD (t=47) ---
+Stock Values After Market Move: $1,102,172.51
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-178.51
+Net Options Income: $1,874.15
+Cash After Settlement: $1,736.85
+
+--- FINANCING ---
+Long Positions: $1,438,455.93
+Short Positions: $336,283.42
+Financing Cost/Income: $-275.89
+Cash After Financing: $1,460.95
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,103,633.46
+Period Return: 0.4743%
+Verification (Stock + Cash): $1,103,633.46
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 12: [47 → 48]
+================================================================================
+
+--- START OF PERIOD (t=47) ---
+Portfolio Value: $1,103,633.46
+Cash: $1,460.95
+Stock Positions: $1,102,172.51
+Long Positions: $1,438,455.93
+Short Positions: $-336,283.42
+Current Weights (top 5 abs): [(12, np.float64(0.10395044669348046)), (44, np.float64(0.1031699909210061)), (9, np.float64(0.10183163405437703)), (8, np.float64(0.10057454329041143)), (11, np.float64(0.09861927276532473))]
+
+Alphas (top 5): [(9, np.float64(0.025950723462532393)), (20, np.float64(0.025384277069577865)), (11, np.float64(0.023150481892458982)), (48, np.float64(0.02275205704339177)), (1, np.float64(0.01835019839998965))]
+Alphas (bottom 5): [(17, np.float64(-0.02210862515937302)), (12, np.float64(-0.016296912343664333)), (47, np.float64(-0.014064466935289776)), (8, np.float64(-0.01324379319597698)), (30, np.float64(-0.013154005433684769))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(9, np.float64(0.10000000000000003)), (20, np.float64(0.10000000000000003)), (44, np.float64(0.10000000000000003)), (48, np.float64(0.10000000000000003)), (11, np.float64(0.09861927276532476))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $275,908.37
+Shares Before: [136.84028382 877.90961358 -46.31843394   0.           0.        ]
+Shares After: [136.84028382 877.90961358 -46.31843394   0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $137.95
+Cash After Transaction Costs: $-137.95
+
+--- OPTIONS SOLD ---
+Contracts Sold: 148
+Premium Collected: $9,268.66
+Cash After Options: $9,130.71
+  Asset 8: call @ strike 15.57
+  Asset 16: put @ strike 40.74
+  Asset 27: call @ strike 33.70
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[47] to prices[48]
+
+--- END OF PERIOD (t=48) ---
+Stock Values After Market Move: $1,106,025.53
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-17,585.45
+Net Options Income: $-8,316.79
+Cash After Settlement: $-8,454.74
+
+--- FINANCING ---
+Long Positions: $1,444,085.71
+Short Positions: $338,060.18
+Financing Cost/Income: $-316.94
+Cash After Financing: $-8,771.68
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,097,253.85
+Period Return: -0.5781%
+Verification (Stock + Cash): $1,097,253.85
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 13: [48 → 49]
+================================================================================
+
+--- START OF PERIOD (t=48) ---
+Portfolio Value: $1,097,253.85
+Cash: $-8,771.68
+Stock Positions: $1,106,025.53
+Long Positions: $1,444,085.71
+Short Positions: $-338,060.18
+Current Weights (top 5 abs): [(11, np.float64(0.10985843142578279)), (9, np.float64(0.10600461594307264)), (20, np.float64(0.10544293725291604)), (38, np.float64(-0.10428309609997745)), (27, np.float64(0.10021724611164212))]
+
+Alphas (top 5): [(7, np.float64(0.025426364210943617)), (9, np.float64(0.02294852967039856)), (20, np.float64(0.021869735264348097)), (11, np.float64(0.021542965800164807)), (1, np.float64(0.019050312189849795))]
+Alphas (bottom 5): [(17, np.float64(-0.027529941032720207)), (12, np.float64(-0.02016275523301738)), (47, np.float64(-0.01738090588756136)), (2, np.float64(-0.015114291676124008)), (27, np.float64(-0.014977584741897122))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(7, np.float64(0.1)), (9, np.float64(0.1)), (11, np.float64(0.1)), (14, np.float64(0.1)), (20, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $274,313.46
+Shares Before: [136.84028382 877.90961358 -46.31843394   0.           0.        ]
+Shares After: [136.84028382 877.90961358 -46.31843394   0.           0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $137.16
+Cash After Transaction Costs: $-137.16
+
+--- OPTIONS SOLD ---
+Contracts Sold: 46
+Premium Collected: $2,583.50
+Cash After Options: $2,446.34
+  Asset 8: call @ strike 16.56
+  Asset 16: put @ strike 40.48
+  Asset 27: call @ strike 36.14
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[48] to prices[49]
+
+--- END OF PERIOD (t=49) ---
+Stock Values After Market Move: $1,117,442.27
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-1,237.67
+Net Options Income: $1,345.82
+Cash After Settlement: $1,208.67
+
+--- FINANCING ---
+Long Positions: $1,440,617.89
+Short Positions: $323,175.62
+Financing Cost/Income: $-266.29
+Cash After Financing: $942.37
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,118,384.65
+Period Return: 1.9258%
+Verification (Stock + Cash): $1,118,384.65
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 14: [49 → 50]
+================================================================================
+
+--- START OF PERIOD (t=49) ---
+Portfolio Value: $1,118,384.65
+Cash: $942.37
+Stock Positions: $1,117,442.27
+Long Positions: $1,440,617.89
+Short Positions: $-323,175.62
+Current Weights (top 5 abs): [(7, np.float64(0.10618263241795732)), (11, np.float64(0.10452894542990142)), (20, np.float64(0.10403302010767201)), (1, np.float64(0.09892190661512067)), (14, np.float64(0.09291387944515642))]
+
+Alphas (top 5): [(11, np.float64(0.03885123840123094)), (20, np.float64(0.02168372267555854)), (43, np.float64(0.020944402526583295)), (35, np.float64(0.019834507877843827)), (9, np.float64(0.018643330286305118))]
+Alphas (bottom 5): [(17, np.float64(-0.023801236734671372)), (34, np.float64(-0.019150824553115)), (13, np.float64(-0.017698522888759637)), (47, np.float64(-0.01681216894881592)), (39, np.float64(-0.013953226626571526))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3002
+Target Short Weight: 0.3004
+Weight Turnover: 0.2501
+Target Weights (top 5 abs): [(7, np.float64(0.0999853857579445)), (11, np.float64(0.09998005270194718)), (20, np.float64(0.09997673877245969)), (1, np.float64(0.09890869292835261)), (14, np.float64(0.09290234755498242))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $279,667.56
+Shares Before: [136.84028382 877.90961358 -46.31843394   0.           0.        ]
+Shares After: [136.81054038 877.79234509 -46.16846322   0.           0.        ]
+Cash After Trades: $199.02
+Transaction Cost: $139.83
+Cash After Transaction Costs: $59.19
+
+--- OPTIONS SOLD ---
+Contracts Sold: 69
+Premium Collected: $5,935.73
+Cash After Options: $5,994.92
+  Asset 19: call @ strike 250.55
+  Asset 27: call @ strike 30.81
+  Asset 33: call @ strike 20.02
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[49] to prices[50]
+
+--- END OF PERIOD (t=50) ---
+Stock Values After Market Move: $1,146,087.45
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-5,296.94
+Net Options Income: $638.78
+Cash After Settlement: $697.97
+
+--- FINANCING ---
+Long Positions: $1,481,444.54
+Short Positions: $335,357.09
+Financing Cost/Income: $-277.72
+Cash After Financing: $420.26
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,146,507.71
+Period Return: 2.5146%
+Verification (Stock + Cash): $1,146,507.71
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 15: [50 → 51]
+================================================================================
+
+--- START OF PERIOD (t=50) ---
+Portfolio Value: $1,146,507.71
+Cash: $420.26
+Stock Positions: $1,146,087.45
+Long Positions: $1,481,444.54
+Short Positions: $-335,357.09
+Current Weights (top 5 abs): [(7, np.float64(0.11252627360395716)), (1, np.float64(0.10376761691568646)), (38, np.float64(-0.09581039517210323)), (20, np.float64(0.09529890072076784)), (14, np.float64(0.09495562777116356))]
+
+Alphas (top 5): [(11, np.float64(0.03604033534124753)), (48, np.float64(0.018239757819561792)), (7, np.float64(0.017048625931998008)), (20, np.float64(0.01460406479376022)), (36, np.float64(0.012804519369684122))]
+Alphas (bottom 5): [(17, np.float64(-0.029621702175458394)), (38, np.float64(-0.018367827167606203)), (39, np.float64(-0.016182379374384645)), (13, np.float64(-0.016100269412019128)), (27, np.float64(-0.013443928794034402))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(0.1)), (7, np.float64(0.1)), (11, np.float64(0.1)), (17, np.float64(-0.1)), (48, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $286,626.93
+Shares Before: [136.81054038 877.79234509 -46.16846322   0.           0.        ]
+Shares After: [136.81054038 845.92127215 -46.16846322   0.           0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $143.31
+Cash After Transaction Costs: $-143.31
+
+--- OPTIONS SOLD ---
+Contracts Sold: 25
+Premium Collected: $3,046.85
+Cash After Options: $2,903.54
+  Asset 8: call @ strike 18.53
+  Asset 19: call @ strike 250.80
+  Asset 44: call @ strike 165.55
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[50] to prices[51]
+
+--- END OF PERIOD (t=51) ---
+Stock Values After Market Move: $1,183,310.58
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-64.29
+Net Options Income: $2,982.56
+Cash After Settlement: $2,839.25
+
+--- FINANCING ---
+Long Positions: $1,524,537.28
+Short Positions: $341,226.70
+Financing Cost/Income: $-277.26
+Cash After Financing: $2,561.99
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,185,872.57
+Period Return: 3.4335%
+Verification (Stock + Cash): $1,185,872.57
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 16: [51 → 52]
+================================================================================
+
+--- START OF PERIOD (t=51) ---
+Portfolio Value: $1,185,872.57
+Cash: $2,561.99
+Stock Positions: $1,183,310.58
+Long Positions: $1,524,537.28
+Short Positions: $-341,226.70
+Current Weights (top 5 abs): [(11, np.float64(0.11148052898486492)), (1, np.float64(0.11046818116758209)), (48, np.float64(0.10160941948235958)), (14, np.float64(0.09713890518322121)), (7, np.float64(0.09665195524182335))]
+
+Alphas (top 5): [(11, np.float64(0.0320178240094762)), (48, np.float64(0.031038997996674558)), (34, np.float64(0.02342502737111)), (2, np.float64(0.021267173516280626)), (33, np.float64(0.01866186381127242))]
+Alphas (bottom 5): [(17, np.float64(-0.03102070792640899)), (39, np.float64(-0.027142063654022597)), (0, np.float64(-0.022124221772970534)), (45, np.float64(-0.014088818028354242)), (16, np.float64(-0.012793472426529548))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(11, np.float64(0.1)), (48, np.float64(0.1)), (14, np.float64(0.09713890518322121)), (7, np.float64(0.09665195524182335)), (17, np.float64(-0.09645576283318502))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $296,468.14
+Shares Before: [136.81054038 845.92127215 -46.16846322   0.           0.        ]
+Shares After: [  0.         549.76276713 160.00385587   0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $148.23
+Cash After Transaction Costs: $-148.23
+
+--- OPTIONS SOLD ---
+Contracts Sold: 18
+Premium Collected: $5,829.65
+Cash After Options: $5,681.42
+  Asset 1: call @ strike 154.86
+  Asset 43: call @ strike 110.41
+  Asset 45: call @ strike 213.89
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[51] to prices[52]
+
+--- END OF PERIOD (t=52) ---
+Stock Values After Market Move: $1,229,316.94
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-17,242.15
+Net Options Income: $-11,412.50
+Cash After Settlement: $-11,560.74
+
+--- FINANCING ---
+Long Positions: $1,572,919.05
+Short Positions: $343,602.12
+Financing Cost/Income: $-334.50
+Cash After Financing: $-11,895.24
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,217,421.69
+Period Return: 2.6604%
+Verification (Stock + Cash): $1,217,421.69
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 17: [52 → 53]
+================================================================================
+
+--- START OF PERIOD (t=52) ---
+Portfolio Value: $1,217,421.69
+Cash: $-11,895.24
+Stock Positions: $1,229,316.94
+Long Positions: $1,572,919.05
+Short Positions: $-343,602.12
+Current Weights (top 5 abs): [(48, np.float64(0.10250031069337982)), (33, np.float64(0.10167240891239432)), (7, np.float64(0.09990546346219359)), (14, np.float64(0.09962287539981994)), (20, np.float64(0.09578362265046073))]
+
+Alphas (top 5): [(48, np.float64(0.03385114610601631)), (34, np.float64(0.029856645651483313)), (20, np.float64(0.019861586744071024)), (35, np.float64(0.019293210776182783)), (2, np.float64(0.01739681728777981))]
+Alphas (bottom 5): [(0, np.float64(-0.025699084999321872)), (39, np.float64(-0.022321315935930546)), (17, np.float64(-0.02113484038991902)), (31, np.float64(-0.017617485792388088)), (41, np.float64(-0.016047707928930767))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(33, np.float64(0.1)), (34, np.float64(0.1)), (48, np.float64(0.1)), (14, np.float64(0.09962287539981994)), (20, np.float64(0.09578362265046073))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $304,355.42
+Shares Before: [  0.         549.76276713 160.00385587   0.           0.        ]
+Shares After: [-60.64828789 549.76276713 160.00385587   0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $152.18
+Cash After Transaction Costs: $-152.18
+
+--- OPTIONS SOLD ---
+Contracts Sold: 56
+Premium Collected: $9,389.63
+Cash After Options: $9,237.46
+  Asset 7: call @ strike 114.92
+  Asset 11: call @ strike 27.78
+  Asset 19: call @ strike 237.99
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[52] to prices[53]
+
+--- END OF PERIOD (t=53) ---
+Stock Values After Market Move: $1,208,086.64
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-20,594.90
+Net Options Income: $-11,205.27
+Cash After Settlement: $-11,357.45
+
+--- FINANCING ---
+Long Positions: $1,582,694.07
+Short Positions: $374,607.42
+Financing Cost/Income: $-359.50
+Cash After Financing: $-11,716.94
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,196,369.70
+Period Return: -1.7292%
+Verification (Stock + Cash): $1,196,369.70
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 18: [53 → 54]
+================================================================================
+
+--- START OF PERIOD (t=53) ---
+Portfolio Value: $1,196,369.70
+Cash: $-11,716.94
+Stock Positions: $1,208,086.64
+Long Positions: $1,582,694.07
+Short Positions: $-374,607.42
+Current Weights (top 5 abs): [(33, np.float64(0.11122583050815296)), (34, np.float64(0.10152499373749642)), (11, np.float64(0.09911771188272127)), (20, np.float64(0.09907820672856348)), (48, np.float64(0.097426666411737))]
+
+Alphas (top 5): [(34, np.float64(0.03775374224861526)), (1, np.float64(0.02884616701053913)), (20, np.float64(0.02776076487470015)), (48, np.float64(0.025785460542671893)), (35, np.float64(0.02300346997470112))]
+Alphas (bottom 5): [(17, np.float64(-0.030223555021423654)), (0, np.float64(-0.025736075067182614)), (43, np.float64(-0.02318882551499142)), (31, np.float64(-0.022410469473129777)), (12, np.float64(-0.019881930848209217))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2995
+Target Short Weight: 0.2995
+Weight Turnover: 0.2504
+Target Weights (top 5 abs): [(34, np.float64(0.10002630259877779)), (33, np.float64(0.10002213936655124)), (48, np.float64(0.10001066405557918)), (20, np.float64(0.10001001293241485)), (1, np.float64(0.10000645379870302))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $299,608.07
+Shares Before: [-60.64828789 549.76276713 160.00385587   0.           0.        ]
+Shares After: [-60.65507834 648.51763577 160.0710478    0.           0.        ]
+Cash After Trades: $2.46
+Transaction Cost: $149.80
+Cash After Transaction Costs: $-147.35
+
+--- OPTIONS SOLD ---
+Contracts Sold: 49
+Premium Collected: $6,039.93
+Cash After Options: $5,892.58
+  Asset 11: call @ strike 30.93
+  Asset 19: call @ strike 240.94
+  Asset 27: call @ strike 30.72
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[53] to prices[54]
+
+--- END OF PERIOD (t=54) ---
+Stock Values After Market Move: $1,189,244.33
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-9,031.74
+Net Options Income: $-2,991.81
+Cash After Settlement: $-3,139.16
+
+--- FINANCING ---
+Long Positions: $1,547,844.75
+Short Positions: $358,600.41
+Financing Cost/Income: $-311.91
+Cash After Financing: $-3,451.07
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,185,793.26
+Period Return: -0.8840%
+Verification (Stock + Cash): $1,185,793.26
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 19: [54 → 55]
+================================================================================
+
+--- START OF PERIOD (t=54) ---
+Portfolio Value: $1,185,793.26
+Cash: $-3,451.07
+Stock Positions: $1,189,244.33
+Long Positions: $1,547,844.75
+Short Positions: $-358,600.41
+Current Weights (top 5 abs): [(20, np.float64(0.11113958669256722)), (34, np.float64(0.11021796188936352)), (17, np.float64(-0.10374661641641013)), (33, np.float64(0.10290355844322695)), (1, np.float64(0.09567400465634983))]
+
+Alphas (top 5): [(20, np.float64(0.03476483584665382)), (1, np.float64(0.03278672096019054)), (11, np.float64(0.026555677227813868)), (30, np.float64(0.023183315313282736)), (34, np.float64(0.021222446393128126))]
+Alphas (bottom 5): [(17, np.float64(-0.031760898367591196)), (0, np.float64(-0.018444290387068425)), (39, np.float64(-0.016823943171442615)), (45, np.float64(-0.014739269554934497)), (25, np.float64(-0.014683586814182525))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(0.1)), (17, np.float64(-0.1)), (20, np.float64(0.1)), (30, np.float64(0.1)), (33, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $296,448.32
+Shares Before: [-60.65507834 648.51763577 160.0710478    0.           0.        ]
+Shares After: [-64.40301248 677.84100613 160.0710478    0.           0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $148.22
+Cash After Transaction Costs: $-148.22
+
+--- OPTIONS SOLD ---
+Contracts Sold: 63
+Premium Collected: $8,146.26
+Cash After Options: $7,998.04
+  Asset 7: call @ strike 120.51
+  Asset 27: call @ strike 29.42
+  Asset 36: call @ strike 161.98
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[54] to prices[55]
+
+--- END OF PERIOD (t=55) ---
+Stock Values After Market Move: $1,176,281.39
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-8,791.25
+Net Options Income: $-644.99
+Cash After Settlement: $-793.22
+
+--- FINANCING ---
+Long Positions: $1,546,504.98
+Short Positions: $370,223.59
+Financing Cost/Income: $-311.82
+Cash After Financing: $-1,105.04
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,175,176.35
+Period Return: -0.8953%
+Verification (Stock + Cash): $1,175,176.35
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 20: [55 → 56]
+================================================================================
+
+--- START OF PERIOD (t=55) ---
+Portfolio Value: $1,175,176.35
+Cash: $-1,105.04
+Stock Positions: $1,176,281.39
+Long Positions: $1,546,504.98
+Short Positions: $-370,223.59
+Current Weights (top 5 abs): [(1, np.float64(0.11381342656547326)), (17, np.float64(-0.10158253855911384)), (30, np.float64(0.10153305283122073)), (33, np.float64(0.09965836968335351)), (20, np.float64(0.09892967130569419))]
+
+Alphas (top 5): [(30, np.float64(0.033069998024025105)), (20, np.float64(0.032807429698989525)), (1, np.float64(0.03219576459061803)), (9, np.float64(0.02527076378142075)), (35, np.float64(0.017586078703659597))]
+Alphas (bottom 5): [(25, np.float64(-0.023425371056899548)), (8, np.float64(-0.022387759606637723)), (17, np.float64(-0.02033064442235757)), (45, np.float64(-0.017711549957708322)), (33, np.float64(-0.016771713888008535))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2994
+Target Short Weight: 0.2995
+Weight Turnover: 0.2503
+Target Weights (top 5 abs): [(1, np.float64(0.10002224224054272)), (30, np.float64(0.10002197376024238)), (17, np.float64(-0.10001280658767597)), (9, np.float64(0.10000873100802199)), (20, np.float64(0.10000866496654424))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $294,226.90
+Shares Before: [-64.40301248 677.84100613 160.0710478    0.           0.        ]
+Shares After: [-64.40471521 595.70456107 160.1316985    0.           0.        ]
+Cash After Trades: $4.81
+Transaction Cost: $147.11
+Cash After Transaction Costs: $-142.30
+
+--- OPTIONS SOLD ---
+Contracts Sold: 44
+Premium Collected: $6,452.00
+Cash After Options: $6,309.70
+  Asset 7: call @ strike 119.70
+  Asset 24: call @ strike 113.24
+  Asset 27: call @ strike 29.89
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[55] to prices[56]
+
+--- END OF PERIOD (t=56) ---
+Stock Values After Market Move: $1,189,888.32
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-4,507.65
+Net Options Income: $1,944.35
+Cash After Settlement: $1,802.04
+
+--- FINANCING ---
+Long Positions: $1,540,192.06
+Short Positions: $350,303.75
+Financing Cost/Income: $-287.41
+Cash After Financing: $1,514.63
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,191,402.95
+Period Return: 1.3808%
+Verification (Stock + Cash): $1,191,402.95
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 21: [56 → 57]
+================================================================================
+
+--- START OF PERIOD (t=56) ---
+Portfolio Value: $1,191,402.95
+Cash: $1,514.63
+Stock Positions: $1,189,888.32
+Long Positions: $1,540,192.06
+Short Positions: $-350,303.75
+Current Weights (top 5 abs): [(9, np.float64(0.1088884966659476)), (1, np.float64(0.10220603623061782)), (20, np.float64(0.09966939030799149)), (17, np.float64(-0.09807327558595125)), (19, np.float64(0.09482128213520075))]
+
+Alphas (top 5): [(14, np.float64(0.02351439550258601)), (9, np.float64(0.02320056599675251)), (48, np.float64(0.020005648202917073)), (35, np.float64(0.018422304993062927)), (15, np.float64(0.018097439567209047))]
+Alphas (bottom 5): [(33, np.float64(-0.029478629056023005)), (41, np.float64(-0.024113937137159324)), (31, np.float64(-0.02118554130419091)), (11, np.float64(-0.019973079110554393)), (0, np.float64(-0.01738313066365185))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2999
+Target Short Weight: 0.2999
+Weight Turnover: 0.2501
+Target Weights (top 5 abs): [(1, np.float64(0.10000225279801052)), (9, np.float64(0.09999950750576327)), (14, np.float64(0.09999929577733346)), (20, np.float64(0.09966771496176481)), (17, np.float64(-0.09808580925009001))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $298,011.96
+Shares Before: [-64.40471521 595.70456107 160.1316985    0.           0.        ]
+Shares After: [-64.41761967 582.85988094 160.13549715   0.           0.        ]
+Cash After Trades: $-5.45
+Transaction Cost: $149.01
+Cash After Transaction Costs: $-154.46
+
+--- OPTIONS SOLD ---
+Contracts Sold: 15
+Premium Collected: $2,495.77
+Cash After Options: $2,341.31
+  Asset 7: call @ strike 119.58
+  Asset 11: call @ strike 33.38
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[56] to prices[57]
+
+--- END OF PERIOD (t=57) ---
+Stock Values After Market Move: $1,227,472.53
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-7,221.28
+Net Options Income: $-4,725.51
+Cash After Settlement: $-4,879.97
+
+--- FINANCING ---
+Long Positions: $1,577,159.92
+Short Positions: $349,687.39
+Financing Cost/Income: $-311.74
+Cash After Financing: $-5,191.71
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,222,280.82
+Period Return: 2.5917%
+Verification (Stock + Cash): $1,222,280.82
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 22: [57 → 58]
+================================================================================
+
+--- START OF PERIOD (t=57) ---
+Portfolio Value: $1,222,280.82
+Cash: $-5,191.71
+Stock Positions: $1,227,472.53
+Long Positions: $1,577,159.92
+Short Positions: $-349,687.39
+Current Weights (top 5 abs): [(9, np.float64(0.1032521028027314)), (1, np.float64(0.10299246063405144)), (34, np.float64(0.10070264764285247)), (20, np.float64(0.09598137344463156)), (14, np.float64(0.09533899266914733))]
+
+Alphas (top 5): [(9, np.float64(0.0303321787518469)), (14, np.float64(0.0233911226409974)), (45, np.float64(0.018017514466659623)), (38, np.float64(0.016206093438760026)), (12, np.float64(0.01590112933259426))]
+Alphas (bottom 5): [(41, np.float64(-0.031016652342993233)), (33, np.float64(-0.026269860014240164)), (13, np.float64(-0.019938034770092428)), (0, np.float64(-0.018679481338575336)), (3, np.float64(-0.017993263715434592))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2996
+Target Short Weight: 0.2996
+Weight Turnover: 0.2502
+Target Weights (top 5 abs): [(9, np.float64(0.10000393047862983)), (1, np.float64(0.10000256395477412)), (45, np.float64(0.09999617028515403)), (14, np.float64(0.09999419090238858)), (20, np.float64(0.09598148556556736))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $305,872.51
+Shares Before: [-64.41761967 582.85988094 160.13549715   0.           0.        ]
+Shares After: [-64.4426851  565.93931402 160.12131199   0.           0.        ]
+Cash After Trades: $-5.76
+Transaction Cost: $152.94
+Cash After Transaction Costs: $-158.69
+
+--- OPTIONS SOLD ---
+Contracts Sold: 87
+Premium Collected: $11,437.49
+Cash After Options: $11,278.80
+  Asset 2: call @ strike 136.33
+  Asset 7: call @ strike 143.40
+  Asset 11: call @ strike 29.64
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[57] to prices[58]
+
+--- END OF PERIOD (t=58) ---
+Stock Values After Market Move: $1,242,241.31
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-13,082.59
+Net Options Income: $-1,645.10
+Cash After Settlement: $-1,803.79
+
+--- FINANCING ---
+Long Positions: $1,607,594.73
+Short Positions: $365,353.42
+Financing Cost/Income: $-311.98
+Cash After Financing: $-2,115.77
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,240,125.54
+Period Return: 1.4600%
+Verification (Stock + Cash): $1,240,125.54
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 23: [58 → 59]
+================================================================================
+
+--- START OF PERIOD (t=58) ---
+Portfolio Value: $1,240,125.54
+Cash: $-2,115.77
+Stock Positions: $1,242,241.31
+Long Positions: $1,607,594.73
+Short Positions: $-365,353.42
+Current Weights (top 5 abs): [(1, np.float64(0.11699043569519506)), (14, np.float64(0.09732395207539009)), (9, np.float64(0.09421952883180429)), (19, np.float64(0.09229686923381934)), (45, np.float64(0.09124978062122968))]
+
+Alphas (top 5): [(35, np.float64(0.02644429231368307)), (14, np.float64(0.02558339692637214)), (48, np.float64(0.022064929582210843)), (9, np.float64(0.019471944162363555)), (1, np.float64(0.019244470558185896))]
+Alphas (bottom 5): [(41, np.float64(-0.029719695021168856)), (0, np.float64(-0.025505486062204288)), (7, np.float64(-0.02154369745693656)), (31, np.float64(-0.02086248624446029)), (13, np.float64(-0.020384618595610048))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3002
+Target Short Weight: 0.3005
+Weight Turnover: 0.2503
+Target Weights (top 5 abs): [(1, np.float64(0.09998670818036641)), (15, np.float64(0.0999804643377147)), (9, np.float64(0.0999802292771896)), (14, np.float64(0.09997966232707034)), (35, np.float64(0.09997917356610558))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $310,387.02
+Shares Before: [-64.4426851  565.93931402 160.12131199   0.           0.        ]
+Shares After: [-64.3906009  483.68406103   0.           0.           0.        ]
+Cash After Trades: $302.38
+Transaction Cost: $155.19
+Cash After Transaction Costs: $147.19
+
+--- OPTIONS SOLD ---
+Contracts Sold: 34
+Premium Collected: $9,688.89
+Cash After Options: $9,836.08
+  Asset 20: call @ strike 211.47
+  Asset 30: call @ strike 152.69
+  Asset 36: call @ strike 220.25
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[58] to prices[59]
+
+--- END OF PERIOD (t=59) ---
+Stock Values After Market Move: $1,255,021.21
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-30,427.61
+Net Options Income: $-20,738.72
+Cash After Settlement: $-20,591.53
+
+--- FINANCING ---
+Long Positions: $1,641,818.13
+Short Positions: $386,796.92
+Financing Cost/Income: $-408.13
+Cash After Financing: $-20,999.66
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,234,021.55
+Period Return: -0.4922%
+Verification (Stock + Cash): $1,234,021.55
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 24: [59 → 60]
+================================================================================
+
+--- START OF PERIOD (t=59) ---
+Portfolio Value: $1,234,021.55
+Cash: $-20,999.66
+Stock Positions: $1,255,021.21
+Long Positions: $1,641,818.13
+Short Positions: $-386,796.92
+Current Weights (top 5 abs): [(15, np.float64(0.10823170328517079)), (14, np.float64(0.10217880670970636)), (45, np.float64(0.0993206426318221)), (1, np.float64(0.09725885926652027)), (35, np.float64(0.09614593638864537))]
+
+Alphas (top 5): [(1, np.float64(0.04367975434832742)), (48, np.float64(0.02736461908078877)), (35, np.float64(0.023276257485414356)), (14, np.float64(0.016788008060356192)), (23, np.float64(0.016399122199879754))]
+Alphas (bottom 5): [(34, np.float64(-0.02633310182595864)), (20, np.float64(-0.022354979642257106)), (45, np.float64(-0.021905905420395982)), (41, np.float64(-0.020395375706574)), (22, np.float64(-0.017135280159664572))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3001
+Target Short Weight: 0.3000
+Weight Turnover: 0.2499
+Target Weights (top 5 abs): [(15, np.float64(0.10000584580973071)), (1, np.float64(0.09999678920911001)), (48, np.float64(0.09999612136514202)), (35, np.float64(0.09999476713901712)), (14, np.float64(0.09997285391257829))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $308,426.17
+Shares Before: [-64.3906009  483.68406103   0.           0.           0.        ]
+Shares After: [  0.         497.30023012   0.           0.           0.        ]
+Cash After Trades: $-40.28
+Transaction Cost: $154.21
+Cash After Transaction Costs: $-194.50
+
+--- OPTIONS SOLD ---
+Contracts Sold: 118
+Premium Collected: $16,829.41
+Cash After Options: $16,634.91
+  Asset 9: call @ strike 42.01
+  Asset 18: call @ strike 32.79
+  Asset 19: call @ strike 288.25
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[59] to prices[60]
+
+--- END OF PERIOD (t=60) ---
+Stock Values After Market Move: $1,230,323.02
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-30,128.61
+Net Options Income: $-13,299.20
+Cash After Settlement: $-13,493.70
+
+--- FINANCING ---
+Long Positions: $1,609,618.75
+Short Positions: $379,295.73
+Financing Cost/Income: $-372.30
+Cash After Financing: $-13,866.00
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,216,457.02
+Period Return: -1.4234%
+Verification (Stock + Cash): $1,216,457.02
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 25: [60 → 61]
+================================================================================
+
+--- START OF PERIOD (t=60) ---
+Portfolio Value: $1,216,457.02
+Cash: $-13,866.00
+Stock Positions: $1,230,323.02
+Long Positions: $1,609,618.75
+Short Positions: $-379,295.73
+Current Weights (top 5 abs): [(19, np.float64(0.10628698973376181)), (15, np.float64(0.10386168715308136)), (48, np.float64(0.10314892805506501)), (14, np.float64(0.09768334157621611)), (40, np.float64(0.09607169508632371))]
+
+Alphas (top 5): [(1, np.float64(0.03969626550685612)), (35, np.float64(0.03928485890608151)), (11, np.float64(0.024186575309202825)), (48, np.float64(0.022097027422775105)), (8, np.float64(0.021409473786057225))]
+Alphas (bottom 5): [(45, np.float64(-0.020715183698052808)), (47, np.float64(-0.020257351886636195)), (22, np.float64(-0.018869470812905687)), (30, np.float64(-0.016992992913761617)), (12, np.float64(-0.014667442863835806))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(0.1)), (11, np.float64(0.1)), (15, np.float64(0.1)), (19, np.float64(0.1)), (35, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $304,114.26
+Shares Before: [  0.         497.30023012   0.           0.           0.        ]
+Shares After: [  0.         529.01278338   0.           5.08085672   0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $152.06
+Cash After Transaction Costs: $-152.06
+
+--- OPTIONS SOLD ---
+Contracts Sold: 92
+Premium Collected: $12,047.12
+Cash After Options: $11,895.06
+  Asset 9: call @ strike 41.41
+  Asset 18: call @ strike 33.48
+  Asset 19: call @ strike 322.28
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[60] to prices[61]
+
+--- END OF PERIOD (t=61) ---
+Stock Values After Market Move: $1,164,826.27
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-10,808.85
+Net Options Income: $1,238.27
+Cash After Settlement: $1,086.21
+
+--- FINANCING ---
+Long Positions: $1,539,318.77
+Short Positions: $374,492.50
+Financing Cost/Income: $-309.36
+Cash After Financing: $776.85
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,165,603.12
+Period Return: -4.1805%
+Verification (Stock + Cash): $1,165,603.12
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 26: [61 → 62]
+================================================================================
+
+--- START OF PERIOD (t=61) ---
+Portfolio Value: $1,165,603.12
+Cash: $776.85
+Stock Positions: $1,164,826.27
+Long Positions: $1,539,318.77
+Short Positions: $-374,492.50
+Current Weights (top 5 abs): [(19, np.float64(0.10886238699673437)), (40, np.float64(0.1064487765390571)), (15, np.float64(0.10423170127442044)), (14, np.float64(0.10336512982978042)), (48, np.float64(0.10185582806612428))]
+
+Alphas (top 5): [(35, np.float64(0.0341944758088348)), (1, np.float64(0.026792420360185528)), (11, np.float64(0.025755341820746198)), (43, np.float64(0.018329355252847814)), (23, np.float64(0.014849372260102413))]
+Alphas (bottom 5): [(22, np.float64(-0.026773347369733132)), (7, np.float64(-0.01903380489069551)), (47, np.float64(-0.017486271718108973)), (33, np.float64(-0.01716930937276154)), (13, np.float64(-0.016498426994216053))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(0.1)), (11, np.float64(0.1)), (14, np.float64(0.1)), (15, np.float64(0.1)), (19, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $291,400.78
+Shares Before: [  0.         529.01278338   0.           5.08085672   0.        ]
+Shares After: [  0.         536.45320781   0.           5.08085672   0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $145.70
+Cash After Transaction Costs: $-145.70
+
+--- OPTIONS SOLD ---
+Contracts Sold: 97
+Premium Collected: $13,067.82
+Cash After Options: $12,922.12
+  Asset 9: call @ strike 43.22
+  Asset 17: put @ strike 142.00
+  Asset 18: call @ strike 33.46
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[61] to prices[62]
+
+--- END OF PERIOD (t=62) ---
+Stock Values After Market Move: $1,160,827.48
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-11,592.89
+Net Options Income: $1,474.92
+Cash After Settlement: $1,329.22
+
+--- FINANCING ---
+Long Positions: $1,513,557.62
+Short Positions: $352,730.14
+Financing Cost/Income: $-290.62
+Cash After Financing: $1,038.61
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,161,866.08
+Period Return: -0.3206%
+Verification (Stock + Cash): $1,161,866.08
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 27: [62 → 63]
+================================================================================
+
+--- START OF PERIOD (t=62) ---
+Portfolio Value: $1,161,866.08
+Cash: $1,038.61
+Stock Positions: $1,160,827.48
+Long Positions: $1,513,557.62
+Short Positions: $-352,730.14
+Current Weights (top 5 abs): [(14, np.float64(0.10738504743207944)), (19, np.float64(0.1054022792026457)), (11, np.float64(0.10459729788742625)), (40, np.float64(0.09767246078063938)), (35, np.float64(0.09733788946055236))]
+
+Alphas (top 5): [(35, np.float64(0.04288812911532866)), (1, np.float64(0.036021863627772224)), (48, np.float64(0.019336373942585635)), (2, np.float64(0.016815933366904973)), (8, np.float64(0.016358179237225462))]
+Alphas (bottom 5): [(9, np.float64(-0.031334734940250304)), (45, np.float64(-0.021937324599718148)), (30, np.float64(-0.01979068867461959)), (22, np.float64(-0.01921712497969024)), (41, np.float64(-0.017678641522144482))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(0.1)), (11, np.float64(0.1)), (14, np.float64(0.1)), (19, np.float64(0.1)), (35, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $290,466.52
+Shares Before: [  0.         536.45320781   0.           5.08085672   0.        ]
+Shares After: [  0.         585.08453717 402.57131527   5.08085672   0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $145.23
+Cash After Transaction Costs: $-145.23
+
+--- OPTIONS SOLD ---
+Contracts Sold: 56
+Premium Collected: $6,667.00
+Cash After Options: $6,521.77
+  Asset 18: call @ strike 32.48
+  Asset 19: call @ strike 353.20
+  Asset 24: call @ strike 130.78
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[62] to prices[63]
+
+--- END OF PERIOD (t=63) ---
+Stock Values After Market Move: $1,194,558.75
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-11,613.79
+Net Options Income: $-4,946.79
+Cash After Settlement: $-5,092.02
+
+--- FINANCING ---
+Long Positions: $1,535,916.05
+Short Positions: $341,357.30
+Financing Cost/Income: $-305.68
+Cash After Financing: $-5,397.70
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,189,161.05
+Period Return: 2.3492%
+Verification (Stock + Cash): $1,189,161.05
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 28: [63 → 64]
+================================================================================
+
+--- START OF PERIOD (t=63) ---
+Portfolio Value: $1,189,161.05
+Cash: $-5,397.70
+Stock Positions: $1,194,558.75
+Long Positions: $1,535,916.05
+Short Positions: $-341,357.30
+Current Weights (top 5 abs): [(1, np.float64(0.104925201315718)), (48, np.float64(0.10342353180168276)), (19, np.float64(0.10264205686817049)), (14, np.float64(0.10254910285375102)), (15, np.float64(0.10006070713687439))]
+
+Alphas (top 5): [(35, np.float64(0.04010860523148485)), (1, np.float64(0.03147584650204738)), (23, np.float64(0.018589520087336074)), (48, np.float64(0.016938569845805086)), (0, np.float64(0.016757045902550696))]
+Alphas (bottom 5): [(20, np.float64(-0.030299661820773063)), (45, np.float64(-0.030236827215494026)), (22, np.float64(-0.024765957745273882)), (12, np.float64(-0.024301955966263777)), (9, np.float64(-0.024234987146284647))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(0.1)), (14, np.float64(0.1)), (15, np.float64(0.1)), (19, np.float64(0.1)), (23, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $297,290.26
+Shares Before: [  0.         585.08453717 402.57131527   5.08085672   0.        ]
+Shares After: [ 29.52101025 557.62060004 402.57131527   5.08085672   0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $148.65
+Cash After Transaction Costs: $-148.65
+
+--- OPTIONS SOLD ---
+Contracts Sold: 79
+Premium Collected: $10,239.71
+Cash After Options: $10,091.06
+  Asset 2: call @ strike 143.10
+  Asset 17: put @ strike 150.60
+  Asset 18: call @ strike 34.22
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[63] to prices[64]
+
+--- END OF PERIOD (t=64) ---
+Stock Values After Market Move: $1,165,571.73
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-11,620.73
+Net Options Income: $-1,381.02
+Cash After Settlement: $-1,529.66
+
+--- FINANCING ---
+Long Positions: $1,506,512.42
+Short Positions: $340,940.69
+Financing Cost/Income: $-290.49
+Cash After Financing: $-1,820.15
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,163,751.57
+Period Return: -2.1368%
+Verification (Stock + Cash): $1,163,751.57
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 29: [64 → 65]
+================================================================================
+
+--- START OF PERIOD (t=64) ---
+Portfolio Value: $1,163,751.57
+Cash: $-1,820.15
+Stock Positions: $1,165,571.73
+Long Positions: $1,506,512.42
+Short Positions: $-340,940.69
+Current Weights (top 5 abs): [(1, np.float64(0.10528401606013178)), (23, np.float64(0.10518576496768456)), (15, np.float64(0.10341927770165275)), (48, np.float64(0.10312418948104479)), (14, np.float64(0.09949888681284359))]
+
+Alphas (top 5): [(35, np.float64(0.027066499180156113)), (8, np.float64(0.025846998640729403)), (48, np.float64(0.022952909513653964)), (1, np.float64(0.021886984108701234)), (23, np.float64(0.015750674545314276))]
+Alphas (bottom 5): [(20, np.float64(-0.03560491337815102)), (45, np.float64(-0.024512555897665524)), (49, np.float64(-0.021164981401967556)), (9, np.float64(-0.01818031817433284)), (47, np.float64(-0.016028460120462155))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(48, np.float64(0.10000174770543967)), (8, np.float64(0.10000048486625714)), (35, np.float64(0.09999963901590242)), (20, np.float64(-0.09999897220732865)), (1, np.float64(0.09999784128582978))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $290,990.80
+Shares Before: [ 29.52101025 557.62060004 402.57131527   5.08085672   0.        ]
+Shares After: [ 29.51482843 529.62318828 227.8976124    5.07806172   0.        ]
+Cash After Trades: $11.84
+Transaction Cost: $145.50
+Cash After Transaction Costs: $-133.65
+
+--- OPTIONS SOLD ---
+Contracts Sold: 48
+Premium Collected: $9,379.09
+Cash After Options: $9,245.44
+  Asset 2: call @ strike 151.65
+  Asset 15: call @ strike 201.90
+  Asset 18: call @ strike 32.84
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[64] to prices[65]
+
+--- END OF PERIOD (t=65) ---
+Stock Values After Market Move: $1,178,846.45
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-7,798.22
+Net Options Income: $1,580.88
+Cash After Settlement: $1,447.23
+
+--- FINANCING ---
+Long Positions: $1,511,268.37
+Short Positions: $332,421.92
+Financing Cost/Income: $-273.40
+Cash After Financing: $1,173.83
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,180,020.27
+Period Return: 1.3980%
+Verification (Stock + Cash): $1,180,020.27
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 30: [65 → 66]
+================================================================================
+
+--- START OF PERIOD (t=65) ---
+Portfolio Value: $1,180,020.27
+Cash: $1,173.83
+Stock Positions: $1,178,846.45
+Long Positions: $1,511,268.37
+Short Positions: $-332,421.92
+Current Weights (top 5 abs): [(1, np.float64(0.10754874005007257)), (8, np.float64(0.10341997539339717)), (14, np.float64(0.1007998115854111)), (27, np.float64(0.09946472574022856)), (48, np.float64(0.09925421810959927))]
+
+Alphas (top 5): [(35, np.float64(0.03378634862481338)), (43, np.float64(0.02386848560473161)), (1, np.float64(0.018951298738299985)), (39, np.float64(0.018554864610643304)), (0, np.float64(0.017844264468858066))]
+Alphas (bottom 5): [(45, np.float64(-0.024977267916252405)), (47, np.float64(-0.02183188198397055)), (17, np.float64(-0.020992235460921587)), (16, np.float64(-0.017493288532441316)), (12, np.float64(-0.01602953890688957))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(0.09999999999999998)), (8, np.float64(0.09999999999999998)), (14, np.float64(0.09999999999999998)), (35, np.float64(0.09999999999999998)), (43, np.float64(0.09999999999999998))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $295,005.07
+Shares Before: [ 29.51482843 529.62318828 227.8976124    5.07806172   0.        ]
+Shares After: [ 29.51482843 492.44945876 227.8976124    5.07806172   0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $147.50
+Cash After Transaction Costs: $-147.50
+
+--- OPTIONS SOLD ---
+Contracts Sold: 34
+Premium Collected: $6,049.13
+Cash After Options: $5,901.63
+  Asset 2: call @ strike 171.21
+  Asset 19: call @ strike 318.65
+  Asset 24: call @ strike 115.34
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[65] to prices[66]
+
+--- END OF PERIOD (t=66) ---
+Stock Values After Market Move: $1,162,292.68
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-10,410.60
+Net Options Income: $-4,361.47
+Cash After Settlement: $-4,508.97
+
+--- FINANCING ---
+Long Positions: $1,523,307.85
+Short Positions: $361,015.17
+Financing Cost/Income: $-319.63
+Cash After Financing: $-4,828.61
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,157,464.08
+Period Return: -1.9115%
+Verification (Stock + Cash): $1,157,464.08
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 31: [66 → 67]
+================================================================================
+
+--- START OF PERIOD (t=66) ---
+Portfolio Value: $1,157,464.08
+Cash: $-4,828.61
+Stock Positions: $1,162,292.68
+Long Positions: $1,523,307.85
+Short Positions: $-361,015.17
+Current Weights (top 5 abs): [(48, np.float64(0.10763064613419052)), (14, np.float64(0.10266034932933724)), (43, np.float64(0.09910538937542718)), (8, np.float64(0.0990359467596496)), (40, np.float64(0.09838530029401553))]
+
+Alphas (top 5): [(43, np.float64(0.04766361032683876)), (35, np.float64(0.02523401008185932)), (39, np.float64(0.018465629974931935)), (9, np.float64(0.017111857080573237)), (3, np.float64(0.014612483886855068))]
+Alphas (bottom 5): [(41, np.float64(-0.025552399259708224)), (16, np.float64(-0.020921920008997185)), (47, np.float64(-0.020002037547805617)), (17, np.float64(-0.018625092391455836)), (22, np.float64(-0.01761299330125112))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3003
+Target Short Weight: 0.3006
+Weight Turnover: 0.2503
+Target Weights (top 5 abs): [(43, np.float64(0.09997780513990547)), (14, np.float64(0.09997428999627826)), (8, np.float64(0.09901809957145442)), (35, np.float64(0.09885924548907435)), (40, np.float64(0.09836461754959161))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $289,688.86
+Shares Before: [ 29.51482843 492.44945876 227.8976124    5.07806172   0.        ]
+Shares After: [ 29.45785521 492.35114276 219.46947155   5.03429677   0.        ]
+Cash After Trades: $318.02
+Transaction Cost: $144.84
+Cash After Transaction Costs: $173.18
+
+--- OPTIONS SOLD ---
+Contracts Sold: 77
+Premium Collected: $5,842.14
+Cash After Options: $6,015.32
+  Asset 2: call @ strike 180.09
+  Asset 24: call @ strike 122.60
+  Asset 27: call @ strike 35.68
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[66] to prices[67]
+
+--- END OF PERIOD (t=67) ---
+Stock Values After Market Move: $1,176,486.69
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-18,267.02
+Net Options Income: $-12,424.88
+Cash After Settlement: $-12,251.70
+
+--- FINANCING ---
+Long Positions: $1,526,561.75
+Short Positions: $350,075.06
+Financing Cost/Income: $-342.78
+Cash After Financing: $-12,594.48
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,163,892.21
+Period Return: 0.5554%
+Verification (Stock + Cash): $1,163,892.21
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 32: [67 → 68]
+================================================================================
+
+--- START OF PERIOD (t=67) ---
+Portfolio Value: $1,163,892.21
+Cash: $-12,594.48
+Stock Positions: $1,176,486.69
+Long Positions: $1,526,561.75
+Short Positions: $-350,075.06
+Current Weights (top 5 abs): [(40, np.float64(0.10247460337923613)), (35, np.float64(0.101314814836956)), (23, np.float64(0.09817296363346105)), (1, np.float64(0.09802651459818731)), (8, np.float64(0.09750005986704455))]
+
+Alphas (top 5): [(43, np.float64(0.02564495495233898)), (8, np.float64(0.02466404742781763)), (48, np.float64(0.019750289143455346)), (35, np.float64(0.018433897788812215)), (39, np.float64(0.01707885994643587))]
+Alphas (bottom 5): [(11, np.float64(-0.03403019189201707)), (45, np.float64(-0.03362305710663472)), (20, np.float64(-0.030920565295719935)), (7, np.float64(-0.022416700952456438)), (41, np.float64(-0.01776001388337203))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2501
+Target Weights (top 5 abs): [(35, np.float64(0.10000551657719103)), (40, np.float64(0.10000119831701187)), (43, np.float64(0.10000020061402438)), (48, np.float64(0.0999996415223119)), (8, np.float64(0.09999963863291317))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $291,038.19
+Shares Before: [ 29.45785521 492.35114276 219.46947155   5.03429677   0.        ]
+Shares After: [ 29.45650839 492.3507448  219.46781446   5.03341151   0.        ]
+Cash After Trades: $2.24
+Transaction Cost: $145.52
+Cash After Transaction Costs: $-143.28
+
+--- OPTIONS SOLD ---
+Contracts Sold: 32
+Premium Collected: $6,960.72
+Cash After Options: $6,817.44
+  Asset 9: call @ strike 32.92
+  Asset 14: call @ strike 88.58
+  Asset 23: call @ strike 128.19
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[67] to prices[68]
+
+--- END OF PERIOD (t=68) ---
+Stock Values After Market Move: $1,123,294.43
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-5,020.18
+Net Options Income: $1,940.54
+Cash After Settlement: $1,797.26
+
+--- FINANCING ---
+Long Positions: $1,467,417.35
+Short Positions: $344,122.92
+Financing Cost/Income: $-282.28
+Cash After Financing: $1,514.99
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,124,809.42
+Period Return: -3.3579%
+Verification (Stock + Cash): $1,124,809.42
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 33: [68 → 69]
+================================================================================
+
+--- START OF PERIOD (t=68) ---
+Portfolio Value: $1,124,809.42
+Cash: $1,514.99
+Stock Positions: $1,123,294.43
+Long Positions: $1,467,417.35
+Short Positions: $-344,122.92
+Current Weights (top 5 abs): [(40, np.float64(0.10844620185114456)), (8, np.float64(0.1063173387177934)), (48, np.float64(0.1043257312277219)), (35, np.float64(0.10014610662639738)), (23, np.float64(0.09814321107920591))]
+
+Alphas (top 5): [(43, np.float64(0.02803382130541275)), (34, np.float64(0.023707270602932692)), (1, np.float64(0.022325309967736087)), (2, np.float64(0.020805762876885958)), (35, np.float64(0.019072663862138014))]
+Alphas (bottom 5): [(20, np.float64(-0.03961943164836103)), (11, np.float64(-0.03807711964010657)), (45, np.float64(-0.03430122488133479)), (41, np.float64(-0.026845893631739)), (3, np.float64(-0.012824802333577839))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(8, np.float64(0.1)), (35, np.float64(0.1)), (40, np.float64(0.1)), (43, np.float64(0.1)), (48, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $281,202.35
+Shares Before: [ 29.45650839 492.3507448  219.46781446   5.03341151   0.        ]
+Shares After: [ 29.45650839 492.3507448  219.46781446   0.           0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $140.60
+Cash After Transaction Costs: $-140.60
+
+--- OPTIONS SOLD ---
+Contracts Sold: 41
+Premium Collected: $6,754.80
+Cash After Options: $6,614.20
+  Asset 14: call @ strike 85.80
+  Asset 18: call @ strike 31.10
+  Asset 19: call @ strike 320.30
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[68] to prices[69]
+
+--- END OF PERIOD (t=69) ---
+Stock Values After Market Move: $1,175,012.51
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-10,650.04
+Net Options Income: $-3,895.24
+Cash After Settlement: $-4,035.84
+
+--- FINANCING ---
+Long Positions: $1,506,457.87
+Short Positions: $331,445.36
+Financing Cost/Income: $-293.02
+Cash After Financing: $-4,328.86
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,170,683.64
+Period Return: 4.0784%
+Verification (Stock + Cash): $1,170,683.64
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 34: [69 → 70]
+================================================================================
+
+--- START OF PERIOD (t=69) ---
+Portfolio Value: $1,170,683.64
+Cash: $-4,328.86
+Stock Positions: $1,175,012.51
+Long Positions: $1,506,457.87
+Short Positions: $-331,445.36
+Current Weights (top 5 abs): [(8, np.float64(0.10604839435463763)), (35, np.float64(0.10444504433506913)), (40, np.float64(0.09714086982832383)), (23, np.float64(0.09713812640392054)), (1, np.float64(0.0954677141181169))]
+
+Alphas (top 5): [(43, np.float64(0.023972011924681264)), (28, np.float64(0.02166742687327215)), (36, np.float64(0.02015245406344942)), (15, np.float64(0.015589977380533323)), (35, np.float64(0.013887301087446232))]
+Alphas (bottom 5): [(41, np.float64(-0.03558085009438098)), (20, np.float64(-0.02217457844522986)), (7, np.float64(-0.017328324171292743)), (17, np.float64(-0.01571684308269415)), (24, np.float64(-0.011854257676654247))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(8, np.float64(0.1)), (28, np.float64(0.1)), (35, np.float64(0.1)), (36, np.float64(0.1)), (41, np.float64(-0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $292,670.91
+Shares Before: [ 29.45650839 492.3507448  219.46781446   0.           0.        ]
+Shares After: [ 29.45650839 278.37699522 219.46781446   0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $146.34
+Cash After Transaction Costs: $-146.34
+
+--- OPTIONS SOLD ---
+Contracts Sold: 25
+Premium Collected: $6,430.74
+Cash After Options: $6,284.40
+  Asset 1: call @ strike 227.00
+  Asset 14: call @ strike 82.81
+  Asset 23: call @ strike 127.58
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[69] to prices[70]
+
+--- END OF PERIOD (t=70) ---
+Stock Values After Market Move: $1,194,760.58
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-12,454.97
+Net Options Income: $-6,024.23
+Cash After Settlement: $-6,170.57
+
+--- FINANCING ---
+Long Positions: $1,554,415.67
+Short Positions: $359,655.09
+Financing Cost/Income: $-325.42
+Cash After Financing: $-6,495.99
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,188,264.59
+Period Return: 1.5018%
+Verification (Stock + Cash): $1,188,264.59
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 35: [70 → 71]
+================================================================================
+
+--- START OF PERIOD (t=70) ---
+Portfolio Value: $1,188,264.59
+Cash: $-6,495.99
+Stock Positions: $1,194,760.58
+Long Positions: $1,554,415.67
+Short Positions: $-359,655.09
+Current Weights (top 5 abs): [(43, np.float64(0.10803704590298371)), (8, np.float64(0.10359518860894226)), (28, np.float64(0.10342357580162129)), (35, np.float64(0.101615730798482)), (40, np.float64(0.09911643673937952))]
+
+Alphas (top 5): [(8, np.float64(0.023153075589345214)), (35, np.float64(0.02044058856581464)), (12, np.float64(0.020305673530835348)), (15, np.float64(0.017459471863485676)), (27, np.float64(0.017353834764050814))]
+Alphas (bottom 5): [(25, np.float64(-0.032227703905106354)), (20, np.float64(-0.024007595812565948)), (24, np.float64(-0.023755857044292124)), (7, np.float64(-0.0198969651097934)), (3, np.float64(-0.019213263346331423))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2997
+Target Short Weight: 0.2996
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(35, np.float64(0.10000637639316379)), (43, np.float64(0.10000301921135829)), (8, np.float64(0.10000274791684134)), (28, np.float64(0.09999946153234647)), (40, np.float64(0.09911732704467541))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $297,136.22
+Shares Before: [ 29.45650839 278.37699522 219.46781446   0.           0.        ]
+Shares After: [ 29.46328623 205.93478576 219.47587543   0.           0.        ]
+Cash After Trades: $-16.95
+Transaction Cost: $148.57
+Cash After Transaction Costs: $-165.52
+
+--- OPTIONS SOLD ---
+Contracts Sold: 24
+Premium Collected: $9,334.35
+Cash After Options: $9,168.83
+  Asset 1: call @ strike 235.95
+  Asset 19: call @ strike 344.97
+  Asset 23: call @ strike 120.72
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[70] to prices[71]
+
+--- END OF PERIOD (t=71) ---
+Stock Values After Market Move: $1,155,902.56
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-14,403.57
+Net Options Income: $-5,069.22
+Cash After Settlement: $-5,234.74
+
+--- FINANCING ---
+Long Positions: $1,523,213.81
+Short Positions: $367,311.25
+Financing Cost/Income: $-327.90
+Cash After Financing: $-5,562.64
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,150,339.92
+Period Return: -3.1916%
+Verification (Stock + Cash): $1,150,339.92
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 36: [71 → 72]
+================================================================================
+
+--- START OF PERIOD (t=71) ---
+Portfolio Value: $1,150,339.92
+Cash: $-5,562.64
+Stock Positions: $1,155,902.56
+Long Positions: $1,523,213.81
+Short Positions: $-367,311.25
+Current Weights (top 5 abs): [(35, np.float64(0.11013245808173186)), (43, np.float64(0.10596778718968189)), (19, np.float64(0.10304382812630214)), (20, np.float64(-0.10088530561177245)), (40, np.float64(0.09788421841753284))]
+
+Alphas (top 5): [(30, np.float64(0.024804197203664585)), (17, np.float64(0.02035375789166329)), (8, np.float64(0.019577073972422126)), (47, np.float64(0.019326748869982327)), (41, np.float64(0.011561081296919136))]
+Alphas (bottom 5): [(43, np.float64(-0.0320068526413928)), (7, np.float64(-0.031300869139965375)), (1, np.float64(-0.030690722442122717)), (33, np.float64(-0.02795945041431355)), (20, np.float64(-0.024045611687483467))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3001
+Target Short Weight: 0.3001
+Weight Turnover: 0.2501
+Target Weights (top 5 abs): [(19, np.float64(0.09999562731627938)), (20, np.float64(-0.09999527627610734)), (35, np.float64(0.0999915872570292)), (30, np.float64(0.09999009256594982)), (40, np.float64(0.09787777704341141))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $287,732.10
+Shares Before: [ 29.46328623 205.93478576 219.47587543   0.           0.        ]
+Shares After: [ 29.4471897  -18.2604915  219.44364481   0.           0.        ]
+Cash After Trades: $23.47
+Transaction Cost: $143.87
+Cash After Transaction Costs: $-120.40
+
+--- OPTIONS SOLD ---
+Contracts Sold: 64
+Premium Collected: $15,777.69
+Cash After Options: $15,657.29
+  Asset 2: call @ strike 183.50
+  Asset 9: call @ strike 35.17
+  Asset 12: call @ strike 264.48
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[71] to prices[72]
+
+--- END OF PERIOD (t=72) ---
+Stock Values After Market Move: $1,151,780.61
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-10,110.11
+Net Options Income: $5,667.58
+Cash After Settlement: $5,547.19
+
+--- FINANCING ---
+Long Positions: $1,501,377.22
+Short Positions: $349,596.61
+Financing Cost/Income: $-277.46
+Cash After Financing: $5,269.72
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,157,050.34
+Period Return: 0.5833%
+Verification (Stock + Cash): $1,157,050.34
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 37: [72 → 73]
+================================================================================
+
+--- START OF PERIOD (t=72) ---
+Portfolio Value: $1,157,050.34
+Cash: $5,269.72
+Stock Positions: $1,151,780.61
+Long Positions: $1,501,377.22
+Short Positions: $-349,596.61
+Current Weights (top 5 abs): [(35, np.float64(0.11022025039461)), (20, np.float64(-0.10968741039952594)), (19, np.float64(0.09939108659359683)), (15, np.float64(0.09770144145700897)), (40, np.float64(0.09740912673375433))]
+
+Alphas (top 5): [(30, np.float64(0.02140495160786777)), (17, np.float64(0.018750905349154072)), (35, np.float64(0.015999362303171307)), (34, np.float64(0.015883033715693173)), (8, np.float64(0.015225976288254632))]
+Alphas (bottom 5): [(20, np.float64(-0.031200372745811646)), (43, np.float64(-0.027381705533183354)), (7, np.float64(-0.02421822195546862)), (11, np.float64(-0.024000808959181993)), (1, np.float64(-0.02053787565645072))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3004
+Target Short Weight: 0.3005
+Weight Turnover: 0.2502
+Target Weights (top 5 abs): [(30, np.float64(0.09997577685131886)), (20, np.float64(-0.09997363016038105)), (35, np.float64(0.09996787187532097)), (19, np.float64(0.0993684488380304)), (15, np.float64(0.09767845216910886))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $289,492.79
+Shares Before: [ 29.4471897  -18.2604915  219.44364481   0.           0.        ]
+Shares After: [ 29.38782683 -33.97745398 219.2967616    0.           0.        ]
+Cash After Trades: $125.01
+Transaction Cost: $144.75
+Cash After Transaction Costs: $-19.73
+
+--- OPTIONS SOLD ---
+Contracts Sold: 51
+Premium Collected: $12,341.80
+Cash After Options: $12,322.07
+  Asset 12: call @ strike 241.85
+  Asset 23: call @ strike 125.28
+  Asset 28: call @ strike 79.03
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[72] to prices[73]
+
+--- END OF PERIOD (t=73) ---
+Stock Values After Market Move: $1,179,423.90
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-36,077.73
+Net Options Income: $-23,735.93
+Cash After Settlement: $-23,755.67
+
+--- FINANCING ---
+Long Positions: $1,525,937.98
+Short Positions: $346,514.08
+Financing Cost/Income: $-387.74
+Cash After Financing: $-24,143.41
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,155,280.49
+Period Return: -0.1530%
+Verification (Stock + Cash): $1,155,280.49
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 38: [73 → 74]
+================================================================================
+
+--- START OF PERIOD (t=73) ---
+Portfolio Value: $1,155,280.49
+Cash: $-24,143.41
+Stock Positions: $1,179,423.90
+Long Positions: $1,525,937.98
+Short Positions: $-346,514.08
+Current Weights (top 5 abs): [(20, np.float64(-0.10525358321187447)), (23, np.float64(0.10139619186196806)), (35, np.float64(0.09966474680188238)), (39, np.float64(0.0993906395358563)), (30, np.float64(0.09871624753038953))]
+
+Alphas (top 5): [(48, np.float64(0.025499889616758552)), (27, np.float64(0.022939524394260728)), (38, np.float64(0.022510069083722866)), (30, np.float64(0.014675132952789039)), (47, np.float64(0.014131217884291806))]
+Alphas (bottom 5): [(7, np.float64(-0.03213037248943773)), (20, np.float64(-0.030475104174831777)), (11, np.float64(-0.02935295698504963)), (1, np.float64(-0.028355882232756556)), (0, np.float64(-0.019375455770822246))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(20, np.float64(-0.1)), (23, np.float64(0.1)), (48, np.float64(0.1)), (30, np.float64(0.09871624753038953)), (8, np.float64(0.0961477108375283))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $288,820.12
+Shares Before: [ 29.38782683 -33.97745398 219.2967616    0.           0.        ]
+Shares After: [  0.         -33.97745398 219.2967616    0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $144.41
+Cash After Transaction Costs: $-144.41
+
+--- OPTIONS SOLD ---
+Contracts Sold: 60
+Premium Collected: $8,540.40
+Cash After Options: $8,395.99
+  Asset 2: call @ strike 176.62
+  Asset 23: call @ strike 131.46
+  Asset 28: call @ strike 87.36
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[73] to prices[74]
+
+--- END OF PERIOD (t=74) ---
+Stock Values After Market Move: $1,164,767.66
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-10,322.41
+Net Options Income: $-1,782.01
+Cash After Settlement: $-1,926.42
+
+--- FINANCING ---
+Long Positions: $1,512,502.94
+Short Positions: $347,735.28
+Financing Cost/Income: $-297.81
+Cash After Financing: $-2,224.23
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,162,543.43
+Period Return: 0.6287%
+Verification (Stock + Cash): $1,162,543.43
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 39: [74 → 75]
+================================================================================
+
+--- START OF PERIOD (t=74) ---
+Portfolio Value: $1,162,543.43
+Cash: $-2,224.23
+Stock Positions: $1,164,767.66
+Long Positions: $1,512,502.94
+Short Positions: $-347,735.28
+Current Weights (top 5 abs): [(30, np.float64(0.10974872812624202)), (23, np.float64(0.10335675788033001)), (48, np.float64(0.1031598639398121)), (20, np.float64(-0.09756909235289331)), (19, np.float64(0.09703924413669955))]
+
+Alphas (top 5): [(27, np.float64(0.04208209477099803)), (48, np.float64(0.025340098340735574)), (47, np.float64(0.019491698108542108)), (16, np.float64(0.019298229870535574)), (17, np.float64(0.01840898142709407))]
+Alphas (bottom 5): [(3, np.float64(-0.03094875740754211)), (43, np.float64(-0.025594054726109393)), (11, np.float64(-0.02431717008436779)), (39, np.float64(-0.024222235872577602)), (20, np.float64(-0.018618081885193233))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3001
+Target Short Weight: 0.3001
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(27, np.float64(0.09999351724929838)), (30, np.float64(0.09998931412779377)), (48, np.float64(0.09998836774376553)), (23, np.float64(0.09998737308599653)), (20, np.float64(-0.09756504058349469))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $290,654.30
+Shares Before: [  0.         -33.97745398 219.2967616    0.           0.        ]
+Shares After: [  0.         -33.94164573 219.24575479  -3.43039614   0.        ]
+Cash After Trades: $22.11
+Transaction Cost: $145.33
+Cash After Transaction Costs: $-123.22
+
+--- OPTIONS SOLD ---
+Contracts Sold: 37
+Premium Collected: $6,249.71
+Cash After Options: $6,126.50
+  Asset 23: call @ strike 136.73
+  Asset 25: put @ strike 278.32
+  Asset 28: call @ strike 84.11
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[74] to prices[75]
+
+--- END OF PERIOD (t=75) ---
+Stock Values After Market Move: $1,137,370.04
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-2,711.76
+Net Options Income: $3,537.95
+Cash After Settlement: $3,414.74
+
+--- FINANCING ---
+Long Positions: $1,482,509.16
+Short Positions: $345,139.13
+Financing Cost/Income: $-279.08
+Cash After Financing: $3,135.66
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,140,505.69
+Period Return: -1.8956%
+Verification (Stock + Cash): $1,140,505.69
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 40: [75 → 76]
+================================================================================
+
+--- START OF PERIOD (t=75) ---
+Portfolio Value: $1,140,505.69
+Cash: $3,135.66
+Stock Positions: $1,137,370.04
+Long Positions: $1,482,509.16
+Short Positions: $-345,139.13
+Current Weights (top 5 abs): [(20, np.float64(-0.10190834740163505)), (23, np.float64(0.09951984438362989)), (48, np.float64(0.0990440920465446)), (36, np.float64(0.09800332678104066)), (27, np.float64(0.09785842229584645))]
+
+Alphas (top 5): [(34, np.float64(0.033111315528909155)), (27, np.float64(0.03208882510909283)), (2, np.float64(0.0216152966765244)), (15, np.float64(0.017547538599398727)), (17, np.float64(0.017035313031102065))]
+Alphas (bottom 5): [(3, np.float64(-0.038203124255577814)), (11, np.float64(-0.03196560774797192)), (45, np.float64(-0.019652265266007263)), (26, np.float64(-0.017937550639855953)), (5, np.float64(-0.015404625221208217))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(20, np.float64(-0.1)), (23, np.float64(0.09951984438362989)), (48, np.float64(0.0990440920465446)), (27, np.float64(0.09785842229584645)), (40, np.float64(0.09729821191946542))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $285,126.42
+Shares Before: [  0.         -33.94164573 219.24575479  -3.43039614   0.        ]
+Shares After: [   0.          -17.93425109  219.24575479 -148.1823324     0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $142.56
+Cash After Transaction Costs: $-142.56
+
+--- OPTIONS SOLD ---
+Contracts Sold: 32
+Premium Collected: $10,436.98
+Cash After Options: $10,294.42
+  Asset 7: put @ strike 90.23
+  Asset 19: call @ strike 346.45
+  Asset 23: call @ strike 133.51
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[75] to prices[76]
+
+--- END OF PERIOD (t=76) ---
+Stock Values After Market Move: $1,142,508.96
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-17,331.67
+Net Options Income: $-6,894.68
+Cash After Settlement: $-7,037.25
+
+--- FINANCING ---
+Long Positions: $1,492,506.76
+Short Positions: $349,997.80
+Financing Cost/Income: $-320.99
+Cash After Financing: $-7,358.23
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,135,150.73
+Period Return: -0.4695%
+Verification (Stock + Cash): $1,135,150.73
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 41: [76 → 77]
+================================================================================
+
+--- START OF PERIOD (t=76) ---
+Portfolio Value: $1,135,150.73
+Cash: $-7,358.23
+Stock Positions: $1,142,508.96
+Long Positions: $1,492,506.76
+Short Positions: $-349,997.80
+Current Weights (top 5 abs): [(8, np.float64(0.10351251239323078)), (20, np.float64(-0.10262142845679531)), (27, np.float64(0.10179429787812604)), (40, np.float64(0.10135227808469109)), (28, np.float64(0.09983126037087714))]
+
+Alphas (top 5): [(17, np.float64(0.025505002381988433)), (25, np.float64(0.023888896000959118)), (27, np.float64(0.01794973579189951)), (48, np.float64(0.014922716437839982)), (8, np.float64(0.011254850920679653))]
+Alphas (bottom 5): [(1, np.float64(-0.03494293918203719)), (3, np.float64(-0.03208617732767561)), (7, np.float64(-0.029289858901635636)), (33, np.float64(-0.024973690093505564)), (43, np.float64(-0.023910167755877516))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(-0.1)), (8, np.float64(0.1)), (27, np.float64(0.1)), (40, np.float64(0.1)), (19, np.float64(0.09645615874547452))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $283,787.68
+Shares Before: [   0.          -17.93425109  219.24575479 -148.1823324     0.        ]
+Shares After: [   0.         -523.47907575  219.24575479 -148.1823324     0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $141.89
+Cash After Transaction Costs: $-141.89
+
+--- OPTIONS SOLD ---
+Contracts Sold: 57
+Premium Collected: $10,575.40
+Cash After Options: $10,433.51
+  Asset 2: call @ strike 188.53
+  Asset 16: call @ strike 42.22
+  Asset 23: call @ strike 123.01
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[76] to prices[77]
+
+--- END OF PERIOD (t=77) ---
+Stock Values After Market Move: $1,158,475.52
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-21,560.25
+Net Options Income: $-10,984.85
+Cash After Settlement: $-11,126.75
+
+--- FINANCING ---
+Long Positions: $1,500,572.26
+Short Positions: $342,096.74
+Financing Cost/Income: $-331.44
+Cash After Financing: $-11,458.19
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,147,017.33
+Period Return: 1.0454%
+Verification (Stock + Cash): $1,147,017.33
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 42: [77 → 78]
+================================================================================
+
+--- START OF PERIOD (t=77) ---
+Portfolio Value: $1,147,017.33
+Cash: $-11,458.19
+Stock Positions: $1,158,475.52
+Long Positions: $1,500,572.26
+Short Positions: $-342,096.74
+Current Weights (top 5 abs): [(40, np.float64(0.1018637515252947)), (19, np.float64(0.10028716964391683)), (27, np.float64(0.09923087953688332)), (8, np.float64(0.09783360879118133)), (1, np.float64(-0.09602633061443408))]
+
+Alphas (top 5): [(25, np.float64(0.02043673075848405)), (34, np.float64(0.01867433497364291)), (2, np.float64(0.018294742876730427)), (48, np.float64(0.017182600055014596)), (17, np.float64(0.015739852654821317))]
+Alphas (bottom 5): [(3, np.float64(-0.029434730129765024)), (7, np.float64(-0.025013371131160596)), (33, np.float64(-0.024502328484960475)), (43, np.float64(-0.02273379201670793)), (1, np.float64(-0.0221360253930192))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3001
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(19, np.float64(0.10000353673237193)), (40, np.float64(0.0999822150668271)), (27, np.float64(0.09922896482675923)), (8, np.float64(0.09783146249378487)), (1, np.float64(-0.09602379963236228))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $286,695.20
+Shares Before: [   0.         -523.47907575  219.24575479 -148.1823324     0.        ]
+Shares After: [   0.         -523.46527832  219.23473907 -148.17941693    0.        ]
+Cash After Trades: $25.08
+Transaction Cost: $143.35
+Cash After Transaction Costs: $-118.27
+
+--- OPTIONS SOLD ---
+Contracts Sold: 69
+Premium Collected: $9,807.62
+Cash After Options: $9,689.35
+  Asset 12: call @ strike 283.58
+  Asset 16: call @ strike 40.68
+  Asset 18: call @ strike 34.97
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[77] to prices[78]
+
+--- END OF PERIOD (t=78) ---
+Stock Values After Market Move: $1,107,314.62
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-18,091.50
+Net Options Income: $-8,283.89
+Cash After Settlement: $-8,402.15
+
+--- FINANCING ---
+Long Positions: $1,478,152.13
+Short Positions: $370,837.51
+Financing Cost/Income: $-344.04
+Cash After Financing: $-8,746.19
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,098,568.43
+Period Return: -4.2239%
+Verification (Stock + Cash): $1,098,568.43
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 43: [78 → 79]
+================================================================================
+
+--- START OF PERIOD (t=78) ---
+Portfolio Value: $1,098,568.43
+Cash: $-8,746.19
+Stock Positions: $1,107,314.62
+Long Positions: $1,478,152.13
+Short Positions: $-370,837.51
+Current Weights (top 5 abs): [(1, np.float64(-0.11465128719402087)), (27, np.float64(0.10911227392119999)), (40, np.float64(0.10783652017256194)), (19, np.float64(0.10608802500845924)), (3, np.float64(-0.10391256666421693))]
+
+Alphas (top 5): [(30, np.float64(0.019047890005675316)), (20, np.float64(0.017602480181404815)), (41, np.float64(0.017217278657705695)), (47, np.float64(0.016261791815181798)), (25, np.float64(0.01564506070060921))]
+Alphas (bottom 5): [(7, np.float64(-0.047455420190619546)), (1, np.float64(-0.034148291331938405)), (43, np.float64(-0.021562007574677057)), (22, np.float64(-0.021546773012115637)), (3, np.float64(-0.019595864578800117))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3003
+Target Short Weight: 0.3004
+Weight Turnover: 0.2501
+Target Weights (top 5 abs): [(1, np.float64(-0.0999833449633325)), (27, np.float64(0.09997460360042915)), (40, np.float64(0.09997391322450248)), (30, np.float64(0.09997371080757922)), (19, np.float64(0.0999727674384097))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $274,776.37
+Shares Before: [   0.         -523.46527832  219.23473907 -148.17941693    0.        ]
+Shares After: [   0.         -456.49561186  219.13765242 -101.08216821    0.        ]
+Cash After Trades: $106.12
+Transaction Cost: $137.39
+Cash After Transaction Costs: $-31.26
+
+--- OPTIONS SOLD ---
+Contracts Sold: 87
+Premium Collected: $9,848.11
+Cash After Options: $9,816.84
+  Asset 2: call @ strike 212.05
+  Asset 8: call @ strike 18.55
+  Asset 23: call @ strike 114.93
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[78] to prices[79]
+
+--- END OF PERIOD (t=79) ---
+Stock Values After Market Move: $1,054,073.50
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-8,953.01
+Net Options Income: $895.10
+Cash After Settlement: $863.83
+
+--- FINANCING ---
+Long Positions: $1,400,847.64
+Short Positions: $346,774.14
+Financing Cost/Income: $-286.82
+Cash After Financing: $577.01
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,054,650.51
+Period Return: -3.9977%
+Verification (Stock + Cash): $1,054,650.51
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 44: [79 → 80]
+================================================================================
+
+--- START OF PERIOD (t=79) ---
+Portfolio Value: $1,054,650.51
+Cash: $577.01
+Stock Positions: $1,054,073.50
+Long Positions: $1,400,847.64
+Short Positions: $-346,774.14
+Current Weights (top 5 abs): [(40, np.float64(0.10871418509852708)), (19, np.float64(0.10693390195340756)), (1, np.float64(-0.10083260346143547)), (48, np.float64(0.09933653551982345)), (27, np.float64(0.09540336506529148))]
+
+Alphas (top 5): [(27, np.float64(0.02560865020511587)), (30, np.float64(0.023952634706252758)), (41, np.float64(0.016556838995590836)), (48, np.float64(0.01517421382958214)), (17, np.float64(0.014595915650402726))]
+Alphas (bottom 5): [(7, np.float64(-0.04953086473084942)), (1, np.float64(-0.025862431951943314)), (33, np.float64(-0.025200425160497263)), (43, np.float64(-0.023573042158274903)), (35, np.float64(-0.020747080107253082))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3001
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(19, np.float64(0.10000478495946843)), (7, np.float64(-0.09999829730550655)), (27, np.float64(0.09999546160152961)), (30, np.float64(0.09999512387565167)), (1, np.float64(-0.09999313875860058))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $263,700.28
+Shares Before: [   0.         -456.49561186  219.13765242 -101.08216821    0.        ]
+Shares After: [   0.         -452.69513523  122.4044777   -27.97150327    0.        ]
+Cash After Trades: $42.05
+Transaction Cost: $131.85
+Cash After Transaction Costs: $-89.80
+
+--- OPTIONS SOLD ---
+Contracts Sold: 92
+Premium Collected: $8,916.51
+Cash After Options: $8,826.71
+  Asset 2: call @ strike 222.14
+  Asset 8: call @ strike 18.77
+  Asset 16: call @ strike 42.41
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[79] to prices[80]
+
+--- END OF PERIOD (t=80) ---
+Stock Values After Market Move: $1,056,962.22
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-18,547.25
+Net Options Income: $-9,630.74
+Cash After Settlement: $-9,720.54
+
+--- FINANCING ---
+Long Positions: $1,384,590.98
+Short Positions: $327,628.76
+Financing Cost/Income: $-313.53
+Cash After Financing: $-10,034.07
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,046,928.15
+Period Return: -0.7322%
+Verification (Stock + Cash): $1,046,928.15
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 45: [80 → 81]
+================================================================================
+
+--- START OF PERIOD (t=80) ---
+Portfolio Value: $1,046,928.15
+Cash: $-10,034.07
+Stock Positions: $1,056,962.22
+Long Positions: $1,384,590.98
+Short Positions: $-327,628.76
+Current Weights (top 5 abs): [(27, np.float64(0.10723950062109615)), (48, np.float64(0.10652021524278811)), (1, np.float64(-0.10540370803377003)), (30, np.float64(0.10342828331517062)), (7, np.float64(-0.10301953113804466))]
+
+Alphas (top 5): [(27, np.float64(0.023378699897867613)), (30, np.float64(0.022223809437014134)), (47, np.float64(0.020823612221904427)), (41, np.float64(0.019578831602238906)), (38, np.float64(0.016971365878519606))]
+Alphas (bottom 5): [(7, np.float64(-0.049435253119967465)), (33, np.float64(-0.030953935456096572)), (43, np.float64(-0.024508006652594207)), (1, np.float64(-0.024141560340344752)), (22, np.float64(-0.01899833492388161))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3001
+Weight Turnover: 0.2502
+Target Weights (top 5 abs): [(8, np.float64(0.10001045108054832)), (48, np.float64(0.10000968636961381)), (27, np.float64(0.1000076396978564)), (19, np.float64(0.10000680713113327)), (30, np.float64(0.10000447711659972))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $261,940.35
+Shares Before: [   0.         -452.69513523  122.4044777   -27.97150327    0.        ]
+Shares After: [   0.         -429.45898576  120.80413251    0.            0.        ]
+Cash After Trades: $120.21
+Transaction Cost: $130.97
+Cash After Transaction Costs: $-10.76
+
+--- OPTIONS SOLD ---
+Contracts Sold: 81
+Premium Collected: $6,660.65
+Cash After Options: $6,649.90
+  Asset 2: call @ strike 253.89
+  Asset 8: call @ strike 19.97
+  Asset 16: call @ strike 40.83
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[80] to prices[81]
+
+--- END OF PERIOD (t=81) ---
+Stock Values After Market Move: $1,054,531.65
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-2,825.13
+Net Options Income: $3,835.52
+Cash After Settlement: $3,824.76
+
+--- FINANCING ---
+Long Positions: $1,357,622.87
+Short Positions: $303,091.22
+Financing Cost/Income: $-243.01
+Cash After Financing: $3,581.75
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,058,113.40
+Period Return: 1.0684%
+Verification (Stock + Cash): $1,058,113.40
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 46: [81 → 82]
+================================================================================
+
+--- START OF PERIOD (t=81) ---
+Portfolio Value: $1,058,113.40
+Cash: $3,581.75
+Stock Positions: $1,054,531.65
+Long Positions: $1,357,622.87
+Short Positions: $-303,091.22
+Current Weights (top 5 abs): [(27, np.float64(0.09955994462212106)), (12, np.float64(0.09908937622647757)), (19, np.float64(0.09898994487559555)), (8, np.float64(0.09772090471010154)), (48, np.float64(0.09621148519142068))]
+
+Alphas (top 5): [(41, np.float64(0.027731043957889362)), (30, np.float64(0.023798608366741452)), (11, np.float64(0.021194582004247554)), (38, np.float64(0.015449311828992555)), (47, np.float64(0.01507056056771781))]
+Alphas (bottom 5): [(7, np.float64(-0.040754916526395034)), (33, np.float64(-0.028069758606776025)), (22, np.float64(-0.02285948878064883)), (43, np.float64(-0.017247926095563502)), (4, np.float64(-0.014223736961132478))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3001
+Target Short Weight: 0.3002
+Weight Turnover: 0.2499
+Target Weights (top 5 abs): [(30, np.float64(0.10000291133767741)), (41, np.float64(0.10000249333510115)), (7, np.float64(-0.09999191320284992)), (27, np.float64(0.09955723862380841)), (19, np.float64(0.09898602833758195))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $264,419.32
+Shares Before: [   0.         -429.45898576  120.80413251    0.            0.        ]
+Shares After: [   0.         -429.41219023  120.78797333    0.            0.        ]
+Cash After Trades: $176.43
+Transaction Cost: $132.21
+Cash After Transaction Costs: $44.22
+
+--- OPTIONS SOLD ---
+Contracts Sold: 28
+Premium Collected: $4,588.24
+Cash After Options: $4,632.46
+  Asset 2: call @ strike 274.22
+  Asset 15: call @ strike 143.80
+  Asset 16: call @ strike 39.94
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[81] to prices[82]
+
+--- END OF PERIOD (t=82) ---
+Stock Values After Market Move: $1,058,650.63
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-4,528.38
+Net Options Income: $59.86
+Cash After Settlement: $104.09
+
+--- FINANCING ---
+Long Positions: $1,385,024.53
+Short Positions: $326,373.89
+Financing Cost/Income: $-271.72
+Cash After Financing: $-167.63
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,058,483.00
+Period Return: 0.0349%
+Verification (Stock + Cash): $1,058,483.00
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 47: [82 → 83]
+================================================================================
+
+--- START OF PERIOD (t=82) ---
+Portfolio Value: $1,058,483.00
+Cash: $-167.63
+Stock Positions: $1,058,650.63
+Long Positions: $1,385,024.53
+Short Positions: $-326,373.89
+Current Weights (top 5 abs): [(7, np.float64(-0.1074537550944688)), (47, np.float64(0.1023466388780752)), (1, np.float64(-0.10220387629263526)), (8, np.float64(0.09991183631259572)), (41, np.float64(0.09915711093122545))]
+
+Alphas (top 5): [(38, np.float64(0.03969632327948662)), (48, np.float64(0.03061645559972726)), (41, np.float64(0.02828171044260715)), (27, np.float64(0.022362080565343882)), (12, np.float64(0.020521471194892303))]
+Alphas (bottom 5): [(43, np.float64(-0.028105403438430324)), (45, np.float64(-0.022715592750286128)), (33, np.float64(-0.022587286195724126)), (0, np.float64(-0.02106953585701056)), (44, np.float64(-0.015115406487072368))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(-0.1)), (38, np.float64(0.1)), (41, np.float64(0.1)), (47, np.float64(0.1)), (48, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $264,620.75
+Shares Before: [   0.         -429.41219023  120.78797333    0.            0.        ]
+Shares After: [   0.         -420.15254783  120.78797333    0.            0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $132.31
+Cash After Transaction Costs: $-132.31
+
+--- OPTIONS SOLD ---
+Contracts Sold: 85
+Premium Collected: $12,286.94
+Cash After Options: $12,154.63
+  Asset 7: put @ strike 86.92
+  Asset 11: call @ strike 20.98
+  Asset 15: call @ strike 142.39
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[82] to prices[83]
+
+--- END OF PERIOD (t=83) ---
+Stock Values After Market Move: $1,070,376.68
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-19,006.38
+Net Options Income: $-6,719.44
+Cash After Settlement: $-6,851.75
+
+--- FINANCING ---
+Long Positions: $1,397,238.81
+Short Positions: $326,862.13
+Financing Cost/Income: $-300.93
+Cash After Financing: $-7,152.68
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,063,224.00
+Period Return: 0.4479%
+Verification (Stock + Cash): $1,063,224.00
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 48: [83 → 84]
+================================================================================
+
+--- START OF PERIOD (t=83) ---
+Portfolio Value: $1,063,224.00
+Cash: $-7,152.68
+Stock Positions: $1,070,376.68
+Long Positions: $1,397,238.81
+Short Positions: $-326,862.13
+Current Weights (top 5 abs): [(47, np.float64(0.10513305530724038)), (38, np.float64(0.10452868130007535)), (41, np.float64(0.10055745812014703)), (1, np.float64(-0.09767025665552723)), (8, np.float64(0.09608236469532498))]
+
+Alphas (top 5): [(28, np.float64(0.035878119545207796)), (38, np.float64(0.030940849823897023)), (7, np.float64(0.02222437182694708)), (1, np.float64(0.02023831641812145)), (12, np.float64(0.019640271730808585))]
+Alphas (bottom 5): [(43, np.float64(-0.02722384073563172)), (45, np.float64(-0.021434626407099623)), (44, np.float64(-0.021127555014765563)), (33, np.float64(-0.019799914264012508)), (20, np.float64(-0.019660007167366995))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2999
+Target Short Weight: 0.2999
+Weight Turnover: 0.2501
+Target Weights (top 5 abs): [(41, np.float64(0.10000633521369141)), (38, np.float64(0.10000099777346268)), (47, np.float64(0.09999793561244961)), (8, np.float64(0.09608344109158728)), (30, np.float64(0.0955807980090288))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $265,855.64
+Shares Before: [   0.         -420.15254783  120.78797333    0.            0.        ]
+Shares After: [   0.         -286.21788843  120.7911135     0.            0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $132.93
+Cash After Transaction Costs: $-132.93
+
+--- OPTIONS SOLD ---
+Contracts Sold: 68
+Premium Collected: $12,195.03
+Cash After Options: $12,062.10
+  Asset 1: put @ strike 247.16
+  Asset 7: put @ strike 88.12
+  Asset 11: call @ strike 21.23
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[83] to prices[84]
+
+--- END OF PERIOD (t=84) ---
+Stock Values After Market Move: $1,055,047.18
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-10,234.90
+Net Options Income: $1,960.13
+Cash After Settlement: $1,827.20
+
+--- FINANCING ---
+Long Positions: $1,387,535.50
+Short Positions: $332,488.32
+Financing Cost/Income: $-272.51
+Cash After Financing: $1,554.70
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,056,601.88
+Period Return: -0.6228%
+Verification (Stock + Cash): $1,056,601.88
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 49: [84 → 85]
+================================================================================
+
+--- START OF PERIOD (t=84) ---
+Portfolio Value: $1,056,601.88
+Cash: $1,554.70
+Stock Positions: $1,055,047.18
+Long Positions: $1,387,535.50
+Short Positions: $-332,488.32
+Current Weights (top 5 abs): [(41, np.float64(0.10896179579746824)), (38, np.float64(0.10583545256187901)), (47, np.float64(0.1041898651326101)), (27, np.float64(0.09630970513393045)), (30, np.float64(0.09534860126003618))]
+
+Alphas (top 5): [(38, np.float64(0.033682734649563194)), (28, np.float64(0.025637155342256586)), (12, np.float64(0.023847212780952216)), (47, np.float64(0.022708691609489406)), (41, np.float64(0.018139487635581982))]
+Alphas (bottom 5): [(35, np.float64(-0.03060968438777406)), (44, np.float64(-0.026743064588361596)), (7, np.float64(-0.02619524439240126)), (33, np.float64(-0.020753931783826517)), (22, np.float64(-0.017162075179325446))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3002
+Target Short Weight: 0.3003
+Weight Turnover: 0.2503
+Target Weights (top 5 abs): [(38, np.float64(0.09999201474928145)), (47, np.float64(0.09999032922754827)), (41, np.float64(0.09998994162246573)), (28, np.float64(0.09998747340884839)), (27, np.float64(0.09630072205340166))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $264,438.62
+Shares Before: [   0.         -286.21788843  120.7911135     0.            0.        ]
+Shares After: [   0.         -286.18223946  120.75760844    0.            0.        ]
+Cash After Trades: $108.55
+Transaction Cost: $132.22
+Cash After Transaction Costs: $-23.67
+
+--- OPTIONS SOLD ---
+Contracts Sold: 57
+Premium Collected: $5,341.53
+Cash After Options: $5,317.86
+  Asset 8: call @ strike 18.76
+  Asset 11: call @ strike 18.00
+  Asset 19: call @ strike 372.94
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[84] to prices[85]
+
+--- END OF PERIOD (t=85) ---
+Stock Values After Market Move: $1,093,440.30
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-10,289.55
+Net Options Income: $-4,948.02
+Cash After Settlement: $-4,971.69
+
+--- FINANCING ---
+Long Positions: $1,402,159.18
+Short Positions: $308,718.88
+Financing Cost/Income: $-277.98
+Cash After Financing: $-5,249.67
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,088,190.63
+Period Return: 2.9897%
+Verification (Stock + Cash): $1,088,190.63
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 50: [85 → 86]
+================================================================================
+
+--- START OF PERIOD (t=85) ---
+Portfolio Value: $1,088,190.63
+Cash: $-5,249.67
+Stock Positions: $1,093,440.30
+Long Positions: $1,402,159.18
+Short Positions: $-308,718.88
+Current Weights (top 5 abs): [(28, np.float64(0.10387542329752196)), (41, np.float64(0.0989488672354611)), (47, np.float64(0.09859879560226917)), (27, np.float64(0.09657271037204854)), (38, np.float64(0.09385836460949103))]
+
+Alphas (top 5): [(38, np.float64(0.02925264388038768)), (28, np.float64(0.023133263937392082)), (47, np.float64(0.020314505417915345)), (16, np.float64(0.01939334162732924)), (36, np.float64(0.017992512604451154))]
+Alphas (bottom 5): [(35, np.float64(-0.024691414565690368)), (44, np.float64(-0.023069512135802602)), (20, np.float64(-0.018519848783877794)), (22, np.float64(-0.017842099839322577)), (45, np.float64(-0.017264643154177268))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3002
+Target Short Weight: 0.3002
+Weight Turnover: 0.2504
+Target Weights (top 5 abs): [(28, np.float64(0.0999889950446009)), (38, np.float64(0.09997295014499133)), (16, np.float64(0.09997229812330277)), (41, np.float64(0.09893497980225202)), (47, np.float64(0.09858512377425138))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $272,527.77
+Shares Before: [   0.         -286.18223946  120.75760844    0.            0.        ]
+Shares After: [  0.           0.         120.72263525   0.           0.        ]
+Cash After Trades: $2.05
+Transaction Cost: $136.26
+Cash After Transaction Costs: $-134.22
+
+--- OPTIONS SOLD ---
+Contracts Sold: 49
+Premium Collected: $7,789.65
+Cash After Options: $7,655.43
+  Asset 8: call @ strike 20.40
+  Asset 11: call @ strike 20.38
+  Asset 17: call @ strike 161.14
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[85] to prices[86]
+
+--- END OF PERIOD (t=86) ---
+Stock Values After Market Move: $1,118,690.79
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-4,802.81
+Net Options Income: $2,986.84
+Cash After Settlement: $2,852.62
+
+--- FINANCING ---
+Long Positions: $1,435,027.47
+Short Positions: $316,336.68
+Financing Cost/Income: $-256.48
+Cash After Financing: $2,596.14
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,121,286.93
+Period Return: 3.0414%
+Verification (Stock + Cash): $1,121,286.93
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 51: [86 → 87]
+================================================================================
+
+--- START OF PERIOD (t=86) ---
+Portfolio Value: $1,121,286.93
+Cash: $2,596.14
+Stock Positions: $1,118,690.79
+Long Positions: $1,435,027.47
+Short Positions: $-316,336.68
+Current Weights (top 5 abs): [(47, np.float64(0.10338049211509986)), (27, np.float64(0.09990471349552983)), (16, np.float64(0.09980671081615215)), (30, np.float64(0.09646583415926456)), (38, np.float64(0.09482339912395257))]
+
+Alphas (top 5): [(12, np.float64(0.028145005761940966)), (38, np.float64(0.022863507445391954)), (47, np.float64(0.022061051994789676)), (27, np.float64(0.021113746665404713)), (28, np.float64(0.020958957599159465))]
+Alphas (bottom 5): [(35, np.float64(-0.031454262808776064)), (20, np.float64(-0.027701610724752555)), (44, np.float64(-0.023642319842233934)), (9, np.float64(-0.021414868339538866)), (11, np.float64(-0.018659987035902305))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(12, np.float64(0.1)), (27, np.float64(0.1)), (35, np.float64(-0.1)), (47, np.float64(0.1)), (16, np.float64(0.09980671081615215))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $280,321.73
+Shares Before: [  0.           0.         120.72263525   0.           0.        ]
+Shares After: [  0.           0.         120.72263525   0.           0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $140.16
+Cash After Transaction Costs: $-140.16
+
+--- OPTIONS SOLD ---
+Contracts Sold: 108
+Premium Collected: $5,012.03
+Cash After Options: $4,871.87
+  Asset 8: call @ strike 18.65
+  Asset 19: call @ strike 367.51
+  Asset 23: call @ strike 108.82
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[86] to prices[87]
+
+--- END OF PERIOD (t=87) ---
+Stock Values After Market Move: $1,129,363.40
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-4,366.24
+Net Options Income: $645.80
+Cash After Settlement: $505.64
+
+--- FINANCING ---
+Long Positions: $1,457,436.31
+Short Positions: $328,072.91
+Financing Cost/Income: $-272.13
+Cash After Financing: $233.51
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,129,596.90
+Period Return: 0.7411%
+Verification (Stock + Cash): $1,129,596.90
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 52: [87 → 88]
+================================================================================
+
+--- START OF PERIOD (t=87) ---
+Portfolio Value: $1,129,596.90
+Cash: $233.51
+Stock Positions: $1,129,363.40
+Long Positions: $1,457,436.31
+Short Positions: $-328,072.91
+Current Weights (top 5 abs): [(27, np.float64(0.10772077739755467)), (16, np.float64(0.1041111699876511)), (38, np.float64(0.10019040608912187)), (12, np.float64(0.0987457002280317)), (30, np.float64(0.09786822977089381))]
+
+Alphas (top 5): [(38, np.float64(0.025300078016691412)), (27, np.float64(0.025075507757325564)), (12, np.float64(0.021883429563857033)), (28, np.float64(0.01550450155285912)), (25, np.float64(0.013005804097570382))]
+Alphas (bottom 5): [(20, np.float64(-0.03939108291631768)), (11, np.float64(-0.039162763464816626)), (45, np.float64(-0.024431898508976358)), (3, np.float64(-0.02297775408451816)), (35, np.float64(-0.02263039499310545))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2999
+Target Short Weight: 0.2999
+Weight Turnover: 0.2502
+Target Weights (top 5 abs): [(38, np.float64(0.10001546685896037)), (27, np.float64(0.10001184794246204)), (16, np.float64(0.10001160689338859)), (12, np.float64(0.10000513283108667)), (28, np.float64(0.10000400775679784))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $282,590.23
+Shares Before: [  0.           0.         120.72263525   0.           0.        ]
+Shares After: [  0.           0.         120.73468114   0.           0.        ]
+Cash After Trades: $0.01
+Transaction Cost: $141.30
+Cash After Transaction Costs: $-141.29
+
+--- OPTIONS SOLD ---
+Contracts Sold: 29
+Premium Collected: $5,369.58
+Cash After Options: $5,228.30
+  Asset 17: call @ strike 162.18
+  Asset 18: call @ strike 45.07
+  Asset 19: call @ strike 351.54
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[87] to prices[88]
+
+--- END OF PERIOD (t=88) ---
+Stock Values After Market Move: $1,131,075.33
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-5,578.78
+Net Options Income: $-209.20
+Cash After Settlement: $-350.48
+
+--- FINANCING ---
+Long Positions: $1,498,243.57
+Short Positions: $367,168.24
+Financing Cost/Income: $-307.43
+Cash After Financing: $-657.92
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,130,417.41
+Period Return: 0.0726%
+Verification (Stock + Cash): $1,130,417.41
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 53: [88 → 89]
+================================================================================
+
+--- START OF PERIOD (t=88) ---
+Portfolio Value: $1,130,417.41
+Cash: $-657.92
+Stock Positions: $1,131,075.33
+Long Positions: $1,498,243.57
+Short Positions: $-367,168.24
+Current Weights (top 5 abs): [(27, np.float64(0.11243930899009284)), (11, np.float64(-0.11054097133149636)), (38, np.float64(0.10714140621831673)), (28, np.float64(0.10570436259870988)), (12, np.float64(0.0995309412610663))]
+
+Alphas (top 5): [(27, np.float64(0.030736345828760014)), (7, np.float64(0.028868925008819823)), (48, np.float64(0.02667053094524714)), (38, np.float64(0.021578189460054124)), (1, np.float64(0.02067617404975994))]
+Alphas (bottom 5): [(20, np.float64(-0.03305063758692266)), (45, np.float64(-0.03182894765272993)), (3, np.float64(-0.021164334762554773)), (19, np.float64(-0.01996121804378237)), (44, np.float64(-0.017358101448300346))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(11, np.float64(-0.1)), (27, np.float64(0.1)), (28, np.float64(0.1)), (38, np.float64(0.1)), (12, np.float64(0.0995309412610663))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $282,604.35
+Shares Before: [  0.           0.         120.73468114   0.           0.        ]
+Shares After: [  0.           0.         120.73468114   0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $141.30
+Cash After Transaction Costs: $-141.30
+
+--- OPTIONS SOLD ---
+Contracts Sold: 83
+Premium Collected: $11,070.65
+Cash After Options: $10,929.35
+  Asset 16: call @ strike 46.39
+  Asset 17: call @ strike 154.82
+  Asset 18: call @ strike 47.73
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[88] to prices[89]
+
+--- END OF PERIOD (t=89) ---
+Stock Values After Market Move: $1,127,706.19
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-5,420.33
+Net Options Income: $5,650.32
+Cash After Settlement: $5,509.02
+
+--- FINANCING ---
+Long Positions: $1,479,041.89
+Short Positions: $351,335.70
+Financing Cost/Income: $-279.01
+Cash After Financing: $5,230.01
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,132,936.21
+Period Return: 0.2228%
+Verification (Stock + Cash): $1,132,936.21
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 54: [89 → 90]
+================================================================================
+
+--- START OF PERIOD (t=89) ---
+Portfolio Value: $1,132,936.21
+Cash: $5,230.01
+Stock Positions: $1,127,706.19
+Long Positions: $1,479,041.89
+Short Positions: $-351,335.70
+Current Weights (top 5 abs): [(27, np.float64(0.10659274401569321)), (11, np.float64(-0.10339444895042739)), (12, np.float64(0.1020672902973153)), (28, np.float64(0.09852441330139886)), (48, np.float64(0.09744817132293428))]
+
+Alphas (top 5): [(27, np.float64(0.03729906071540099)), (38, np.float64(0.026713276506064344)), (12, np.float64(0.023741936995872202)), (25, np.float64(0.016730129191912243)), (41, np.float64(0.012605690913241947))]
+Alphas (bottom 5): [(35, np.float64(-0.04211272292483424)), (44, np.float64(-0.015909381389432944)), (0, np.float64(-0.015164597277514371)), (11, np.float64(-0.014889197270047661)), (3, np.float64(-0.014130872575729996))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3002
+Target Short Weight: 0.3004
+Weight Turnover: 0.2502
+Target Weights (top 5 abs): [(27, np.float64(0.09998914896211203)), (12, np.float64(0.09998883904178682)), (38, np.float64(0.09998740975163228)), (25, np.float64(0.09998713891635683)), (11, np.float64(-0.09997825250353506))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $283,466.48
+Shares Before: [  0.           0.         120.73468114   0.           0.        ]
+Shares After: [  0.           0.         120.70367847   0.           0.        ]
+Cash After Trades: $250.00
+Transaction Cost: $141.73
+Cash After Transaction Costs: $108.27
+
+--- OPTIONS SOLD ---
+Contracts Sold: 137
+Premium Collected: $9,416.96
+Cash After Options: $9,525.23
+  Asset 7: call @ strike 86.50
+  Asset 8: call @ strike 24.22
+  Asset 18: call @ strike 48.57
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[89] to prices[90]
+
+--- END OF PERIOD (t=90) ---
+Stock Values After Market Move: $1,121,928.40
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-14,959.43
+Net Options Income: $-5,542.47
+Cash After Settlement: $-5,434.20
+
+--- FINANCING ---
+Long Positions: $1,461,137.68
+Short Positions: $339,209.27
+Financing Cost/Income: $-305.32
+Cash After Financing: $-5,739.52
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,116,188.88
+Period Return: -1.4782%
+Verification (Stock + Cash): $1,116,188.88
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 55: [90 → 91]
+================================================================================
+
+--- START OF PERIOD (t=90) ---
+Portfolio Value: $1,116,188.88
+Cash: $-5,739.52
+Stock Positions: $1,121,928.40
+Long Positions: $1,461,137.68
+Short Positions: $-339,209.27
+Current Weights (top 5 abs): [(25, np.float64(0.10424356657979181)), (35, np.float64(-0.10339035199915049)), (28, np.float64(0.10078432066502917)), (11, np.float64(-0.10003328533450656)), (12, np.float64(0.09933309815059355))]
+
+Alphas (top 5): [(25, np.float64(0.029426368109795785)), (27, np.float64(0.028171857410450266)), (41, np.float64(0.027987001806267037)), (38, np.float64(0.024758024052208186)), (12, np.float64(0.021538145540181717))]
+Alphas (bottom 5): [(1, np.float64(-0.033277013370784966)), (35, np.float64(-0.029757782945357195)), (34, np.float64(-0.019841467184755723)), (0, np.float64(-0.017560146080946727)), (44, np.float64(-0.016291276169906138))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3001
+Target Short Weight: 0.3004
+Weight Turnover: 0.2501
+Target Weights (top 5 abs): [(25, np.float64(0.09999447571408955)), (12, np.float64(0.09999424474645575)), (41, np.float64(0.09999333762444008)), (38, np.float64(0.09999024197795543)), (27, np.float64(0.09998837709318062))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $279,120.82
+Shares Before: [  0.           0.         120.70367847   0.           0.        ]
+Shares After: [   0.         -498.24858078   65.02204321    0.            0.        ]
+Cash After Trades: $268.41
+Transaction Cost: $139.56
+Cash After Transaction Costs: $128.85
+
+--- OPTIONS SOLD ---
+Contracts Sold: 33
+Premium Collected: $6,362.72
+Cash After Options: $6,491.57
+  Asset 7: call @ strike 75.70
+  Asset 18: call @ strike 51.80
+  Asset 30: call @ strike 163.23
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[90] to prices[91]
+
+--- END OF PERIOD (t=91) ---
+Stock Values After Market Move: $1,121,926.10
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-2,518.57
+Net Options Income: $3,844.15
+Cash After Settlement: $3,973.00
+
+--- FINANCING ---
+Long Positions: $1,449,843.55
+Short Positions: $327,917.45
+Financing Cost/Income: $-263.33
+Cash After Financing: $3,709.67
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,125,635.77
+Period Return: 0.8464%
+Verification (Stock + Cash): $1,125,635.77
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 56: [91 → 92]
+================================================================================
+
+--- START OF PERIOD (t=91) ---
+Portfolio Value: $1,125,635.77
+Cash: $3,709.67
+Stock Positions: $1,121,926.10
+Long Positions: $1,449,843.55
+Short Positions: $-327,917.45
+Current Weights (top 5 abs): [(12, np.float64(0.1063511561467901)), (38, np.float64(0.10423609046284418)), (35, np.float64(-0.10417261496613123)), (28, np.float64(0.10111048725601306)), (27, np.float64(0.09940241901157477))]
+
+Alphas (top 5): [(27, np.float64(0.03643067355513259)), (41, np.float64(0.026155283825967397)), (25, np.float64(0.023745791302576758)), (36, np.float64(0.017454911777009613)), (33, np.float64(0.017296846074168495))]
+Alphas (bottom 5): [(3, np.float64(-0.02778739755767119)), (31, np.float64(-0.024229912978763993)), (17, np.float64(-0.020986396481518028)), (35, np.float64(-0.015696831889369392)), (19, np.float64(-0.015072946633003194))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(27, np.float64(0.10000757345337243)), (35, np.float64(-0.1000041627204899)), (38, np.float64(0.09999888911465972)), (41, np.float64(0.09999303624517408)), (25, np.float64(0.09999228898841171))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $281,403.99
+Shares Before: [   0.         -498.24858078   65.02204321    0.            0.        ]
+Shares After: [   0.         -214.11478521   65.02070891  -94.83994098    0.        ]
+Cash After Trades: $-0.68
+Transaction Cost: $140.70
+Cash After Transaction Costs: $-141.38
+
+--- OPTIONS SOLD ---
+Contracts Sold: 12
+Premium Collected: $4,605.27
+Cash After Options: $4,463.89
+  Asset 1: put @ strike 192.17
+  Asset 28: call @ strike 106.72
+  Asset 30: call @ strike 155.12
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[91] to prices[92]
+
+--- END OF PERIOD (t=92) ---
+Stock Values After Market Move: $1,112,105.09
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-14,490.38
+Net Options Income: $-9,885.11
+Cash After Settlement: $-10,026.49
+
+--- FINANCING ---
+Long Positions: $1,460,436.34
+Short Positions: $348,331.26
+Financing Cost/Income: $-332.05
+Cash After Financing: $-10,358.54
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,101,746.54
+Period Return: -2.1223%
+Verification (Stock + Cash): $1,101,746.54
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 57: [92 → 93]
+================================================================================
+
+--- START OF PERIOD (t=92) ---
+Portfolio Value: $1,101,746.54
+Cash: $-10,358.54
+Stock Positions: $1,112,105.09
+Long Positions: $1,460,436.34
+Short Positions: $-348,331.26
+Current Weights (top 5 abs): [(35, np.float64(-0.10671476292845009)), (38, np.float64(0.10362033305083919)), (25, np.float64(0.10170041606025025)), (27, np.float64(0.09725890087564391)), (48, np.float64(0.09671634606197801))]
+
+Alphas (top 5): [(27, np.float64(0.03718883387375638)), (47, np.float64(0.02365047100460472)), (16, np.float64(0.022633415315139037)), (1, np.float64(0.021404843717095137)), (12, np.float64(0.019705687787685996))]
+Alphas (bottom 5): [(35, np.float64(-0.03612645304904852)), (39, np.float64(-0.0175228514905139)), (17, np.float64(-0.017509337490513734)), (48, np.float64(-0.014415782054190803)), (46, np.float64(-0.014242288846343865))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(16, np.float64(0.1)), (25, np.float64(0.1)), (27, np.float64(0.1)), (35, np.float64(-0.1)), (38, np.float64(0.1))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $275,436.64
+Shares Before: [   0.         -214.11478521   65.02070891  -94.83994098    0.        ]
+Shares After: [  0.         328.62916229  65.02070891 -94.83994098   0.        ]
+Cash After Trades: $0.00
+Transaction Cost: $137.72
+Cash After Transaction Costs: $-137.72
+
+--- OPTIONS SOLD ---
+Contracts Sold: 37
+Premium Collected: $4,705.98
+Cash After Options: $4,568.27
+  Asset 8: call @ strike 21.28
+  Asset 18: call @ strike 55.36
+  Asset 30: call @ strike 168.87
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[92] to prices[93]
+
+--- END OF PERIOD (t=93) ---
+Stock Values After Market Move: $1,142,325.47
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-2,557.66
+Net Options Income: $2,148.33
+Cash After Settlement: $2,010.61
+
+--- FINANCING ---
+Long Positions: $1,448,449.61
+Short Positions: $306,124.14
+Financing Cost/Income: $-250.08
+Cash After Financing: $1,760.53
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,144,086.00
+Period Return: 3.8429%
+Verification (Stock + Cash): $1,144,086.00
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 58: [93 → 94]
+================================================================================
+
+--- START OF PERIOD (t=93) ---
+Portfolio Value: $1,144,086.00
+Cash: $1,760.53
+Stock Positions: $1,142,325.47
+Long Positions: $1,448,449.61
+Short Positions: $-306,124.14
+Current Weights (top 5 abs): [(47, np.float64(0.09914347099234526)), (27, np.float64(0.09757252179064399)), (25, np.float64(0.09744030534393804)), (38, np.float64(0.09743392268098336)), (16, np.float64(0.09526300435278093))]
+
+Alphas (top 5): [(1, np.float64(0.030299510809323055)), (27, np.float64(0.028789962338425935)), (47, np.float64(0.027500874066258146)), (41, np.float64(0.023718415068278827)), (2, np.float64(0.021679623644827777))]
+Alphas (bottom 5): [(35, np.float64(-0.02982089141207943)), (9, np.float64(-0.028039298772079547)), (39, np.float64(-0.018507307647531824)), (20, np.float64(-0.017589730502143828)), (46, np.float64(-0.014862569669445333))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(1, np.float64(0.1)), (27, np.float64(0.1)), (41, np.float64(0.1)), (47, np.float64(0.1)), (38, np.float64(0.09743392268098336))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $286,021.50
+Shares Before: [  0.         328.62916229  65.02070891 -94.83994098   0.        ]
+Shares After: [  0.         612.29368647  75.54927658   0.           0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $143.01
+Cash After Transaction Costs: $-143.01
+
+--- OPTIONS SOLD ---
+Contracts Sold: 68
+Premium Collected: $12,145.54
+Cash After Options: $12,002.53
+  Asset 8: call @ strike 20.42
+  Asset 15: call @ strike 167.11
+  Asset 18: call @ strike 56.02
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[93] to prices[94]
+
+--- END OF PERIOD (t=94) ---
+Stock Values After Market Move: $1,182,107.73
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-29,746.87
+Net Options Income: $-17,601.33
+Cash After Settlement: $-17,744.34
+
+--- FINANCING ---
+Long Positions: $1,534,564.46
+Short Positions: $352,456.72
+Financing Cost/Income: $-367.65
+Cash After Financing: $-18,111.99
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,163,995.74
+Period Return: 1.7402%
+Verification (Stock + Cash): $1,163,995.74
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 59: [94 → 95]
+================================================================================
+
+--- START OF PERIOD (t=94) ---
+Portfolio Value: $1,163,995.74
+Cash: $-18,111.99
+Stock Positions: $1,182,107.73
+Long Positions: $1,534,564.46
+Short Positions: $-352,456.72
+Current Weights (top 5 abs): [(38, np.float64(0.109293970616074)), (16, np.float64(0.10706879417701624)), (47, np.float64(0.10263147208297392)), (12, np.float64(0.10133451674850717)), (1, np.float64(0.09699293643640607))]
+
+Alphas (top 5): [(3, np.float64(0.027265517601076626)), (41, np.float64(0.02196243867006282)), (2, np.float64(0.020117475564679275)), (47, np.float64(0.019861301773063077)), (7, np.float64(0.016821654499655014))]
+Alphas (bottom 5): [(25, np.float64(-0.035624647510763545)), (9, np.float64(-0.024983017317018883)), (30, np.float64(-0.023030906849531532)), (39, np.float64(-0.021730783182669213)), (38, np.float64(-0.019805976358892474))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.2998
+Target Short Weight: 0.2998
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(3, np.float64(0.10000054019312975)), (12, np.float64(0.10000051982824373)), (41, np.float64(0.10000034929114318)), (47, np.float64(0.09999953516206782)), (16, np.float64(0.09999893214693309))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $291,005.94
+Shares Before: [  0.         612.29368647  75.54927658   0.           0.        ]
+Shares After: [  0.         612.29285627  85.92120005 151.47289532   0.        ]
+Cash After Trades: $-0.55
+Transaction Cost: $145.50
+Cash After Transaction Costs: $-146.06
+
+--- OPTIONS SOLD ---
+Contracts Sold: 33
+Premium Collected: $7,939.20
+Cash After Options: $7,793.14
+  Asset 15: call @ strike 169.61
+  Asset 18: call @ strike 53.60
+  Asset 20: put @ strike 368.06
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[94] to prices[95]
+
+--- END OF PERIOD (t=95) ---
+Stock Values After Market Move: $1,173,839.64
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-11,426.65
+Net Options Income: $-3,487.45
+Cash After Settlement: $-3,633.51
+
+--- FINANCING ---
+Long Positions: $1,507,494.79
+Short Positions: $333,655.15
+Financing Cost/Income: $-293.19
+Cash After Financing: $-3,926.70
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,169,912.95
+Period Return: 0.5084%
+Verification (Stock + Cash): $1,169,912.95
+Discrepancy: $0.00e+00
+
+================================================================================
+PERIOD 60: [95 → 96]
+================================================================================
+
+--- START OF PERIOD (t=95) ---
+Portfolio Value: $1,169,912.95
+Cash: $-3,926.70
+Stock Positions: $1,173,839.64
+Long Positions: $1,507,494.79
+Short Positions: $-333,655.15
+Current Weights (top 5 abs): [(12, np.float64(0.100385126820204)), (3, np.float64(0.10012787061954252)), (27, np.float64(0.09623038138958899)), (16, np.float64(0.09611950930106175)), (1, np.float64(0.09608492993774262))]
+
+Alphas (top 5): [(11, np.float64(0.035885653185366476)), (2, np.float64(0.03179672905989094)), (34, np.float64(0.031702954511599914)), (27, np.float64(0.021593097781526696)), (7, np.float64(0.021572851070001797))]
+Alphas (bottom 5): [(38, np.float64(-0.03943360264669589)), (25, np.float64(-0.024890444593250124)), (30, np.float64(-0.020923494830573028)), (31, np.float64(-0.018868965472459902)), (39, np.float64(-0.018609540419423944))]
+
+Optimization: WITH TURNOVER CONSTRAINT
+Target Long Weight: 1.3000
+Target Short Weight: 0.3000
+Weight Turnover: 0.2500
+Target Weights (top 5 abs): [(3, np.float64(0.10000000000000003)), (12, np.float64(0.10000000000000003)), (27, np.float64(0.09623038138958902)), (16, np.float64(0.09611950930106178)), (1, np.float64(0.09608492993774265))]
+
+--- STOCK TRADES ---
+Trade Dollars (total): $292,478.24
+Shares Before: [  0.         612.29285627  85.92120005 151.47289532   0.        ]
+Shares After: [  0.         612.29285627  85.92120005 151.27945334   0.        ]
+Cash After Trades: $-0.00
+Transaction Cost: $146.24
+Cash After Transaction Costs: $-146.24
+
+--- OPTIONS SOLD ---
+Contracts Sold: 96
+Premium Collected: $14,604.18
+Cash After Options: $14,457.94
+  Asset 3: call @ strike 773.35
+  Asset 9: put @ strike 38.10
+  Asset 15: call @ strike 165.19
+
+--- HOLD DURING PERIOD ---
+Market moves from prices[95] to prices[96]
+
+--- END OF PERIOD (t=96) ---
+Stock Values After Market Move: $1,164,003.16
+
+--- OPTIONS SETTLEMENT ---
+Settlement Cost: $-4,655.73
+Net Options Income: $9,948.45
+Cash After Settlement: $9,802.21
+
+--- FINANCING ---
+Long Positions: $1,524,048.83
+Short Positions: $360,045.68
+Financing Cost/Income: $-275.53
+Cash After Financing: $9,526.68
+
+--- PERIOD SUMMARY ---
+Portfolio Value End: $1,173,529.83
+Period Return: 0.3092%
+Verification (Stock + Cash): $1,173,529.83
+Discrepancy: $0.00e+00
