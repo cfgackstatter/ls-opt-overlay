@@ -138,8 +138,8 @@ function App() {
     const d = mcData.distributions[key];
     if (!d) return { main: '-', detail: '' };
 
-    const main = `${d.median.toFixed(2)}%`;
-    const detail = `mean ${d.mean.toFixed(2)}%, p25 ${d.p25.toFixed(
+    const main = `${d.mean.toFixed(2)}%`;
+    const detail = `median ${d.median.toFixed(2)}%, p25 ${d.p25.toFixed(
       2,
     )}%, p75 ${d.p75.toFixed(2)}%`;
 
