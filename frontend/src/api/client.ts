@@ -40,6 +40,7 @@ export interface SimulationParams {
   financing: FinancingParams;
   strategy: StrategyParams;
   options: OptionsParams;
+  n_sims: number;
 }
 
 // StrategyResult now only describes one portfolio stream

@@ -1,171 +1,61 @@
+# options.py
 import numpy as np
 from scipy.stats import norm
 
 SHARES_PER_CONTRACT = 100
+T = 1.0 / 12.0  # 1-month expiry
 
-
-def black_scholes_call(S: float, K: float, T: float, r: float, sigma: float) -> float:
-    """Black-Scholes call option price"""
-    if T <= 0:
-        return max(S - K, 0)
-    
-    d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+def _bs_price(S, K, T, r, sigma, is_call: bool) -> np.ndarray:
+    """Vectorized Black-Scholes for arrays of S, K, sigma."""
+    with np.errstate(divide="ignore", invalid="ignore"):
+        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
     d2 = d1 - sigma * np.sqrt(T)
-    
-    call_price = S * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
-    return call_price
+    if is_call:
+        return np.where(T > 0, S * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2), np.maximum(S - K, 0))
+    return np.where(T > 0, K * np.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1), np.maximum(K - S, 0))
 
-
-def black_scholes_put(S: float, K: float, T: float, r: float, sigma: float) -> float:
-    """Black-Scholes put option price"""
-    if T <= 0:
-        return max(K - S, 0)
-    
-    d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
-    d2 = d1 - sigma * np.sqrt(T)
-    
-    put_price = K * np.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
-    return put_price
-
-
-def sell_options_overlay(
-    shares: np.ndarray,
-    prices: np.ndarray,
-    alphas: np.ndarray,
-    cov_matrix: np.ndarray,
-    call_otm_pct: float,
-    put_otm_pct: float,
-    call_alpha_barrier: float,
-    put_alpha_barrier: float,
-    risk_free_rate: float,
-    contract_fee: float,
-    spread_bps: float
-) -> dict:
-    """
-    Sell options on positions where alpha conditions are met
-    
-    Returns dict with:
-    - premium_collected: Total cash received
-    - option_positions: List of sold options for settlement
-    - num_contracts: Total contracts sold
-    """
-    n_assets = len(shares)
-    premium_collected = 0.0
-    option_positions = []
-    num_contracts = 0
-    
-    # Extract asset-specific volatilities (annualized)
+def sell_options_overlay(shares, prices, alphas, cov_matrix,
+                         call_otm_pct, put_otm_pct, call_alpha_barrier,
+                         put_alpha_barrier, risk_free_rate, contract_fee, spread_bps) -> dict:
     asset_vols = np.sqrt(np.diag(cov_matrix)) * np.sqrt(12)
-    
-    T = 1.0 / 12.0  # 1 month to expiry
-    
-    for i in range(n_assets):
-        if shares[i] == 0:
-            continue
-        
-        spot = prices[i]
-        vol = asset_vols[i]
-        alpha = alphas[i]
-        
-        # Long positions: sell calls if alpha < barrier
-        if shares[i] > 0 and alpha < call_alpha_barrier:
-            # Number of contracts (round down to whole contracts)
-            n_contracts = int(abs(shares[i]) / SHARES_PER_CONTRACT)
-            
-            if n_contracts > 0:
-                # Call strike
-                strike = spot * (1 + call_otm_pct / 100)
-                
-                # BS price per share
-                call_price_per_share = black_scholes_call(spot, strike, T, risk_free_rate, vol)
-                
-                # Total premium for all contracts (100 shares each)
-                gross_premium = call_price_per_share * n_contracts * SHARES_PER_CONTRACT
-                
-                # Transaction costs
-                total_contract_fees = n_contracts * contract_fee
-                spread_cost = gross_premium * (spread_bps / 10000)
-                
-                net_premium = gross_premium - total_contract_fees - spread_cost
-                premium_collected += net_premium
-                
-                option_positions.append({
-                    'asset_idx': i,
-                    'type': 'call',
-                    'contracts': n_contracts,
-                    'strike': strike,
-                    'spot_at_sale': spot
-                })
-                num_contracts += n_contracts
-        
-        # Short positions: sell puts if alpha > barrier (less negative alpha)
-        elif shares[i] < 0 and alpha > put_alpha_barrier:
-            n_contracts = int(abs(shares[i]) / SHARES_PER_CONTRACT)
-            
-            if n_contracts > 0:
-                # Put strike
-                strike = spot * (1 - put_otm_pct / 100)
-                
-                # BS price per share
-                put_price_per_share = black_scholes_put(spot, strike, T, risk_free_rate, vol)
-                
-                # Total premium
-                gross_premium = put_price_per_share * n_contracts * SHARES_PER_CONTRACT
-                
-                # Transaction costs
-                total_contract_fees = n_contracts * contract_fee
-                spread_cost = gross_premium * (spread_bps / 10000)
-                
-                net_premium = gross_premium - total_contract_fees - spread_cost
-                premium_collected += net_premium
-                
-                option_positions.append({
-                    'asset_idx': i,
-                    'type': 'put',
-                    'contracts': n_contracts,
-                    'strike': strike,
-                    'spot_at_sale': spot
-                })
-                num_contracts += n_contracts
-    
-    return {
-        'premium_collected': premium_collected,
-        'option_positions': option_positions,
-        'num_contracts': num_contracts
-    }
+    n_contracts = (np.abs(shares) // SHARES_PER_CONTRACT).astype(int)
 
+    call_mask = (shares > 0) & (alphas < call_alpha_barrier) & (n_contracts > 0)
+    put_mask  = (shares < 0) & (alphas > put_alpha_barrier)  & (n_contracts > 0)
+
+    option_positions, premium_collected = [], 0.0
+
+    for mask, is_call, otm_pct in [(call_mask, True, call_otm_pct), (put_mask, False, put_otm_pct)]:
+        idxs = np.where(mask)[0]
+        if not len(idxs):
+            continue
+        S = prices[idxs]
+        strike_mult = (1 + otm_pct) if is_call else (1 - otm_pct)
+        K = S * strike_mult
+        option_price = _bs_price(S, K, T, risk_free_rate, asset_vols[idxs], is_call)
+        nc = n_contracts[idxs]
+        gross = option_price * nc * SHARES_PER_CONTRACT
+        net = gross * (1 - spread_bps / 10000) - nc * contract_fee
+        premium_collected += net.sum()
+        option_positions += [
+            {"asset_idx": int(i), "type": "call" if is_call else "put",
+             "contracts": int(c), "strike": float(k), "spot_at_sale": float(s)}
+            for i, c, k, s in zip(idxs, nc, K, S)
+        ]
+
+    return {"premium_collected": premium_collected,
+            "option_positions": option_positions,
+            "num_contracts": sum(p["contracts"] for p in option_positions)}
 
 def settle_options(option_positions: list[dict], expiry_prices: np.ndarray,
                    contract_fee: float, spread_bps: float) -> float:
-    """
-    Cash-settle expired options
-    
-    Returns net cash flow (premium already collected, this is the settlement cost)
-    """
-    total_settlement = 0.0
-    
-    for position in option_positions:
-        asset_idx = position['asset_idx']
-        strike = position['strike']
-        n_contracts = position['contracts']
-        expiry_price = expiry_prices[asset_idx]
-        
-        if position['type'] == 'call':
-            # Intrinsic value of call at expiry
-            intrinsic = max(0, expiry_price - strike)
-        else:  # put
-            intrinsic = max(0, strike - expiry_price)
-        
+    if not option_positions:
+        return 0.0
+    total = 0.0
+    for p in option_positions:
+        price = expiry_prices[p["asset_idx"]]
+        intrinsic = max(0, price - p["strike"]) if p["type"] == "call" else max(0, p["strike"] - price)
         if intrinsic > 0:
-            # We have to buy back at intrinsic value
-            gross_cost = intrinsic * n_contracts * SHARES_PER_CONTRACT
-            
-            # Transaction costs for closing
-            total_contract_fees = n_contracts * contract_fee
-            spread_cost = gross_cost * (spread_bps / 10000)
-            
-            total_cost = gross_cost + total_contract_fees + spread_cost
-            total_settlement += total_cost
-    
-    # Return negative (cost to us)
-    return -total_settlement
+            gross = intrinsic * p["contracts"] * SHARES_PER_CONTRACT
+            total += gross * (1 + spread_bps / 10000) + p["contracts"] * contract_fee
+    return -total

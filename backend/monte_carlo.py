@@ -42,6 +42,12 @@ def _compute_cum_returns(returns_pct: List[float]) -> np.ndarray:
     cum = np.cumprod(1 + r) - 1
     return np.concatenate([[0.0], cum])
 
+def _max_dd(rets_pct: list[float]) -> float:
+    rets = np.asarray(rets_pct) / 100.0
+    if not len(rets): return 0.0
+    cum = np.cumprod(1 + rets)
+    return float((cum / np.maximum.accumulate(cum) - 1).min() * 100.0)
+
 def _run_single_sim(args: Tuple[Dict, int]) -> Dict[str, object] | None:
     """
     Worker: one simulation with a unique seed.
@@ -56,15 +62,6 @@ def _run_single_sim(args: Tuple[Dict, int]) -> Dict[str, object] | None:
         overlay = sim.with_options
         bench = sim.benchmark
 
-        # Max drawdown from cumulative returns
-        def _max_dd(rets_pct: List[float]) -> float:
-            rets = np.array(rets_pct) / 100.0
-            if len(rets) == 0:
-                return 0.0
-            cum = np.cumprod(1 + rets)
-            roll_max = np.maximum.accumulate(cum)
-            dd = (cum - roll_max) / roll_max
-            return float(dd.min() * 100.0)
 
         # Scalar metrics
         metrics = {
@@ -98,17 +95,12 @@ def _run_single_sim(args: Tuple[Dict, int]) -> Dict[str, object] | None:
         return None
 
 def _distribution(values: np.ndarray) -> MonteCarloDistribution:
-    """Compute simple distribution stats for one metric."""
+    p5, p25, p75, p95 = np.percentile(values, [5, 25, 75, 95])  # single call
     return MonteCarloDistribution(
-        mean=float(np.mean(values)),
-        median=float(np.median(values)),
-        std=float(np.std(values)),
-        p5=float(np.percentile(values, 5)),
-        p25=float(np.percentile(values, 25)),
-        p75=float(np.percentile(values, 75)),
-        p95=float(np.percentile(values, 95)),
-        min=float(np.min(values)),
-        max=float(np.max(values)),
+        mean=float(values.mean()), median=float(np.median(values)),
+        std=float(values.std()), p5=float(p5), p25=float(p25),
+        p75=float(p75), p95=float(p95),
+        min=float(values.min()), max=float(values.max()),
     )
 
 def run_monte_carlo(mc_params: MonteCarloParams) -> MonteCarloResult:

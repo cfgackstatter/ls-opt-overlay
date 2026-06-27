@@ -16,90 +16,69 @@ import {
 } from 'recharts';
 import './App.css';
 
-const defaultParams: SimulationParams = {
-  universe: {
-    n_assets: 50,
-    mean_return: 6.0,
-    volatility: 20.0,
-    ic: 0.1,
-    factor_autocorr: 0.8,
-  },
-  financing: {
-    cash_rate: 3.0,
-    margin_rate: 5.0,
-    borrow_fee: 1.0,
-  },
-  strategy: {
-    strategy_length: 60,
-    risk_aversion: 4.0,
-    long_weight: 100.0,
-    short_weight: 100.0,
-    turnover_limit: 15.0,
-    max_weight: 10.0,
-    lookback: 36,
-    transaction_cost_bps: 5.0,
-  },
-  options: {
-    enabled: true, // backend always runs base + overlay; this just passes the overlay params
-    call_otm_pct: 0.0,
-    put_otm_pct: 0.0,
-    call_alpha_barrier: -0.1,
-    put_alpha_barrier: 0.1,
-    contract_fee: 0.65,
-    spread_bps: 100.0,
-  },
-};
+// Fields that need % ↔ decimal conversion.
+// transaction_cost_bps, spread_bps, contract_fee, n_assets, lookback,
+// strategy_length, risk_aversion, factor_autocorr, ic, n_sims are NOT converted.
+const PCT_FIELDS = new Set([
+  'mean_return', 'volatility',
+  'cash_rate', 'margin_rate', 'borrow_fee',
+  'long_weight', 'short_weight', 'turnover_limit', 'max_weight',
+  'call_otm_pct', 'put_otm_pct', 'call_alpha_barrier', 'put_alpha_barrier',
+]);
+
+// Frontend display percent → backend decimal
+function toApiParams(p: SimulationParams): SimulationParams {
+  return p;  // state is already in backend decimal format
+}
 
 function App() {
-  const [params, setParams] = useState<SimulationParams>(defaultParams);
+  const [params, setParams] = useState<SimulationParams | null>(null);
   const [showUniverse, setShowUniverse] = useState(false);
   const [showFinancing, setShowFinancing] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
-  const [nSims, setNSims] = useState(10);
   const [mcTrigger, setMcTrigger] = useState(0);
+  const [nSims, setNSims] = useState(10);
 
+  // Fetch defaults from backend on mount — models.py is the single source of truth
+  React.useEffect(() => {
+    fetch('/defaults')
+      .then(r => {
+        if (!r.ok) throw new Error(`/defaults returned ${r.status}`);
+        return r.json();
+      })
+      .then((data: SimulationParams) => setParams(data))
+      .catch(err => console.error('Failed to load defaults:', err));
+  }, []);
+
+  // useQuery must be called unconditionally — before any early return
   const {
     data: mcData,
     isLoading: isMcLoading,
     error: mcError,
   } = useQuery<MonteCarloResult>({
     queryKey: ['monte_carlo', mcTrigger],
-    queryFn: () =>
-      runMonteCarlo({
-        simulation_params: params,
-        n_sims: nSims,
-      }),
-    enabled: mcTrigger > 0,
+    queryFn: () => runMonteCarlo({ simulation_params: toApiParams(params!), n_sims: nSims }),
+    enabled: mcTrigger > 0 && params !== null,  // never fires while params is null
     refetchOnWindowFocus: false,
     staleTime: Infinity,
   });
 
+  // Safe to early-return after all hooks have been called
+  if (!params) return <div>Loading...</div>;
+
+  const toDecimal = (key: string, v: number) => PCT_FIELDS.has(key) ? v * 0.01 : v;
+
   const handleUniverseChange = (key: string, value: number) => {
-    setParams(prev => ({
-      ...prev,
-      universe: { ...prev.universe, [key]: value },
-    }));
+    setParams(prev => ({ ...prev!, universe: { ...prev!.universe, [key]: toDecimal(key, value) } }));
   };
-
   const handleFinancingChange = (key: string, value: number) => {
-    setParams(prev => ({
-      ...prev,
-      financing: { ...prev.financing, [key]: value },
-    }));
+    setParams(prev => ({ ...prev!, financing: { ...prev!.financing, [key]: toDecimal(key, value) } }));
   };
-
   const handleStrategyChange = (key: string, value: number) => {
-    setParams(prev => ({
-      ...prev,
-      strategy: { ...prev.strategy, [key]: value },
-    }));
+    setParams(prev => ({ ...prev!, strategy: { ...prev!.strategy, [key]: toDecimal(key, value) } }));
   };
-
   const handleOptionsChange = (key: string, value: number) => {
-    setParams(prev => ({
-      ...prev,
-      options: { ...prev.options, [key]: value },
-    }));
+    setParams(prev => ({ ...prev!, options: { ...prev!.options, [key]: toDecimal(key, value) } }));
   };
 
   // Strategy performance chart data: base vs overlay vs benchmark
@@ -196,15 +175,15 @@ function App() {
               />
               <ParamInputWithTooltip
                 label="Mean Return (%)"
-                value={params.universe.mean_return}
-                step={0.5}
+                value={params.universe.mean_return * 100}
+                step={0.1}
                 onChange={v => handleUniverseChange('mean_return', v)}
                 tooltip="Expected annualized return for the equal-weight index"
               />
               <ParamInputWithTooltip
                 label="Volatility (%)"
-                value={params.universe.volatility}
-                step={1}
+                value={params.universe.volatility * 100}
+                step={0.1}
                 onChange={v => handleUniverseChange('volatility', v)}
                 tooltip="Target annualized volatility. Individual assets have volatilities from 0.5× to 1.5× this value."
               />
@@ -245,21 +224,21 @@ function App() {
             <div className="params-grid">
               <ParamInputWithTooltip
                 label="Cash Rate (%)"
-                value={params.financing.cash_rate}
-                step={0.25}
+                value={params.financing.cash_rate * 100}
+                step={0.1}
                 onChange={v => handleFinancingChange('cash_rate', v)}
                 tooltip="Annual interest rate earned on positive cash balances"
               />
               <ParamInputWithTooltip
                 label="Margin Rate (%)"
-                value={params.financing.margin_rate}
-                step={0.25}
+                value={params.financing.margin_rate * 100}
+                step={0.1}
                 onChange={v => handleFinancingChange('margin_rate', v)}
                 tooltip="Annual interest rate paid on negative cash balances"
               />
               <ParamInputWithTooltip
                 label="Borrow Fee (%)"
-                value={params.financing.borrow_fee}
+                value={params.financing.borrow_fee * 100}
                 step={0.1}
                 onChange={v => handleFinancingChange('borrow_fee', v)}
                 tooltip="Annual fee paid to borrow shares for short positions"
@@ -287,31 +266,31 @@ function App() {
             <div className="params-grid">
               <ParamInputWithTooltip
                 label="Call OTM (%)"
-                value={params.options.call_otm_pct}
-                step={1}
+                value={params.options.call_otm_pct * 100}
+                step={0.5}
                 onChange={v => handleOptionsChange('call_otm_pct', v)}
                 tooltip="Percentage above spot for call strike."
               />
               <ParamInputWithTooltip
                 label="Put OTM (%)"
-                value={params.options.put_otm_pct}
-                step={1}
+                value={params.options.put_otm_pct * 100}
+                step={0.5}
                 onChange={v => handleOptionsChange('put_otm_pct', v)}
                 tooltip="Percentage below spot for put strike."
               />
               <ParamInputWithTooltip
-                label="Call Alpha Barrier (%)"
+                label="Call Alpha Barrier (%/mo)"
                 value={params.options.call_alpha_barrier * 100}
-                step={0.1}
-                onChange={v => handleOptionsChange('call_alpha_barrier', v / 100)}
-                tooltip="Monthly alpha threshold in percent for selling calls on long positions."
+                step={0.05}
+                onChange={v => handleOptionsChange('call_alpha_barrier', v)}
+                tooltip="Monthly alpha threshold (%). Calls sold on longs with alpha below this value."
               />
               <ParamInputWithTooltip
-                label="Put Alpha Barrier (%)"
+                label="Put Alpha Barrier (%/mo)"
                 value={params.options.put_alpha_barrier * 100}
-                step={0.1}
-                onChange={v => handleOptionsChange('put_alpha_barrier', v / 100)}
-                tooltip="Monthly alpha threshold in percent for selling puts on short positions."
+                step={0.05}
+                onChange={v => handleOptionsChange('put_alpha_barrier', v)}
+                tooltip="Monthly alpha threshold (%). Puts sold on shorts with alpha above this value."
               />
               <ParamInputWithTooltip
                 label="Contract Fee ($)"
@@ -351,30 +330,28 @@ function App() {
             />
             <ParamInputWithTooltip
               label="Long Weight (%)"
-              value={params.strategy.long_weight}
-              step={5}
+              value={params.strategy.long_weight * 100}
+              step={1}
               onChange={v => handleStrategyChange('long_weight', v)}
               tooltip="Gross long exposure."
             />
             <ParamInputWithTooltip
               label="Short Weight (%)"
-              value={params.strategy.short_weight}
-              step={5}
+              value={params.strategy.short_weight * 100}
+              step={1}
               onChange={v => handleStrategyChange('short_weight', v)}
               tooltip="Gross short exposure."
             />
             <ParamInputWithTooltip
               label="Turnover Limit (%)"
-              value={params.strategy.turnover_limit}
-              step={5}
+              value={params.strategy.turnover_limit * 100}
+              step={1}
               onChange={v => handleStrategyChange('turnover_limit', v)}
               tooltip="Max one-way turnover per rebalance."
             />
             <ParamInputWithTooltip
               label="Max Position (%)"
-              value={params.strategy.max_weight}
-              step={1}
-              onChange={v => handleStrategyChange('max_weight', v)}
+              value={params.strategy.max_weight * 100} step={0.5} onChange={v => handleStrategyChange('max_weight', v)}
               tooltip="Max absolute position size for any stock."
             />
             <ParamInputWithTooltip

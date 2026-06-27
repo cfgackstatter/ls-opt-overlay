@@ -18,6 +18,11 @@ app.add_middleware(
 def health_check():
     return {"status": "healthy"}
 
+@app.get("/defaults", response_model=SimulationParams)
+def get_defaults() -> SimulationParams:
+    """Return default simulation parameters. Single source of truth is models.py."""
+    return SimulationParams()
+
 @app.post("/simulate")
 def simulate(params: SimulationParams) -> SimulationResult:
     return run_simulation(params)
