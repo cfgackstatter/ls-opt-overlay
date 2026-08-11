@@ -1,18 +1,33 @@
-import numpy as np
+# strategy.py
+"""Factor-based portfolio strategy with self-financing cash accounting.
+
+NAV identity (always):
+    NAV = Σ stock_dollars + cash
+After a rebalance to weights w (pre-cost):
+    stock_dollars = w · NAV
+    cash          = (1 − 1'w) · NAV
+so cash is the budget residual — nothing is created or destroyed except
+explicit P&L (tx costs, option premium/settlement, financing).
+"""
+from __future__ import annotations
+
 import logging
-from typing import Optional
 from datetime import datetime
+from typing import Optional
+
+import numpy as np
+
 from backend.alpha import calculate_alphas
-from backend.risk import estimate_covariance_ewma
-from backend.optimizer import optimize_portfolio
+from backend.risk import estimate_covariance
+from backend.optimizer import PortfolioOptimizer, optimize_portfolio
 from backend.options import sell_options_overlay, settle_options
 
 MONTHS_PER_YEAR = 12
 INITIAL_CAPITAL = 1_000_000.0
+_EPS = 1e-9
 
 
 def setup_logger(verbose: bool = False, log_file: Optional[str] = None) -> Optional[logging.Logger]:
-    """Setup file logger for strategy execution. Returns None when verbose=False."""
     if not verbose:
         return None
     if log_file is None:
@@ -26,255 +41,280 @@ def setup_logger(verbose: bool = False, log_file: Optional[str] = None) -> Optio
     return logger
 
 
-def calculate_financing_cost(
+def calculate_financing(
     cash_dollars: float,
-    long_dollars: float,
+    short_dollars: float,
     cash_rate: float,
     margin_rate: float,
     borrow_fee: float,
-    short_dollars: float,
 ) -> float:
-    """Calculate monthly financing cost/income based on dollar positions."""
-    cash_income = cash_dollars * (cash_rate / MONTHS_PER_YEAR) if cash_dollars >= 0 else 0.0
-    margin_cost = abs(cash_dollars) * (margin_rate / MONTHS_PER_YEAR) if cash_dollars < 0 else 0.0
+    """
+    Monthly financing P&L on capital committed over the hold.
+
+    - Positive cash earns cash_rate (includes residual cash & short proceeds).
+    - Negative cash (margin debit from leverage) pays margin_rate.
+    - Short notional pays borrow_fee.
+    """
+    if cash_dollars >= 0:
+        cash_pnl = cash_dollars * (cash_rate / MONTHS_PER_YEAR)
+    else:
+        cash_pnl = cash_dollars * (margin_rate / MONTHS_PER_YEAR)  # more negative
     borrow_cost = short_dollars * (borrow_fee / MONTHS_PER_YEAR)
-    return cash_income - margin_cost - borrow_cost
+    return cash_pnl - borrow_cost
 
 
-def clean_small_weights(weights: np.ndarray, threshold: float = 1e-4) -> np.ndarray:
-    """
-    Zero out tiny weights and rescale longs/shorts to preserve total exposure.
-    """
-    cleaned = weights.copy()
-    orig_long: float = float(cleaned[cleaned > 0].sum())
-    orig_short: float = float(cleaned[cleaned < 0].sum())
+def clean_small_weights(
+    weights: np.ndarray,
+    long_target: float,
+    short_target: float,
+    threshold: float = 1e-4,
+) -> np.ndarray:
+    """Zero tiny positions, then rescale sleeves back to target gross exposures."""
+    w = np.asarray(weights, dtype=float).copy()
+    w[np.abs(w) < threshold] = 0.0
 
-    cleaned[np.abs(cleaned) < threshold] = 0.0
+    long_sum = float(w[w > 0].sum())
+    short_sum = float(-w[w < 0].sum())
 
-    # Rescale longs to maintain total long exposure
-    new_long: float = float(cleaned[cleaned > 0].sum())
-    if new_long > 0:
-        cleaned[cleaned > 0] *= orig_long / new_long
+    if long_target > 0 and long_sum > _EPS:
+        w[w > 0] *= long_target / long_sum
+    elif long_target <= _EPS:
+        w[w > 0] = 0.0
 
-    # Rescale shorts to maintain total short exposure
-    new_short: float = float(cleaned[cleaned < 0].sum())
-    if new_short < 0:
-        cleaned[cleaned < 0] *= orig_short / new_short
+    if short_target > 0 and short_sum > _EPS:
+        w[w < 0] *= short_target / short_sum
+    elif short_target <= _EPS:
+        w[w < 0] = 0.0
 
-    return cleaned
+    return w
 
 
 def run_strategy(
     returns: np.ndarray,
     prices: np.ndarray,
     factor_scores: np.ndarray,
-    strategy_params: dict[str, float],
-    financing_params: dict[str, float],
+    strategy_params: dict,
+    financing_params: dict,
     options_params: dict,
     verbose: bool = False,
     log_file: Optional[str] = None,
+    optimizer: Optional[PortfolioOptimizer] = None,
 ) -> dict:
     """
-    Run the long-short strategy over a window of returns and prices.
+    Run the factor strategy over a window of returns and prices.
 
-    At each step:
-    - optimize and trade at prices[t-1]
-    - hold positions as prices move to prices[t]
-    - settle options, apply financing, and record P&L
+    Each month:
+      1. Mark NAV at t-1
+      2. Estimate Σ and alphas; optimize weights
+      3. Rebalance (self-financing); pay tx costs from cash
+      4. Optionally sell 1M options; premium → cash
+      5. Hold to t (price move)
+      6. Settle options; accrue financing on post-trade holdings; mark NAV
     """
     logger = setup_logger(verbose, log_file)
-    # Single lazy log callable — avoids 30+ `if logger:` guards throughout the loop
     log = logger.info if logger else lambda *a, **k: None
 
-    # --- Parameter extraction ---
-    lookback: int = int(strategy_params["lookback"])
-    strategy_length: int = int(strategy_params["strategy_length"])
-    risk_aversion: float = strategy_params["risk_aversion"]
-    target_long: float = strategy_params["long_weight"]
-    target_short: float = strategy_params["short_weight"]
-    turnover_limit: float = strategy_params["turnover_limit"]
-    max_weight: float = strategy_params["max_weight"]
-    tx_cost_bps: float = strategy_params["transaction_cost_bps"]
+    lookback = int(strategy_params["lookback"])
+    strategy_length = int(strategy_params["strategy_length"])
+    risk_aversion = float(strategy_params["risk_aversion"])
+    target_long = float(strategy_params["long_weight"])
+    target_short = float(strategy_params["short_weight"])
+    max_long = float(strategy_params.get("max_long_weight", strategy_params.get("max_weight", 0.1)))
+    max_short = float(strategy_params.get("max_short_weight", max_long))
+    tx_cost_bps = float(strategy_params["transaction_cost_bps"])
+    market_impact_coef = float(strategy_params.get("market_impact_coef", 0.0))
+    hard_turnover_limit = float(
+        strategy_params.get(
+            "hard_turnover_limit",
+            strategy_params.get("turnover_limit", 0.0),
+        )
+    )
+    weight_threshold = float(strategy_params.get("weight_threshold", 1e-4))
+    signal_ic = float(strategy_params.get("signal_ic", 0.05))
+    alpha_method = str(strategy_params.get("alpha_method", "grinold"))
+    cov_method = str(strategy_params.get("cov_method", "ewma"))
+    cov_halflife = int(strategy_params.get("cov_halflife", lookback))
+    # κ₁: same units as cash TC — fraction of NAV per unit Σ|Δw|
+    tc_linear = tx_cost_bps / 10_000.0
+    tc_quad = market_impact_coef
 
-    cash_rate: float = financing_params["cash_rate"]
-    margin_rate: float = financing_params["margin_rate"]
-    borrow_fee: float = financing_params["borrow_fee"]
+    cash_rate = float(financing_params["cash_rate"])
+    margin_rate = float(financing_params["margin_rate"])
+    borrow_fee = float(financing_params["borrow_fee"])
 
-    options_enabled: bool = options_params.get("enabled", False)
-    call_otm_pct: float = options_params.get("call_otm_pct", 5.0)
-    put_otm_pct: float = options_params.get("put_otm_pct", 5.0)
-    call_alpha_barrier: float = options_params["call_alpha_barrier"]
-    put_alpha_barrier: float = options_params["put_alpha_barrier"]
-    contract_fee: float = options_params.get("contract_fee", 0.65)
-    spread_bps: float = options_params.get("spread_bps", 10.0)
+    options_enabled = bool(options_params.get("enabled", False))
+    call_otm_pct = float(options_params.get("call_otm_pct", 0.01))
+    put_otm_pct = float(options_params.get("put_otm_pct", 0.01))
+    call_alpha_barrier = float(options_params["call_alpha_barrier"])
+    put_alpha_barrier = float(options_params["put_alpha_barrier"])
+    contract_fee = float(options_params.get("contract_fee", 0.65))
+    spread_bps = float(options_params.get("spread_bps", 25.0))
+    dividend_yield = float(options_params.get("dividend_yield", 0.0))
 
     n_periods, n_assets = returns.shape
+    if optimizer is None:
+        optimizer = PortfolioOptimizer(
+            n_assets,
+            risk_aversion,
+            target_long,
+            target_short,
+            max_long,
+            max_short,
+            hard_turnover_limit,
+            tc_linear=tc_linear,
+            tc_quad=tc_quad,
+        )
 
-    # --- Tracking lists ---
     portfolio_returns: list[float] = []
     financing_costs: list[float] = []
     portfolio_weights_history: list[list[float]] = []
     turnovers: list[float] = []
     options_income: list[float] = []
 
-    # --- Initial state ---
-    cash_dollars: float = INITIAL_CAPITAL
-    shares: np.ndarray = np.zeros(n_assets)
+    cash = float(INITIAL_CAPITAL)
+    shares = np.zeros(n_assets)
     active_options: list[dict] = []
 
     log("=" * 80)
     log("STRATEGY EXECUTION LOG")
+    log(f"Initial Capital: ${INITIAL_CAPITAL:,.2f}")
+    log(f"Targets: long={target_long:.4f} short={target_short:.4f} "
+        f"net={target_long - target_short:.4f} "
+        f"cash_residual={1.0 - (target_long - target_short):.4f}")
+    log(f"Strategy: {strategy_params}")
     log("=" * 80)
-    log(f"\nInitial Capital: ${INITIAL_CAPITAL:,.2f}")
-    log(f"Strategy Parameters: {strategy_params}")
-    log(f"Financing Parameters: {financing_params}")
-    log(f"Options Parameters: {options_params}")
-    log("=" * 80 + "\n")
 
     for t in range(lookback + 1, lookback + strategy_length + 1):
         if t >= n_periods + 1:
             break
 
-        period_num: int = t - lookback
-        log("\n" + "=" * 80)
-        log(f"PERIOD {period_num}: [{t-1} -> {t}]")
-        log("=" * 80)
+        period_num = t - lookback
+        px = prices[t - 1]
+        stock_values = shares * px
+        nav = float(stock_values.sum() + cash)
 
-        # --- Start of period: value positions at t-1 ---
-        stock_values: np.ndarray = shares * prices[t - 1]
-        portfolio_value_start: float = float(stock_values.sum() + cash_dollars)
-        current_weights: np.ndarray = (
-            stock_values / portfolio_value_start if portfolio_value_start > 0 else np.zeros(n_assets)
+        if nav <= _EPS:
+            log(f"Period {period_num}: NAV={nav:.2f} ruined — stop.")
+            break
+
+        # Numerical hygiene: force residual cash identity at mark
+        cash = nav - float(stock_values.sum())
+        current_weights = stock_values / nav
+
+        log(f"\nPERIOD {period_num}: t={t - 1}->{t}  NAV=${nav:,.2f}  cash=${cash:,.2f}")
+
+        cov = estimate_covariance(
+            returns[t - 1 - lookback : t - 1],
+            method=cov_method,
+            halflife=cov_halflife,
+        )
+        alphas = calculate_alphas(
+            factor_scores[t - 1], cov, method=alpha_method, signal_ic=signal_ic
         )
 
-        log(f"\n--- START OF PERIOD (t={t-1}) ---")
-        log(f"Portfolio Value: ${portfolio_value_start:,.2f}")
-        log(f"Cash: ${cash_dollars:,.2f}")
-        log(f"Stock Positions: ${float(stock_values.sum()):,.2f}")
-        log(f"Long Positions: ${float(stock_values[stock_values > 0].sum()):,.2f}")
-        log(f"Short Positions: ${float(stock_values[stock_values < 0].sum()):,.2f}")
-        log(f"Current Weights (top 5 abs): {sorted(enumerate(current_weights), key=lambda x: abs(x[1]), reverse=True)[:5]}")
-
-        # Estimate covariance from returns window ending at t-1
-        cov_matrix: np.ndarray = estimate_covariance_ewma(returns[t - 1 - lookback : t - 1])
-        alphas: np.ndarray = calculate_alphas(factor_scores[t - 1], cov_matrix)
-
-        log(f"\nAlphas (top 5): {sorted(enumerate(alphas), key=lambda x: x[1], reverse=True)[:5]}")
-        log(f"Alphas (bottom 5): {sorted(enumerate(alphas), key=lambda x: x[1])[:5]}")
-
-        # Optimize: first period has no turnover constraint — pass None to unified function
-        is_first: bool = t == lookback + 1
-        result: dict = optimize_portfolio(
-            alphas, cov_matrix, risk_aversion, target_long, target_short, max_weight,
+        is_first = t == lookback + 1
+        # Hard turnover caps apply after the book exists; founding is cost-penalized only.
+        result = optimize_portfolio(
+            alphas,
+            cov,
+            risk_aversion,
+            target_long,
+            target_short,
+            max_long,
+            max_short,
             current_weights=None if is_first else current_weights,
-            turnover_limit=None if is_first else turnover_limit,
+            tc_linear=tc_linear,
+            tc_quad=tc_quad,
+            hard_turnover_limit=0.0 if is_first else hard_turnover_limit,
+            optimizer=None if is_first else optimizer,
         )
-        target_weights: np.ndarray = clean_small_weights(result["weights"])
-        weight_turnover: float = float(np.abs(target_weights).sum()) if is_first else result["turnover"]
+        target_w = clean_small_weights(
+            result["weights"], target_long, target_short, weight_threshold
+        )
+        turnover = float(result["turnover"])
+        if is_first:
+            turnover = float(np.abs(target_w).sum())
 
-        log(f"\nOptimization: {'SIMPLE (first period, no turnover constraint)' if is_first else 'WITH TURNOVER CONSTRAINT'}")
-        log(f"Target Long Weight: {float(target_weights[target_weights > 0].sum()):.4f}")
-        log(f"Target Short Weight: {abs(float(target_weights[target_weights < 0].sum())):.4f}")
-        log(f"Weight Turnover: {weight_turnover:.4f}")
-        log(f"Target Weights (top 5 abs): {sorted(enumerate(target_weights), key=lambda x: abs(x[1]), reverse=True)[:5]}")
+        # --- Self-financing rebalance ---
+        # stock' = w · NAV, cash' = NAV − 1'stock' − costs  (residual budget)
+        target_stock = target_w * nav
+        trade = target_stock - stock_values
+        shares = target_stock / px
+        tx_cost = float(np.abs(trade).sum()) * (tx_cost_bps / 10_000.0)
+        cash = nav - float(target_stock.sum()) - tx_cost
 
-        # --- Execute trades at prices[t-1] ---
-        target_stock_dollars: np.ndarray = target_weights * portfolio_value_start
-        trade_dollars: np.ndarray = target_stock_dollars - stock_values
-        shares = target_stock_dollars / prices[t - 1]
-        cash_dollars -= float(trade_dollars.sum())
+        # Post-trade holdings used for financing over the month
+        stock_hold = shares * px
+        short_hold = float(-stock_hold[stock_hold < 0].sum())
+        cash_hold = cash  # before option premium; premium is also held as cash
+        nav_after_trade = float(stock_hold.sum() + cash)
+        assert abs(nav_after_trade + tx_cost - nav) <= max(1e-6 * abs(nav), 1e-4), (
+            f"budget break: nav={nav} after={nav_after_trade} cost={tx_cost}"
+        )
 
-        stock_transaction_cost: float = float(np.abs(trade_dollars).sum()) * (tx_cost_bps / 10_000)
-        cash_dollars -= stock_transaction_cost
-
-        log(f"\n--- STOCK TRADES ---")
-        log(f"Trade Dollars (total): ${float(np.abs(trade_dollars).sum()):,.2f}")
-        log(f"Shares After: {shares[:5]}")
-        log(f"Transaction Cost: ${stock_transaction_cost:,.2f}")
-        log(f"Cash After Transaction Costs: ${cash_dollars:,.2f}")
-
-        # --- Sell options after stock trades ---
+        premium = 0.0
         if options_enabled:
-            options_result: dict = sell_options_overlay(
-                shares, prices[t - 1], alphas, cov_matrix,
+            opt = sell_options_overlay(
+                shares, px, alphas, cov,
                 call_otm_pct, put_otm_pct, call_alpha_barrier, put_alpha_barrier,
                 cash_rate, contract_fee, spread_bps,
+                dividend_yield=dividend_yield,
             )
-            premium_collected: float = options_result["premium_collected"]
-            active_options = options_result["option_positions"]
-            cash_dollars += premium_collected
-
-            log(f"\n--- OPTIONS SOLD ---")
-            log(f"Contracts Sold: {options_result['num_contracts']}")
-            log(f"Premium Collected: ${premium_collected:,.2f}")
-            log(f"Cash After Options: ${cash_dollars:,.2f}")
-            for opt in active_options[:3]:
-                log(f"  Asset {opt['asset_idx']}: {opt['type']} @ strike {opt['strike']:.2f}")
+            premium = float(opt["premium_collected"])
+            active_options = opt["option_positions"]
+            cash += premium
+            cash_hold = cash
         else:
-            premium_collected = 0.0
             active_options = []
 
-        log(f"\n--- HOLD DURING PERIOD ---")
-        log(f"Market moves from prices[{t-1}] to prices[{t}]")
+        # --- Hold: prices move to t ---
+        stock_end = shares * prices[t]
 
-        # --- End of period: settle options, apply financing, record P&L ---
-        stock_values_end: np.ndarray = shares * prices[t]
-
-        log(f"\n--- END OF PERIOD (t={t}) ---")
-        log(f"Stock Values After Market Move: ${float(stock_values_end.sum()):,.2f}")
-
+        opt_settle = 0.0
         if options_enabled and active_options:
-            options_settlement: float = settle_options(
-                active_options, prices[t], contract_fee, spread_bps
+            opt_settle = float(
+                settle_options(active_options, prices[t], contract_fee=contract_fee)
             )
-            cash_dollars += options_settlement
-            options_net_income: float = premium_collected + options_settlement
+            cash += opt_settle
+        options_net = premium + opt_settle
 
-            log(f"\n--- OPTIONS SETTLEMENT ---")
-            log(f"Settlement Cost: ${options_settlement:,.2f}")
-            log(f"Net Options Income: ${options_net_income:,.2f}")
-            log(f"Cash After Settlement: ${cash_dollars:,.2f}")
-        else:
-            options_net_income = 0.0
+        # Financing on capital committed during the hold (post-trade)
+        fin = calculate_financing(cash_hold, short_hold, cash_rate, margin_rate, borrow_fee)
+        cash += fin
 
-        long_dollars: float = float(stock_values_end[stock_values_end > 0].sum())
-        short_dollars: float = abs(float(stock_values_end[stock_values_end < 0].sum()))
-        financing_cost: float = calculate_financing_cost(
-            cash_dollars, long_dollars, cash_rate, margin_rate, borrow_fee, short_dollars
+        nav_end = float(stock_end.sum() + cash)
+        period_ret = (nav_end - nav) / nav
+        if nav_end <= _EPS:
+            period_ret = -1.0
+            nav_end = 0.0
+            cash = 0.0
+            shares[:] = 0.0
+
+        log(
+            f"  turnover={turnover:.4f} tx=${tx_cost:,.2f} opt_net=${options_net:,.2f} "
+            f"fin=${fin:,.2f} NAV_end=${nav_end:,.2f} r={period_ret * 100:.4f}%"
         )
-        cash_dollars += financing_cost
 
-        log(f"\n--- FINANCING ---")
-        log(f"Long Positions: ${long_dollars:,.2f}")
-        log(f"Short Positions: ${short_dollars:,.2f}")
-        log(f"Financing Cost/Income: ${financing_cost:,.2f}")
-        log(f"Cash After Financing: ${cash_dollars:,.2f}")
+        portfolio_returns.append(period_ret)
+        financing_costs.append(fin / nav)
+        portfolio_weights_history.append(target_w.tolist())
+        turnovers.append(turnover)
+        options_income.append(options_net / nav)
 
-        portfolio_value_end: float = float(stock_values_end.sum()) + cash_dollars
-        period_return: float = (portfolio_value_end - portfolio_value_start) / portfolio_value_start
+        if period_ret <= -1.0:
+            break
 
-        log(f"\n--- PERIOD SUMMARY ---")
-        log(f"Portfolio Value End: ${portfolio_value_end:,.2f}")
-        log(f"Period Return: {period_return * 100:.4f}%")
-        log(f"Verification (Stock + Cash): ${float(stock_values_end.sum()) + cash_dollars:,.2f}")
-        log(f"Discrepancy: ${portfolio_value_end - (float(stock_values_end.sum()) + cash_dollars):,.2e}")
-
-        portfolio_returns.append(period_return)
-        financing_costs.append(financing_cost / portfolio_value_start)
-        portfolio_weights_history.append(target_weights.tolist())
-        turnovers.append(weight_turnover)
-        options_income.append(options_net_income / portfolio_value_start)
-
-    # --- Summary statistics ---
-    rets: np.ndarray = np.array(portfolio_returns)
-    cum_ret: float = float(np.prod(1 + rets) - 1)
-    n_months: int = len(rets)
-    ann_ret: float = float((1 + cum_ret) ** (12 / n_months) - 1) if n_months > 0 else 0.0
-    mean_m: float = float(rets.mean()) if n_months > 0 else 0.0
-    std_m: float = float(rets.std()) if n_months > 0 else 0.0
-    sharpe: float = float(mean_m / std_m * np.sqrt(12)) if std_m > 0 else 0.0
-
-    avg_turnover: float = (
+    rets = np.asarray(portfolio_returns, dtype=float) if portfolio_returns else np.array([])
+    cum_ret = float(np.prod(1.0 + rets) - 1.0) if len(rets) else 0.0
+    n_months = len(rets)
+    if n_months > 0 and (1.0 + cum_ret) > 0:
+        ann_ret = float((1.0 + cum_ret) ** (12 / n_months) - 1.0)
+    else:
+        ann_ret = -1.0 if n_months > 0 else 0.0
+    mean_m = float(rets.mean()) if n_months else 0.0
+    std_m = float(rets.std()) if n_months else 0.0
+    sharpe = float(mean_m / std_m * np.sqrt(12)) if std_m > 0 else 0.0
+    avg_turnover = (
         float(np.mean(turnovers[1:])) if len(turnovers) > 1 else (turnovers[0] if turnovers else 0.0)
     )
 

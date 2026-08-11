@@ -1,65 +1,25 @@
 import numpy as np
 from backend.models import SimulationParams, SimulationResult, StrategyResult, BenchmarkResult
 from backend.strategy import run_strategy
+from backend.optimizer import PortfolioOptimizer
+from backend.market import (
+    MONTHS_PER_YEAR,
+    generate_market_data,
+    # Re-export for notebooks / external callers
+    generate_ar1_factors,
+    generate_correlated_returns,
+    generate_prices,
+)
 
-# Constants
-MIN_STOCK_PRICE = 5.0
-MAX_STOCK_PRICE = 200.0
-ASSET_VOL_SCALING_MIN = 0.5
-ASSET_VOL_SCALING_MAX = 1.5
-MONTHS_PER_YEAR = 12
-EPSILON = 1e-8
-
-
-def generate_ar1_factors(
-    n_periods: int,
-    n_assets: int,
-    rho: float,
-    rng: np.random.Generator,
-) -> np.ndarray:
-    """
-    Generate autocorrelated factor scores using AR(1) process.
-    Pure NumPy — no Numba JIT overhead, RNG is caller-supplied for isolation.
-    """
-    innovation_std = np.sqrt(1 - rho ** 2)
-    factors = np.zeros((n_periods, n_assets))
-    factors[0] = rng.standard_normal(n_assets)
-    for t in range(1, n_periods):
-        factors[t] = rho * factors[t - 1] + rng.standard_normal(n_assets) * innovation_std
-    return factors
-
-
-def generate_correlated_returns(
-    factor_scores: np.ndarray,
-    ic: float,
-    mean: float,
-    asset_vols: np.ndarray,
-    rng: np.random.Generator,
-) -> np.ndarray:
-    """
-    Generate returns correlated with factor scores via IC mixing.
-    Fully vectorized — no per-period loop.
-    """
-    factor_std_scores = (factor_scores - factor_scores.mean()) / (factor_scores.std() + EPSILON)
-    noise = rng.standard_normal(factor_scores.shape)
-    return mean + asset_vols * (ic * factor_std_scores + np.sqrt(1 - ic ** 2) * noise)
-
-
-def generate_prices(returns: np.ndarray, initial_prices: np.ndarray) -> np.ndarray:
-    """
-    Vectorized price generation from returns.
-
-    Args:
-        returns: (n_periods, n_assets) return matrix
-        initial_prices: (n_assets,) starting prices
-
-    Returns:
-        (n_periods + 1, n_assets) prices including t=0
-    """
-    prices = np.empty((len(returns) + 1, len(initial_prices)))
-    prices[0] = initial_prices
-    prices[1:] = initial_prices * np.cumprod(1 + returns, axis=0)
-    return prices
+__all__ = [
+    "MONTHS_PER_YEAR",
+    "generate_ar1_factors",
+    "generate_correlated_returns",
+    "generate_prices",
+    "generate_market_data",
+    "compute_benchmark_returns",
+    "run_simulation",
+]
 
 
 def compute_benchmark_returns(
@@ -68,8 +28,8 @@ def compute_benchmark_returns(
     financing_params: dict[str, float],
 ) -> np.ndarray:
     """
-    Equal-weight index plus cash benchmark in decimal monthly returns.
-    Vectorized — replaces the original per-period Python loop.
+    Equal-weight index plus cash benchmark in decimal monthly simple returns.
+    Matches the strategy's net equity exposure.
     """
     lookback = int(strategy_params["lookback"])
     length = int(strategy_params["strategy_length"])
@@ -78,7 +38,7 @@ def compute_benchmark_returns(
     monthly_cash_rate = financing_params["cash_rate"] / MONTHS_PER_YEAR
 
     end = min(lookback + length, returns.shape[0])
-    ew_returns = returns[lookback:end].mean(axis=1)  # (length,) equal-weight return per period
+    ew_returns = returns[lookback:end].mean(axis=1)
     return net_exposure * ew_returns + cash_exposure * monthly_cash_rate
 
 
@@ -87,48 +47,61 @@ def run_simulation(params: SimulationParams, seed: int = 42) -> SimulationResult
     Simulate market data and run base + overlay strategies on the same price path.
 
     Uses np.random.default_rng(seed) — isolated per-simulation, safe for
-    parallel execution via ProcessPoolExecutor (no global seed mutation).
+    parallel execution via ProcessPoolExecutor.
     """
-    rng = np.random.default_rng(seed)  # isolated RNG — replaces np.random.seed(seed)
+    rng = np.random.default_rng(seed)
 
     universe = params.universe
     strategy = params.strategy
     financing = params.financing
 
     n_periods = strategy.lookback + strategy.strategy_length
-    monthly_mean = universe.mean_return / MONTHS_PER_YEAR
-    monthly_vol = universe.volatility / np.sqrt(MONTHS_PER_YEAR)
 
-    factor_scores: np.ndarray = generate_ar1_factors(
-        n_periods, universe.n_assets, universe.factor_autocorr, rng
-    )
-    asset_vols: np.ndarray = rng.uniform(
-        ASSET_VOL_SCALING_MIN * monthly_vol,
-        ASSET_VOL_SCALING_MAX * monthly_vol,
+    market = generate_market_data(
+        n_periods,
         universe.n_assets,
+        mean_return=universe.mean_return,
+        volatility=universe.volatility,
+        ic=universe.ic,
+        factor_autocorr=universe.factor_autocorr,
+        market_vol=universe.market_vol,
+        market_autocorr=universe.market_autocorr,
+        style_vol=universe.style_vol,
+        style_autocorr=universe.style_autocorr,
+        avg_beta=universe.avg_beta,
+        beta_dispersion=universe.beta_dispersion,
+        student_t_df=universe.student_t_df,
+        stoch_vol_persistence=universe.stoch_vol_persistence,
+        stoch_vol_of_vol=universe.stoch_vol_of_vol,
+        rng=rng,
     )
-    returns: np.ndarray = generate_correlated_returns(
-        factor_scores, universe.ic, monthly_mean, asset_vols, rng
-    )
-    initial_prices: np.ndarray = rng.uniform(MIN_STOCK_PRICE, MAX_STOCK_PRICE, universe.n_assets)
-    prices: np.ndarray = generate_prices(returns, initial_prices)
+    returns = market.simple_returns
+    prices = market.prices
+    factor_scores = market.factor_scores
 
-    strategy_params: dict[str, float] = {
+    strategy_params: dict = {
         "lookback": strategy.lookback,
         "strategy_length": strategy.strategy_length,
         "risk_aversion": strategy.risk_aversion,
         "long_weight": strategy.long_weight,
         "short_weight": strategy.short_weight,
-        "turnover_limit": strategy.turnover_limit,
-        "max_weight": strategy.max_weight,
+        "max_long_weight": strategy.max_long_weight,
+        "max_short_weight": strategy.max_short_weight,
         "transaction_cost_bps": strategy.transaction_cost_bps,
+        "market_impact_coef": strategy.market_impact_coef,
+        "hard_turnover_limit": strategy.hard_turnover_limit or strategy.turnover_limit,
+        "turnover_limit": strategy.turnover_limit,
+        "weight_threshold": strategy.weight_threshold,
+        "signal_ic": strategy.signal_ic,
+        "alpha_method": strategy.alpha_method,
+        "cov_method": strategy.cov_method,
+        "cov_halflife": strategy.cov_halflife,
     }
     financing_params: dict[str, float] = {
         "cash_rate": financing.cash_rate,
         "margin_rate": financing.margin_rate,
         "borrow_fee": financing.borrow_fee,
     }
-    # Base options dict with overlay disabled; reused for both runs
     options_base: dict = {
         "enabled": False,
         "call_otm_pct": params.options.call_otm_pct,
@@ -137,18 +110,38 @@ def run_simulation(params: SimulationParams, seed: int = 42) -> SimulationResult
         "put_alpha_barrier": params.options.put_alpha_barrier,
         "contract_fee": params.options.contract_fee,
         "spread_bps": params.options.spread_bps,
+        "dividend_yield": params.options.dividend_yield,
     }
 
-    # Run both strategy variants on the same generated path
+    hard_limit = strategy.hard_turnover_limit or strategy.turnover_limit
+    tc_linear = strategy.transaction_cost_bps / 10_000.0
+    opt_kwargs = dict(
+        n_assets=universe.n_assets,
+        risk_aversion=strategy.risk_aversion,
+        long_weight=strategy.long_weight,
+        short_weight=strategy.short_weight,
+        max_long_weight=strategy.max_long_weight,
+        max_short_weight=strategy.max_short_weight,
+        hard_turnover_limit=hard_limit,
+        tc_linear=tc_linear,
+        tc_quad=strategy.market_impact_coef,
+    )
+    # Separate solvers so OSQP warm-start from the base book cannot bias the overlay path
+    optimizer_base = PortfolioOptimizer(**opt_kwargs)
+    optimizer_overlay = PortfolioOptimizer(**opt_kwargs)
+
     base_dict: dict = run_strategy(
         returns=returns, prices=prices, factor_scores=factor_scores,
         strategy_params=strategy_params, financing_params=financing_params,
         options_params=options_base, verbose=False, log_file=None,
+        optimizer=optimizer_base,
     )
     overlay_dict: dict = run_strategy(
         returns=returns, prices=prices, factor_scores=factor_scores,
         strategy_params=strategy_params, financing_params=financing_params,
-        options_params={**options_base, "enabled": True}, verbose=False, log_file=None,
+        options_params={**options_base, "enabled": params.options.enabled},
+        verbose=False, log_file=None,
+        optimizer=optimizer_overlay,
     )
 
     base_result = StrategyResult(**base_dict)
@@ -158,10 +151,12 @@ def run_simulation(params: SimulationParams, seed: int = 42) -> SimulationResult
         returns, strategy_params, financing_params
     )
 
-    # Benchmark summary stats
     cum_bench = float(np.prod(1 + benchmark_array) - 1)
     n_b = len(benchmark_array)
-    ann_bench = float((1 + cum_bench) ** (12 / n_b) - 1) if n_b > 0 else 0.0
+    if n_b > 0 and (1 + cum_bench) > 0:
+        ann_bench = float((1 + cum_bench) ** (12 / n_b) - 1)
+    else:
+        ann_bench = -1.0 if n_b > 0 else 0.0
     mean_b, std_b = float(benchmark_array.mean()), float(benchmark_array.std())
     sharpe_b = float(mean_b / std_b * np.sqrt(12)) if std_b > 0 else 0.0
 
@@ -172,7 +167,6 @@ def run_simulation(params: SimulationParams, seed: int = 42) -> SimulationResult
         sharpe_ratio=sharpe_b,
     )
 
-    # Align all three return series to the same length before computing active returns
     base_rets = np.array(base_result.portfolio_returns) / 100.0
     overlay_rets = np.array(overlay_result.portfolio_returns) / 100.0
     min_len = min(len(base_rets), len(overlay_rets), len(benchmark_array))

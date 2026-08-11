@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 from backend.models import SimulationParams, SimulationResult, MonteCarloParams, MonteCarloResult
 from backend.simulator import run_simulation
@@ -24,9 +25,10 @@ def get_defaults() -> SimulationParams:
     return SimulationParams()
 
 @app.post("/simulate")
-def simulate(params: SimulationParams) -> SimulationResult:
-    return run_simulation(params)
+async def simulate(params: SimulationParams) -> SimulationResult:
+    return await run_in_threadpool(run_simulation, params)
 
 @app.post("/monte_carlo")
-def monte_carlo(params: MonteCarloParams) -> MonteCarloResult:
-    return run_monte_carlo(params)
+async def monte_carlo(params: MonteCarloParams) -> MonteCarloResult:
+    # Process pool inside; run the driver off the event loop so /health stays up
+    return await run_in_threadpool(run_monte_carlo, params)

@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8000';
+const API_BASE = '';
 
 export interface UniverseParams {
   n_assets: number;
@@ -6,6 +6,15 @@ export interface UniverseParams {
   volatility: number;
   ic: number;
   factor_autocorr: number;
+  market_vol: number;
+  market_autocorr: number;
+  style_vol: number;
+  style_autocorr: number;
+  avg_beta: number;
+  beta_dispersion: number;
+  student_t_df: number;
+  stoch_vol_persistence: number;
+  stoch_vol_of_vol: number;
 }
 
 export interface FinancingParams {
@@ -19,10 +28,22 @@ export interface StrategyParams {
   risk_aversion: number;
   long_weight: number;
   short_weight: number;
-  turnover_limit: number;
-  max_weight: number;
+  max_long_weight: number;
+  max_short_weight: number;
   lookback: number;
+  /** Linear TC in objective (and cash): bps of NAV per unit Σ|Δw| */
   transaction_cost_bps: number;
+  /** Quadratic market-impact penalty κ₂ on Σ(Δw²); 0 = off */
+  market_impact_coef: number;
+  /** Optional hard Σ|Δw| cap; 0 = disabled (preferred) */
+  hard_turnover_limit: number;
+  /** @deprecated alias for hard_turnover_limit */
+  turnover_limit?: number;
+  weight_threshold: number;
+  signal_ic: number;
+  alpha_method: string;
+  cov_method: string;
+  cov_halflife: number;
 }
 
 export interface OptionsParams {
@@ -33,6 +54,7 @@ export interface OptionsParams {
   put_alpha_barrier: number;
   contract_fee: number;
   spread_bps: number;
+  dividend_yield: number;
 }
 
 export interface SimulationParams {
@@ -40,57 +62,6 @@ export interface SimulationParams {
   financing: FinancingParams;
   strategy: StrategyParams;
   options: OptionsParams;
-  n_sims: number;
-}
-
-// StrategyResult now only describes one portfolio stream
-export interface StrategyResult {
-  portfolio_returns: number[];   // monthly %
-  financing_costs: number[];     // monthly %
-  portfolio_weights: number[][];
-  turnovers: number[];           // monthly %
-  cumulative_return: number;     // %
-  annualized_return: number;     // %
-  sharpe_ratio: number;
-  avg_turnover: number;          // %
-  avg_financing_cost: number;    // %
-  options_income: number[];      // monthly %
-  avg_options_income: number;    // %
-}
-
-// Benchmark leg
-export interface BenchmarkResult {
-  returns: number[];           // monthly %
-  cumulative_return: number;   // %
-  annualized_return: number;   // %
-  sharpe_ratio: number;
-}
-
-// Full simulation result (single path)
-export interface SimulationResult {
-  base: StrategyResult;
-  with_options: StrategyResult;
-  benchmark: BenchmarkResult;
-
-  alpha_base: number;                // %
-  alpha_with_options: number;        // %
-  information_ratio_base: number;
-  information_ratio_with_options: number;
-  options_lift: number;              // %
-}
-
-export async function runSimulation(params: SimulationParams): Promise<SimulationResult> {
-  const response = await fetch(`${API_BASE}/simulate`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(params),
-  });
-
-  if (!response.ok) {
-    throw new Error('Simulation failed');
-  }
-
-  return response.json();
 }
 
 export interface MonteCarloParams {
@@ -117,12 +88,26 @@ export interface MonteCarloPaths {
   options_lift_paths: number[][];
 }
 
+export interface MonteCarloDiagnostics {
+  lift_mean: number;
+  lift_std: number;
+  lift_se: number;
+  lift_tstat: number;
+  lift_prob_positive: number;
+  lift_prob_negative: number;
+}
+
 export interface MonteCarloResult {
   distributions: { [metric: string]: MonteCarloDistribution };
   raw: { [metric: string]: number[] };
   paths: MonteCarloPaths;
+  diagnostics: MonteCarloDiagnostics;
+  n_sims_requested: number;
   n_sims_completed: number;
+  n_sims_failed: number;
+  n_sims_full_horizon: number;
   runtime_seconds: number;
+  failure_messages?: string[];
 }
 
 export async function runMonteCarlo(

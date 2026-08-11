@@ -32,6 +32,8 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+detailed_strategy_log.txt
+strategy_log_*.txt
 
 # TypeScript
 *.tsbuildinfo
